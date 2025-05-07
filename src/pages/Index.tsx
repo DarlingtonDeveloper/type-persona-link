@@ -44,31 +44,33 @@ const Index = () => {
           </div>
 
           {/* Links Container */}
-          <div className="flex flex-col space-y-4">
-            <SocialLinkButton 
-              label="Instagram" 
-              icon={Instagram} 
-              href="https://instagram.com" 
-            />
-            <SocialLinkButton 
-              label="LinkedIn" 
-              icon={Linkedin} 
-              href="https://linkedin.com" 
-            />
-            <SocialLinkButton 
-              label="Mobile number" 
-              icon={Phone} 
-              href="tel:+123456789" 
-            />
-            <div className="text-center text-linklight/80 text-sm mt-2 mb-4 backdrop-blur-sm">
-              Supplied by
+          <div className="bg-[#222222]/70 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+            <div className="flex flex-col space-y-4">
+              <SocialLinkButton 
+                label="Instagram" 
+                icon={Instagram} 
+                href="https://instagram.com" 
+              />
+              <SocialLinkButton 
+                label="LinkedIn" 
+                icon={Linkedin} 
+                href="https://linkedin.com" 
+              />
+              <SocialLinkButton 
+                label="Mobile number" 
+                icon={Phone} 
+                href="tel:+123456789" 
+              />
+              <div className="text-center text-linklight/80 text-sm mt-2 mb-4 backdrop-blur-sm">
+                Supplied by
+              </div>
+              <SocialLinkButton 
+                label="Your agency" 
+                icon={Globe} 
+                href="https://example.com" 
+                className="border border-linklight/20" 
+              />
             </div>
-            <SocialLinkButton 
-              label="Your agency" 
-              icon={Globe} 
-              href="https://example.com" 
-              className="border border-linklight/20" 
-            />
           </div>
         </div>
       </div>

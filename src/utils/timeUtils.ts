@@ -35,28 +35,28 @@ export const getBackgroundStyles = (): {
     case 'dawn':
       return {
         overlayClass: 'bg-gradient-to-b from-indigo-900/60 via-purple-600/50 to-pink-400/40',
-        backgroundImage: "url('/lovable-uploads/78206403-6ad4-48f7-87c1-e2452ffef4f9.png')",
+        backgroundImage: "none",
       };
     case 'morning':
       return {
         overlayClass: 'bg-gradient-to-b from-blue-500/50 via-sky-400/40 to-cyan-200/30',
-        backgroundImage: "url('/lovable-uploads/78206403-6ad4-48f7-87c1-e2452ffef4f9.png')",
+        backgroundImage: "none",
       };
     case 'afternoon':
       return {
         overlayClass: 'bg-gradient-to-b from-blue-400/40 via-sky-300/30 to-amber-200/30',
-        backgroundImage: "url('/lovable-uploads/78206403-6ad4-48f7-87c1-e2452ffef4f9.png')",
+        backgroundImage: "none",
       };
     case 'evening':
       return {
         overlayClass: 'bg-gradient-to-b from-orange-500/50 via-red-600/40 to-purple-800/60',
-        backgroundImage: "url('/lovable-uploads/78206403-6ad4-48f7-87c1-e2452ffef4f9.png')",
+        backgroundImage: "none",
       };
     case 'night':
     default:
       return {
         overlayClass: 'bg-gradient-to-b from-violet-950/70 via-indigo-900/60 to-blue-950/80',
-        backgroundImage: "url('/lovable-uploads/78206403-6ad4-48f7-87c1-e2452ffef4f9.png')",
+        backgroundImage: "none",
       };
   }
 };
