@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,10 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Custom colors for our LinkTree clone
+				linkdark: '#1b1b1b',
+				linklight: '#e7e6e3',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +88,22 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'blink': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0' }
+				},
+				'typewriter': {
+					to: {
+						left: '100%'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'blink': 'blink 0.7s infinite',
+				'typewriter': 'typewriter 2s steps(40) forwards'
 			}
 		}
 	},
