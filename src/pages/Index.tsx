@@ -1,10 +1,11 @@
 
 import React from "react";
-import { Instagram, Linkedin, Phone, Globe } from "lucide-react";
+import { Instagram, Linkedin, Phone, Globe, HelpCircle } from "lucide-react";
 import TypewriterBio from "@/components/TypewriterBio";
 import SocialLinkButton from "@/components/SocialLinkButton";
 import DynamicBackground from "@/components/DynamicBackground";
 import { getTimeOfDay } from "@/utils/timeUtils";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const Index = () => {
   const bioTexts = [
@@ -31,7 +32,7 @@ const Index = () => {
   return (
     <DynamicBackground>
       {/* Content Container */}
-      <div className="w-full min-h-screen flex flex-col items-center justify-center">
+      <div className="w-full min-h-screen flex flex-col items-center justify-between">
         <div className="w-full max-w-md mx-auto px-4 py-8">
           {/* Profile Initial/Logo */}
           <div className="w-24 h-24 bg-linkdark/80 rounded-xl mx-auto mb-8 flex items-center justify-center border-2 border-linklight/20 shadow-lg backdrop-blur-sm">
@@ -70,6 +71,37 @@ const Index = () => {
                 href="https://example.com" 
                 className="border border-linklight/20" 
               />
+            </div>
+          </div>
+        </div>
+        
+        {/* Navigation Bar */}
+        <div className="w-full bg-[#222222]/70 backdrop-blur-sm shadow-lg py-4">
+          <div className="container max-w-md mx-auto px-4">
+            <div className="flex justify-between items-center">
+              {/* Logo */}
+              <div className="w-12 h-12 flex items-center justify-center">
+                <Avatar className="rounded-full border-2 border-linklight/20">
+                  <AvatarImage 
+                    src="/lovable-uploads/c1d031b7-7f09-4258-9e27-b183cf8ada53.png" 
+                    alt="Logo" 
+                    className="bg-black rounded-full"
+                  />
+                  <AvatarFallback className="bg-black rounded-full text-linklight">
+                    O
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+              
+              {/* Help Icon */}
+              <div className="w-12 h-12 flex items-center justify-center">
+                <button 
+                  className="w-10 h-10 rounded-full bg-linkdark/80 flex items-center justify-center border-2 border-linklight/20"
+                  aria-label="Help"
+                >
+                  <HelpCircle className="text-linklight" size={24} />
+                </button>
+              </div>
             </div>
           </div>
         </div>
