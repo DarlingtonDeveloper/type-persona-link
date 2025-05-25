@@ -116,20 +116,6 @@ const Index = () => {
         {/* Main Content */}
         <main className="flex-1 flex items-center justify-center px-4 py-8">
           <div className="w-full max-w-4xl">
-            {/* Hero Section */}
-            <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-                Your Digital
-                <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  Identity Hub
-                </span>
-              </h1>
-              <p className="text-white/80 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-                {APP_CONFIG.DESCRIPTION}. Connect all your social links, showcase your personality,
-                and share your digital presence with a single, personalized profile page.
-              </p>
-            </div>
-
             {/* Search Section */}
             <div className="flex justify-center mb-16">
               <Card className="w-full max-w-md bg-white/90 backdrop-blur-sm shadow-lg">

@@ -17,34 +17,7 @@ The system transforms the static profile page into a dynamic user onboarding and
 - Supabase account and project set up
 - The provided React/TypeScript codebase
 
-## Step 1: Database Setup
-
-1. **Connect to your Supabase project** and run the SQL schema from the `supabase_schema.sql` file in the SQL editor.
-
-2. **Verify the tables were created:**
-   - `users` - Stores user profiles and onboarding progress
-   - `link_categories` - Predefined social/business link categories  
-   - `user_links` - User's social/business links
-
-3. **Confirm user codes were inserted** - You should see all 192 user codes from the PDF populated in the `users` table.
-
-## Step 2: Update Supabase Types
-
-Replace the contents of `src/integrations/supabase/types.ts` with the updated types that include our new table structures.
-
-## Step 3: Add New Components
-
-Create the following new files in your project:
-
-### Pages
-- `src/pages/UserProfile.tsx` - Main user profile container
-- Update `src/App.tsx` with the new routing
-
-### Components  
-- `src/components/OnboardingFlow.tsx` - 5-step registration process
-- `src/components/CompletedProfile.tsx` - Displays finished profiles
-
-## Step 4: Install Additional Dependencies
+## Step 1: Install Additional Dependencies
 
 You may need to install additional packages if not already present:
 
@@ -52,7 +25,7 @@ You may need to install additional packages if not already present:
 npm install @radix-ui/react-progress @radix-ui/react-checkbox
 ```
 
-## Step 5: Environment Variables
+## Step 2: Environment Variables
 
 Ensure your Supabase credentials are properly configured in your environment:
 
