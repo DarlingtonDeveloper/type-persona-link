@@ -8,7 +8,6 @@ import { Progress } from '@/components/ui/progress';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { supabase } from '@/integrations/supabase/client';
-import { User, UserLink } from '@/pages/UserProfile';
 import DynamicBackground from '@/components/DynamicBackground';
 import { Eye, EyeOff, ArrowLeft, ArrowRight, Upload, HelpCircle } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
@@ -22,6 +21,25 @@ import {
     secureApiCall,
     validateFileUpload
 } from '@/utils/security';
+import {
+    User,
+    UserLink,
+    LinkCategory,
+    OnboardingFormData,
+    LinkFormData
+} from '@/types';
+import {
+    ONBOARDING_STEPS,
+    VALIDATION_RULES,
+    GENDER_OPTIONS,
+    EYE_COLOR_OPTIONS,
+    RELATIONSHIP_STATUS_OPTIONS,
+    JOB_CATEGORY_OPTIONS,
+    ERROR_MESSAGES,
+    SUCCESS_MESSAGES,
+    FILE_UPLOAD,
+    EXTERNAL_LINKS
+} from '@/constants';
 
 interface OnboardingFlowProps {
     user: User;
@@ -29,24 +47,10 @@ interface OnboardingFlowProps {
     onComplete: (user: User, links: UserLink[]) => void;
 }
 
-interface LinkCategory {
-    id: string;
-    name: string;
-    icon_name: string;
-}
-
-const ONBOARDING_STEPS = [
-    'E3 Circle Registration',
-    'Personal Details',
-    'Additional Information',
-    'Profile Display',
-    'Terms & Privacy'
-];
-
 const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onComplete }) => {
     const [currentStep, setCurrentStep] = useState(user.onboarding_step || 0);
-    const [formData, setFormData] = useState<Partial<User>>({
-        ...user,
+    const [formData, setFormData] = useState<Partial<OnboardingFormData>>({
+        // Initialize with existing user data
         email: user.email || '',
         name: user.name || '',
         date_of_birth: user.date_of_birth || '',
@@ -56,7 +60,13 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
         job_title: user.job_title || '',
         job_category: user.job_category || '',
         mobile: user.mobile || '',
-        profile_photo_url: user.profile_photo_url || ''
+        profile_photo_url: user.profile_photo_url || '',
+        terms_accepted: user.terms_accepted || false,
+        privacy_accepted: user.privacy_accepted || false,
+        links: [
+            { label: '', url: '', categoryId: '' },
+            { label: '', url: '', categoryId: '' }
+        ]
     });
 
     const [passwords, setPasswords] = useState({
@@ -66,10 +76,6 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [links, setLinks] = useState<Array<{ label: string; url: string; categoryId: string }>>([
-        { label: '', url: '', categoryId: '' },
-        { label: '', url: '', categoryId: '' }
-    ]);
     const [linkCategories, setLinkCategories] = useState<LinkCategory[]>([]);
     const [loading, setLoading] = useState(false);
     const [showUrlHelp, setShowUrlHelp] = useState(false);
@@ -95,6 +101,15 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
+    const updateLinks = (index: number, field: keyof LinkFormData, value: string) => {
+        setFormData(prev => ({
+            ...prev,
+            links: prev.links?.map((link, i) =>
+                i === index ? { ...link, [field]: value } : link
+            )
+        }));
+    };
+
     const saveProgress = async (stepData: Partial<User>, step: number) => {
         try {
             const { error } = await supabase
@@ -115,7 +130,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
             console.error('Error saving progress:', error);
             toast({
                 title: "Error",
-                description: "Failed to save progress. Please try again.",
+                description: ERROR_MESSAGES.GENERIC_ERROR,
                 variant: "destructive"
             });
         }
@@ -151,6 +166,15 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                     return false;
                 }
 
+                if (passwords.password.length < VALIDATION_RULES.PASSWORD.MIN_LENGTH) {
+                    toast({
+                        title: "Password too short",
+                        description: `Password must be at least ${VALIDATION_RULES.PASSWORD.MIN_LENGTH} characters long.`,
+                        variant: "destructive"
+                    });
+                    return false;
+                }
+
                 const passwordCheck = checkPasswordStrength(passwords.password);
                 if (!passwordCheck.isValid) {
                     toast({
@@ -167,6 +191,15 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                     toast({
                         title: "Validation Error",
                         description: "Please fill in all required fields.",
+                        variant: "destructive"
+                    });
+                    return false;
+                }
+
+                if (formData.name.length < VALIDATION_RULES.NAME.MIN_LENGTH) {
+                    toast({
+                        title: "Validation Error",
+                        description: `Name must be at least ${VALIDATION_RULES.NAME.MIN_LENGTH} characters long.`,
                         variant: "destructive"
                     });
                     return false;
@@ -217,7 +250,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                 }
 
                 // Validate at least one link
-                const validLinks = links.filter(link => link.url.trim() && link.categoryId);
+                const validLinks = formData.links?.filter(link => link.url.trim() && link.categoryId) || [];
                 if (validLinks.length === 0) {
                     toast({
                         title: "Validation Error",
@@ -263,7 +296,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
 
         try {
             if (currentStep < ONBOARDING_STEPS.length - 1) {
-                await saveProgress(formData, currentStep + 1);
+                await saveProgress(formData as Partial<User>, currentStep + 1);
                 setCurrentStep(currentStep + 1);
             } else {
                 // Complete onboarding
@@ -301,7 +334,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
             if (userError) throw userError;
 
             // Save user links
-            const validLinks = links.filter(link => link.url.trim() && link.categoryId);
+            const validLinks = formData.links?.filter(link => link.url.trim() && link.categoryId) || [];
             const userLinks: UserLink[] = [];
 
             for (let i = 0; i < validLinks.length; i++) {
@@ -313,7 +346,8 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                         label: link.label || linkCategories.find(c => c.id === link.categoryId)?.name || 'Link',
                         url: link.url,
                         category_id: link.categoryId,
-                        display_order: i
+                        display_order: i,
+                        is_primary: i === 0
                     })
                     .select(`
             *,
@@ -343,13 +377,13 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
             ...formData,
             is_onboarding_complete: true,
             onboarding_step: ONBOARDING_STEPS.length
-        };
+        } as User;
 
         onComplete(completedUser, result.data || []);
 
         toast({
             title: "Welcome!",
-            description: "Your profile has been set up successfully.",
+            description: SUCCESS_MESSAGES.ONBOARDING_COMPLETE,
         });
     };
 
@@ -367,9 +401,10 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                             <Input
                                 id="email"
                                 type="email"
-                                value={formData.email}
+                                value={formData.email || ''}
                                 onChange={(e) => updateFormData('email', e.target.value)}
                                 placeholder="Enter your email"
+                                maxLength={VALIDATION_RULES.EMAIL.MAX_LENGTH}
                             />
                         </div>
                         <div>
@@ -381,6 +416,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                                     value={passwords.password}
                                     onChange={(e) => setPasswords(prev => ({ ...prev, password: e.target.value }))}
                                     placeholder="Enter password"
+                                    maxLength={VALIDATION_RULES.PASSWORD.MAX_LENGTH}
                                 />
                                 <Button
                                     type="button"
@@ -402,6 +438,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                                     value={passwords.confirmPassword}
                                     onChange={(e) => setPasswords(prev => ({ ...prev, confirmPassword: e.target.value }))}
                                     placeholder="Confirm password"
+                                    maxLength={VALIDATION_RULES.PASSWORD.MAX_LENGTH}
                                 />
                                 <Button
                                     type="button"
@@ -424,9 +461,10 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                             <Label htmlFor="name">Full Name *</Label>
                             <Input
                                 id="name"
-                                value={formData.name}
+                                value={formData.name || ''}
                                 onChange={(e) => updateFormData('name', e.target.value)}
                                 placeholder="Enter your full name"
+                                maxLength={VALIDATION_RULES.NAME.MAX_LENGTH}
                             />
                         </div>
                         <div>
@@ -434,21 +472,22 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                             <Input
                                 id="dateOfBirth"
                                 type="date"
-                                value={formData.date_of_birth}
+                                value={formData.date_of_birth || ''}
                                 onChange={(e) => updateFormData('date_of_birth', e.target.value)}
                             />
                         </div>
                         <div>
                             <Label htmlFor="gender">Gender *</Label>
-                            <Select value={formData.gender} onValueChange={(value) => updateFormData('gender', value)}>
+                            <Select value={formData.gender || ''} onValueChange={(value) => updateFormData('gender', value)}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select gender" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="male">Male</SelectItem>
-                                    <SelectItem value="female">Female</SelectItem>
-                                    <SelectItem value="non-binary">Non-binary</SelectItem>
-                                    <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                                    {GENDER_OPTIONS.map(option => (
+                                        <SelectItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -460,51 +499,46 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                     <div className="space-y-4">
                         <div>
                             <Label htmlFor="eyeColor">Eye Color *</Label>
-                            <Select value={formData.eye_color} onValueChange={(value) => updateFormData('eye_color', value)}>
+                            <Select value={formData.eye_color || ''} onValueChange={(value) => updateFormData('eye_color', value)}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select eye color" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="brown">Brown</SelectItem>
-                                    <SelectItem value="blue">Blue</SelectItem>
-                                    <SelectItem value="green">Green</SelectItem>
-                                    <SelectItem value="hazel">Hazel</SelectItem>
-                                    <SelectItem value="gray">Gray</SelectItem>
-                                    <SelectItem value="amber">Amber</SelectItem>
+                                    {EYE_COLOR_OPTIONS.map(option => (
+                                        <SelectItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </div>
                         <div>
                             <Label htmlFor="relationship">Relationship Status *</Label>
-                            <Select value={formData.relationship_status} onValueChange={(value) => updateFormData('relationship_status', value)}>
+                            <Select value={formData.relationship_status || ''} onValueChange={(value) => updateFormData('relationship_status', value)}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select relationship status" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="single">Single</SelectItem>
-                                    <SelectItem value="in-relationship">In a relationship</SelectItem>
-                                    <SelectItem value="married">Married</SelectItem>
-                                    <SelectItem value="divorced">Divorced</SelectItem>
-                                    <SelectItem value="widowed">Widowed</SelectItem>
-                                    <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                                    {RELATIONSHIP_STATUS_OPTIONS.map(option => (
+                                        <SelectItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </div>
                         <div>
                             <Label htmlFor="jobCategory">Job Category *</Label>
-                            <Select value={formData.job_category} onValueChange={(value) => updateFormData('job_category', value)}>
+                            <Select value={formData.job_category || ''} onValueChange={(value) => updateFormData('job_category', value)}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select job category" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="fitness">Fitness</SelectItem>
-                                    <SelectItem value="clothing">Clothing</SelectItem>
-                                    <SelectItem value="beauty">Beauty</SelectItem>
-                                    <SelectItem value="business">Business</SelectItem>
-                                    <SelectItem value="technology">Technology</SelectItem>
-                                    <SelectItem value="creative-art">Creative & Art</SelectItem>
-                                    <SelectItem value="academic">Academic</SelectItem>
-                                    <SelectItem value="other">Other</SelectItem>
+                                    {JOB_CATEGORY_OPTIONS.map(option => (
+                                        <SelectItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -513,9 +547,10 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                                 <Label htmlFor="jobTitle">Job Title</Label>
                                 <Input
                                     id="jobTitle"
-                                    value={formData.job_title}
+                                    value={formData.job_title || ''}
                                     onChange={(e) => updateFormData('job_title', e.target.value)}
                                     placeholder="Enter your job title"
+                                    maxLength={100}
                                 />
                             </div>
                         )}
@@ -530,15 +565,16 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                             <Input
                                 id="mobile"
                                 type="tel"
-                                value={formData.mobile}
+                                value={formData.mobile || ''}
                                 onChange={(e) => updateFormData('mobile', e.target.value)}
                                 placeholder="Enter your mobile number"
+                                maxLength={VALIDATION_RULES.MOBILE.MAX_LENGTH}
                             />
                         </div>
 
                         <div>
                             <Label>Links</Label>
-                            {links.map((link, index) => (
+                            {formData.links?.map((link, index) => (
                                 <div key={index} className="space-y-2 p-3 border rounded-lg">
                                     <div className="flex items-center gap-2">
                                         <Label className="text-sm">Link {index + 1}</Label>
@@ -551,12 +587,9 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                                             <Input
                                                 id={`linkUrl${index}`}
                                                 value={link.url}
-                                                onChange={(e) => {
-                                                    const newLinks = [...links];
-                                                    newLinks[index].url = e.target.value;
-                                                    setLinks(newLinks);
-                                                }}
+                                                onChange={(e) => updateLinks(index, 'url', e.target.value)}
                                                 placeholder="Paste your URL here"
+                                                maxLength={VALIDATION_RULES.URL.MAX_LENGTH}
                                             />
                                             <Button
                                                 type="button"
@@ -583,10 +616,9 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                                         <Select
                                             value={link.categoryId}
                                             onValueChange={(value) => {
-                                                const newLinks = [...links];
-                                                newLinks[index].categoryId = value;
-                                                newLinks[index].label = linkCategories.find(c => c.id === value)?.name || '';
-                                                setLinks(newLinks);
+                                                updateLinks(index, 'categoryId', value);
+                                                const categoryName = linkCategories.find(c => c.id === value)?.name || '';
+                                                updateLinks(index, 'label', categoryName);
                                             }}
                                         >
                                             <SelectTrigger>
@@ -611,7 +643,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                                 <Input
                                     id="profilePhoto"
                                     type="file"
-                                    accept="image/*"
+                                    accept={FILE_UPLOAD.ALLOWED_TYPES.join(',')}
                                     onChange={(e) => {
                                         const file = e.target.files?.[0];
                                         if (file) {
@@ -619,7 +651,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                                             if (!validation.isValid) {
                                                 toast({
                                                     title: "Invalid File",
-                                                    description: validation.error,
+                                                    description: validation.errors[0],
                                                     variant: "destructive"
                                                 });
                                                 e.target.value = ''; // Clear the input
@@ -631,7 +663,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                                             updateFormData('profile_photo_url', URL.createObjectURL(file));
                                             toast({
                                                 title: "Photo uploaded",
-                                                description: "Profile photo has been selected successfully.",
+                                                description: SUCCESS_MESSAGES.PHOTO_UPLOADED,
                                             });
                                         }
                                     }}
@@ -641,7 +673,8 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                                 </Button>
                             </div>
                             <p className="text-xs text-gray-500 mt-1">
-                                Max size: 5MB. Supported formats: JPEG, PNG, WebP
+                                Max size: {FILE_UPLOAD.MAX_SIZE / (1024 * 1024)}MB.
+                                Supported formats: {FILE_UPLOAD.ALLOWED_TYPES.join(', ')}
                             </p>
                         </div>
                     </div>
@@ -658,7 +691,15 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                             />
                             <div className="grid gap-1.5 leading-none">
                                 <Label htmlFor="terms" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                                    I accept the Terms and Conditions *
+                                    I accept the{' '}
+                                    <a
+                                        href={EXTERNAL_LINKS.TERMS_OF_SERVICE}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-600 hover:underline"
+                                    >
+                                        Terms and Conditions
+                                    </a> *
                                 </Label>
                                 <p className="text-xs text-muted-foreground">
                                     By checking this box, you agree to our terms of service.
@@ -674,7 +715,15 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
                             />
                             <div className="grid gap-1.5 leading-none">
                                 <Label htmlFor="privacy" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                                    I accept the Privacy Policy *
+                                    I accept the{' '}
+                                    <a
+                                        href={EXTERNAL_LINKS.PRIVACY_POLICY}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-600 hover:underline"
+                                    >
+                                        Privacy Policy
+                                    </a> *
                                 </Label>
                                 <p className="text-xs text-muted-foreground">
                                     By checking this box, you agree to our privacy policy.

@@ -1,73 +1,218 @@
-# Welcome to your Lovable project
+# E3 Circle Profile System Implementation Guide
 
-## Project info
+This guide will help you set up the E3 Circle profile system with user-specific routing, onboarding flow, and profile management.
 
-**URL**: https://lovable.dev/projects/811b270e-b582-462d-8d21-8bf565605a22
+## Overview
 
-## How can I edit this code?
+The system transforms the static profile page into a dynamic user onboarding and profile system where:
 
-There are several ways of editing your application.
+- Each user has a unique code (e.g., `EAVO53`) that serves as their URL route
+- Users go through a 5-step onboarding process when first visiting their profile
+- Completed profiles display their personalized social links and information
+- All data is stored in Supabase with progress tracking
 
-**Use Lovable**
+## Prerequisites
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/811b270e-b582-462d-8d21-8bf565605a22) and start prompting.
+- Node.js & npm installed
+- Supabase account and project set up
+- The provided React/TypeScript codebase
 
-Changes made via Lovable will be committed automatically to this repo.
+## Step 1: Database Setup
 
-**Use your preferred IDE**
+1. **Connect to your Supabase project** and run the SQL schema from the `supabase_schema.sql` file in the SQL editor.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+2. **Verify the tables were created:**
+   - `users` - Stores user profiles and onboarding progress
+   - `link_categories` - Predefined social/business link categories  
+   - `user_links` - User's social/business links
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+3. **Confirm user codes were inserted** - You should see all 192 user codes from the PDF populated in the `users` table.
 
-Follow these steps:
+## Step 2: Update Supabase Types
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Replace the contents of `src/integrations/supabase/types.ts` with the updated types that include our new table structures.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## Step 3: Add New Components
 
-# Step 3: Install the necessary dependencies.
-npm i
+Create the following new files in your project:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### Pages
+- `src/pages/UserProfile.tsx` - Main user profile container
+- Update `src/App.tsx` with the new routing
+
+### Components  
+- `src/components/OnboardingFlow.tsx` - 5-step registration process
+- `src/components/CompletedProfile.tsx` - Displays finished profiles
+
+## Step 4: Install Additional Dependencies
+
+You may need to install additional packages if not already present:
+
+```bash
+npm install @radix-ui/react-progress @radix-ui/react-checkbox
 ```
 
-**Edit a file directly in GitHub**
+## Step 5: Environment Variables
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Ensure your Supabase credentials are properly configured in your environment:
 
-**Use GitHub Codespaces**
+```env
+VITE_SUPABASE_URL=your-supabase-url
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## How It Works
 
-## What technologies are used for this project?
+### User Journey
 
-This project is built with:
+1. **User visits their URL** (e.g., `yoursite.com/EAVO53`)
+2. **System checks onboarding status:**
+   - If `is_onboarding_complete = false` → Shows onboarding flow
+   - If `is_onboarding_complete = true` → Shows completed profile
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Onboarding Flow Steps
 
-## How can I deploy this project?
+1. **E3 Circle Registration**
+   - E3 number (pre-filled, read-only)
+   - Email address
+   - Password & confirmation
 
-Simply open [Lovable](https://lovable.dev/projects/811b270e-b582-462d-8d21-8bf565605a22) and click on Share -> Publish.
+2. **Personal Details**
+   - Full name
+   - Date of birth
+   - Gender
 
-## Can I connect a custom domain to my Lovable project?
+3. **Additional Information**
+   - Eye color
+   - Relationship status
+   - Job category & title
 
-Yes, you can!
+4. **Profile Display**
+   - Mobile number
+   - Up to 2 social/business links with categories
+   - Profile photo upload
+   - URL copying help instructions
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+5. **Terms & Privacy**
+   - Terms & conditions acceptance
+   - Privacy policy acceptance
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Data Persistence
+
+- Progress is saved after each step completion
+- Users can exit and resume where they left off
+- `onboarding_step` field tracks current progress
+- Form data is validated before proceeding
+
+### Profile Display
+
+Once completed, users see:
+- Dynamic background based on time of day
+- Profile photo or initials
+- Typewriter bio with personalized text
+- Social/business links with category-based icons
+- Contact information (mobile, email)
+- E3 Circle branding
+
+## Key Features
+
+### Smart Link Categories
+
+Links are categorized with appropriate icons:
+- **Social**: Instagram, LinkedIn, TikTok, etc.
+- **Business**: Website, portfolio, etc.  
+- **Industry-specific**: Fitness, Beauty, Clothing, Technology, etc.
+
+### URL Help System
+
+Users get clear instructions on how to copy URLs from their social media profiles and websites.
+
+### Progressive Enhancement
+
+- Mobile-first responsive design
+- Time-based dynamic backgrounds
+- Smooth animations and transitions
+- Loading states and error handling
+
+## Testing
+
+1. **Test a user code URL**: Navigate to `/EAVO53` (or any user code)
+2. **Complete onboarding flow**: Go through all 5 steps
+3. **Test progress persistence**: Exit mid-flow and return
+4. **Verify profile display**: Check completed profile shows correctly
+5. **Test invalid codes**: Try non-existent user codes
+
+## Security Considerations
+
+⚠️ **Important**: This implementation stores passwords in plain text for demo purposes. In production:
+
+1. **Hash passwords** using bcrypt or similar before storing
+2. **Implement proper authentication** with JWT tokens
+3. **Add rate limiting** for form submissions
+4. **Validate all inputs** server-side
+5. **Use HTTPS** in production
+6. **Implement proper file upload** with virus scanning
+
+## Customization
+
+### Adding New Link Categories
+
+```sql
+INSERT INTO link_categories (name, icon_name) VALUES
+('NewCategory', 'LucideIconName');
+```
+
+### Modifying Onboarding Steps
+
+Edit the `ONBOARDING_STEPS` array and corresponding form sections in `OnboardingFlow.tsx`.
+
+### Changing Profile Layout
+
+Modify `CompletedProfile.tsx` to adjust the profile display layout and styling.
+
+## Troubleshooting
+
+### Common Issues
+
+1. **User code not found**: Verify the code exists in the `users` table
+2. **Supabase connection errors**: Check environment variables and RLS policies
+3. **Images not uploading**: Implement proper file storage (not included in demo)
+4. **Icons not displaying**: Ensure icon names match Lucide React icon names
+
+### Database Debugging
+
+```sql
+-- Check user onboarding status
+SELECT user_code, onboarding_step, is_onboarding_complete 
+FROM users 
+WHERE user_code = 'EAVO53';
+
+-- View user links
+SELECT ul.*, lc.name as category_name, lc.icon_name
+FROM user_links ul
+JOIN link_categories lc ON ul.category_id = lc.id
+WHERE ul.user_id = 'user-uuid';
+```
+
+## Next Steps
+
+Once basic functionality is working:
+
+1. **Add authentication system** with proper password security
+2. **Implement file upload** for profile photos
+3. **Add admin panel** for managing users and categories
+4. **Create analytics dashboard** for user engagement
+5. **Add social sharing** functionality
+6. **Implement email notifications** for important events
+7. **Add profile editing** for completed users
+8. **Create custom domains** for users (e.g., `username.e3circle.com`)
+
+## Support
+
+For questions or issues:
+1. Check the browser console for errors
+2. Verify Supabase table structure matches schema
+3. Test with different user codes
+4. Review component props and state flow
+
+The system is designed to be modular and extensible, making it easy to add new features and customize the user experience.

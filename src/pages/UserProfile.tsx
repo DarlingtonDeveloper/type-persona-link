@@ -1,43 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import OnboardingFlow from '@/components/OnboardingFlow';
 import CompletedProfile from '@/components/CompletedProfile';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
-
-export interface User {
-    id: string;
-    user_code: string;
-    email?: string;
-    name?: string;
-    date_of_birth?: string;
-    gender?: string;
-    eye_color?: string;
-    relationship_status?: string;
-    job_title?: string;
-    job_category?: string;
-    mobile?: string;
-    profile_photo_url?: string;
-    onboarding_step: number;
-    is_onboarding_complete: boolean;
-    terms_accepted: boolean;
-    privacy_accepted: boolean;
-}
-
-export interface UserLink {
-    id: string;
-    label: string;
-    url: string;
-    category_id: string;
-    is_primary: boolean;
-    display_order: number;
-    category?: {
-        name: string;
-        icon_name: string;
-    };
-}
+import { User, UserLink } from '@/types';
+import { ERROR_MESSAGES } from '@/constants';
 
 const UserProfile: React.FC = () => {
     const { userCode } = useParams<{ userCode: string }>();
@@ -64,9 +34,9 @@ const UserProfile: React.FC = () => {
 
                 if (userError) {
                     if (userError.code === 'PGRST116') {
-                        setError('User code not found');
+                        setError(ERROR_MESSAGES.USER_NOT_FOUND);
                     } else {
-                        setError('Failed to load user data');
+                        setError(ERROR_MESSAGES.NETWORK_ERROR);
                     }
                     setLoading(false);
                     return;
@@ -90,7 +60,7 @@ const UserProfile: React.FC = () => {
                     }
                 }
             } catch (err) {
-                setError('An unexpected error occurred');
+                setError(ERROR_MESSAGES.GENERIC_ERROR);
                 console.error('Error fetching user data:', err);
             } finally {
                 setLoading(false);
@@ -131,7 +101,7 @@ const UserProfile: React.FC = () => {
                     <Alert variant="destructive">
                         <AlertCircle className="h-4 w-4" />
                         <AlertDescription>
-                            {error || 'User not found'}
+                            {error || ERROR_MESSAGES.USER_NOT_FOUND}
                         </AlertDescription>
                     </Alert>
                 </div>
@@ -161,5 +131,8 @@ const UserProfile: React.FC = () => {
         />
     );
 };
+
+// Export the centralized types for components that still need them
+export type { User, UserLink } from '@/types';
 
 export default UserProfile;

@@ -1,12 +1,21 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { User, UserLink } from '@/pages/UserProfile';
-
-export interface LinkCategory {
-    id: string;
-    name: string;
-    icon_name: string;
-}
+import {
+    User,
+    UserLink,
+    LinkCategory,
+    PasswordStrength,
+    UserSession,
+    ValidationResult,
+    ApiResponse
+} from '@/types';
+import {
+    ERROR_MESSAGES,
+    USER_CODE,
+    RATE_LIMITS,
+    LOCAL_STORAGE_KEYS
+} from '@/constants';
+import { checkPasswordStrength } from '@/utils/security';
 
 // Hook for fetching and managing user data
 export const useUser = (userCode: string) => {
@@ -36,9 +45,9 @@ export const useUser = (userCode: string) => {
 
                 if (userError) {
                     if (userError.code === 'PGRST116') {
-                        setError('User code not found');
+                        setError(ERROR_MESSAGES.USER_NOT_FOUND);
                     } else {
-                        setError('Failed to load user data');
+                        setError(ERROR_MESSAGES.NETWORK_ERROR);
                     }
                     return;
                 }
@@ -61,7 +70,7 @@ export const useUser = (userCode: string) => {
                     }
                 }
             } catch (err) {
-                setError('An unexpected error occurred');
+                setError(ERROR_MESSAGES.GENERIC_ERROR);
                 console.error('Error fetching user data:', err);
             } finally {
                 setLoading(false);
@@ -128,7 +137,7 @@ export const useOnboarding = (user: User) => {
     const [currentStep, setCurrentStep] = useState(user?.onboarding_step || 0);
     const [saving, setSaving] = useState(false);
 
-    const saveProgress = async (stepData: Partial<User>, step: number) => {
+    const saveProgress = async (stepData: Partial<User>, step: number): Promise<ApiResponse> => {
         setSaving(true);
         try {
             const { error } = await supabase
@@ -151,7 +160,7 @@ export const useOnboarding = (user: User) => {
         }
     };
 
-    const completeOnboarding = async (userData: Partial<User>, links: any[]) => {
+    const completeOnboarding = async (userData: Partial<User>, links: any[]): Promise<ApiResponse<UserLink[]>> => {
         setSaving(true);
         try {
             // Update user
@@ -177,7 +186,8 @@ export const useOnboarding = (user: User) => {
                         label: link.label,
                         url: link.url,
                         category_id: link.categoryId,
-                        display_order: i
+                        display_order: i,
+                        is_primary: i === 0
                     })
                     .select(`
             *,
@@ -190,7 +200,7 @@ export const useOnboarding = (user: User) => {
                 }
             }
 
-            return { success: true, userLinks };
+            return { success: true, data: userLinks };
         } catch (error: any) {
             console.error('Error completing onboarding:', error);
             return { success: false, error: error.message };
@@ -218,8 +228,20 @@ export const useUserCodeValidation = () => {
         isComplete?: boolean;
         error?: string;
     }> => {
-        if (!userCode || userCode.length !== 6) {
-            return { isValid: false, exists: false, error: 'User code must be 6 characters' };
+        if (!userCode || userCode.length !== USER_CODE.LENGTH) {
+            return {
+                isValid: false,
+                exists: false,
+                error: `User code must be ${USER_CODE.LENGTH} characters`
+            };
+        }
+
+        if (!USER_CODE.PATTERN.test(userCode.toUpperCase())) {
+            return {
+                isValid: false,
+                exists: false,
+                error: 'User code must contain only letters and numbers'
+            };
         }
 
         setIsValidating(true);
@@ -232,7 +254,7 @@ export const useUserCodeValidation = () => {
 
             if (error) {
                 if (error.code === 'PGRST116') {
-                    return { isValid: false, exists: false, error: 'User code not found' };
+                    return { isValid: false, exists: false, error: ERROR_MESSAGES.USER_NOT_FOUND };
                 }
                 throw error;
             }
@@ -243,7 +265,7 @@ export const useUserCodeValidation = () => {
                 isComplete: data.is_onboarding_complete
             };
         } catch (error: any) {
-            return { isValid: false, exists: false, error: 'Validation failed' };
+            return { isValid: false, exists: false, error: ERROR_MESSAGES.VALIDATION_ERROR };
         } finally {
             setIsValidating(false);
         }
@@ -254,41 +276,41 @@ export const useUserCodeValidation = () => {
 
 // Hook for managing user session (simple implementation)
 export const useUserSession = () => {
-    const [session, setSession] = useState<any>(null);
+    const [session, setSession] = useState<UserSession | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // Check for existing session
-        const savedSession = sessionStorage.getItem('e3_session');
+        const savedSession = sessionStorage.getItem(LOCAL_STORAGE_KEYS.USER_SESSION);
         if (savedSession) {
             try {
                 const sessionData = JSON.parse(savedSession);
                 if (Date.now() < sessionData.expiresAt) {
                     setSession(sessionData);
                 } else {
-                    sessionStorage.removeItem('e3_session');
+                    sessionStorage.removeItem(LOCAL_STORAGE_KEYS.USER_SESSION);
                 }
             } catch (error) {
-                sessionStorage.removeItem('e3_session');
+                sessionStorage.removeItem(LOCAL_STORAGE_KEYS.USER_SESSION);
             }
         }
         setLoading(false);
     }, []);
 
     const createSession = (userId: string, userCode: string) => {
-        const sessionData = {
+        const sessionData: UserSession = {
             userId,
             userCode,
             timestamp: Date.now(),
             expiresAt: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
         };
 
-        sessionStorage.setItem('e3_session', JSON.stringify(sessionData));
+        sessionStorage.setItem(LOCAL_STORAGE_KEYS.USER_SESSION, JSON.stringify(sessionData));
         setSession(sessionData);
     };
 
     const clearSession = () => {
-        sessionStorage.removeItem('e3_session');
+        sessionStorage.removeItem(LOCAL_STORAGE_KEYS.USER_SESSION);
         setSession(null);
     };
 
@@ -331,14 +353,15 @@ export const useUserLinks = (userId: string) => {
         label: string;
         url: string;
         category_id: string;
-    }) => {
+    }): Promise<ApiResponse<UserLink>> => {
         try {
             const { data, error } = await supabase
                 .from('user_links')
                 .insert({
                     ...linkData,
                     user_id: userId,
-                    display_order: links.length
+                    display_order: links.length,
+                    is_primary: links.length === 0
                 })
                 .select(`
           *,
@@ -348,13 +371,13 @@ export const useUserLinks = (userId: string) => {
 
             if (error) throw error;
             setLinks(prev => [...prev, data as UserLink]);
-            return { success: true, data };
+            return { success: true, data: data as UserLink };
         } catch (error: any) {
             return { success: false, error: error.message };
         }
     };
 
-    const updateLink = async (linkId: string, updates: Partial<UserLink>) => {
+    const updateLink = async (linkId: string, updates: Partial<UserLink>): Promise<ApiResponse<UserLink>> => {
         try {
             const { data, error } = await supabase
                 .from('user_links')
@@ -370,13 +393,13 @@ export const useUserLinks = (userId: string) => {
             setLinks(prev => prev.map(link =>
                 link.id === linkId ? data as UserLink : link
             ));
-            return { success: true, data };
+            return { success: true, data: data as UserLink };
         } catch (error: any) {
             return { success: false, error: error.message };
         }
     };
 
-    const deleteLink = async (linkId: string) => {
+    const deleteLink = async (linkId: string): Promise<ApiResponse> => {
         try {
             const { error } = await supabase
                 .from('user_links')
@@ -391,7 +414,7 @@ export const useUserLinks = (userId: string) => {
         }
     };
 
-    const reorderLinks = async (newOrder: UserLink[]) => {
+    const reorderLinks = async (newOrder: UserLink[]): Promise<ApiResponse> => {
         try {
             const updates = newOrder.map((link, index) => ({
                 id: link.id,
@@ -426,5 +449,25 @@ export const useUserLinks = (userId: string) => {
         deleteLink,
         reorderLinks,
         refetch: fetchLinks
+    };
+};
+
+// Hook for password strength validation
+export const usePasswordValidation = () => {
+    const [strength, setStrength] = useState<PasswordStrength>({
+        score: 0,
+        feedback: [],
+        isValid: false
+    });
+
+    const validatePassword = (password: string) => {
+        const result = checkPasswordStrength(password);
+        setStrength(result);
+        return result;
+    };
+
+    return {
+        strength,
+        validatePassword
     };
 };

@@ -25,27 +25,8 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { toast } from '@/hooks/use-toast';
-
-interface DashboardStats {
-    totalUsers: number;
-    completedProfiles: number;
-    pendingOnboarding: number;
-    totalLinks: number;
-    dailySignups: number;
-    completionRate: number;
-}
-
-interface UserWithStats {
-    id: string;
-    user_code: string;
-    name: string | null;
-    email: string | null;
-    is_onboarding_complete: boolean;
-    onboarding_step: number;
-    created_at: string;
-    link_count: number;
-    last_activity: string | null;
-}
+import { DashboardStats, UserWithStats } from '@/types';
+import { APP_CONFIG, ONBOARDING_STEPS, ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/constants';
 
 const AdminDashboard: React.FC = () => {
     const [stats, setStats] = useState<DashboardStats>({
@@ -80,7 +61,7 @@ const AdminDashboard: React.FC = () => {
             console.error('Error fetching dashboard data:', error);
             toast({
                 title: "Error",
-                description: "Failed to load dashboard data",
+                description: ERROR_MESSAGES.NETWORK_ERROR,
                 variant: "destructive"
             });
         } finally {
@@ -154,7 +135,7 @@ const AdminDashboard: React.FC = () => {
                     ...user,
                     link_count: linksData?.length || 0,
                     last_activity: user.updated_at || user.created_at
-                };
+                } as UserWithStats;
             })
         );
 
@@ -253,15 +234,7 @@ const AdminDashboard: React.FC = () => {
     const getStepLabel = (step: number, isComplete: boolean) => {
         if (isComplete) return 'Complete';
 
-        const stepLabels = [
-            'Registration',
-            'Personal Details',
-            'Additional Info',
-            'Profile Display',
-            'Terms & Privacy'
-        ];
-
-        return stepLabels[step] || 'Not Started';
+        return ONBOARDING_STEPS[step] || 'Not Started';
     };
 
     if (loading) {
@@ -286,7 +259,7 @@ const AdminDashboard: React.FC = () => {
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900">E3 Circle Admin</h1>
+                    <h1 className="text-3xl font-bold text-gray-900">{APP_CONFIG.NAME} Admin</h1>
                     <p className="text-gray-600">Manage users and monitor system health</p>
                 </div>
                 <div className="flex gap-2">

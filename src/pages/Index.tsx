@@ -8,6 +8,7 @@ import DynamicBackground from "@/components/DynamicBackground";
 import { Search, Users, Zap, Shield, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { USER_CODE, APP_CONFIG, ERROR_MESSAGES } from "@/constants";
 
 const Index = () => {
   const [userCode, setUserCode] = useState("");
@@ -21,6 +22,16 @@ const Index = () => {
       toast({
         title: "Error",
         description: "Please enter an E3 Circle code",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Validate user code format
+    if (!USER_CODE.PATTERN.test(userCode.toUpperCase())) {
+      toast({
+        title: "Invalid Format",
+        description: `E3 Circle code must be ${USER_CODE.LENGTH} characters (letters and numbers only)`,
         variant: "destructive"
       });
       return;
@@ -40,7 +51,7 @@ const Index = () => {
         if (error.code === 'PGRST116') {
           toast({
             title: "Code Not Found",
-            description: "This E3 Circle code doesn't exist. Please check and try again.",
+            description: ERROR_MESSAGES.USER_NOT_FOUND,
             variant: "destructive"
           });
         } else {
@@ -56,7 +67,7 @@ const Index = () => {
       console.error('Error searching for user code:', error);
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: ERROR_MESSAGES.GENERIC_ERROR,
         variant: "destructive"
       });
     } finally {
@@ -93,7 +104,7 @@ const Index = () => {
                 <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
                   <span className="text-white font-bold text-xl">E3</span>
                 </div>
-                <span className="text-white font-semibold text-xl">Circle</span>
+                <span className="text-white font-semibold text-xl">{APP_CONFIG.NAME.split(' ')[1]}</span>
               </div>
               <Button variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
                 Get Started
@@ -114,8 +125,8 @@ const Index = () => {
                 </span>
               </h1>
               <p className="text-white/80 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-                Connect all your social links, showcase your personality, and share your digital presence
-                with a single, personalized profile page.
+                {APP_CONFIG.DESCRIPTION}. Connect all your social links, showcase your personality,
+                and share your digital presence with a single, personalized profile page.
               </p>
             </div>
 
@@ -132,11 +143,11 @@ const Index = () => {
                   <form onSubmit={handleCodeSearch} className="space-y-4">
                     <div>
                       <Input
-                        placeholder="Enter E3 Circle code (e.g., EAVO53)"
+                        placeholder={`Enter E3 Circle code (e.g., ${USER_CODE.PLACEHOLDER})`}
                         value={userCode}
                         onChange={(e) => setUserCode(e.target.value.toUpperCase())}
                         className="text-center font-mono text-lg"
-                        maxLength={6}
+                        maxLength={USER_CODE.LENGTH}
                       />
                     </div>
                     <Button
@@ -157,7 +168,7 @@ const Index = () => {
 
                   <div className="mt-4 text-center">
                     <p className="text-sm text-gray-600">
-                      Don't have a code? Contact your E3 Circle administrator.
+                      Don't have a code? Contact your {APP_CONFIG.NAME} administrator.
                     </p>
                   </div>
                 </CardContent>
@@ -181,7 +192,7 @@ const Index = () => {
             <div className="text-center">
               <Alert className="bg-blue-500/20 border-blue-300/30 text-white max-w-md mx-auto">
                 <AlertDescription>
-                  <strong>Try a demo:</strong> Enter "EAVO53" to see a sample profile in action
+                  <strong>Try a demo:</strong> Enter "{USER_CODE.PLACEHOLDER}" to see a sample profile in action
                 </AlertDescription>
               </Alert>
             </div>
@@ -191,7 +202,7 @@ const Index = () => {
         {/* Footer */}
         <footer className="bg-white/10 backdrop-blur-sm border-t border-white/20 py-6">
           <div className="container mx-auto px-4 text-center text-white/60">
-            <p>&copy; 2024 E3 Circle. All rights reserved.</p>
+            <p>&copy; 2024 {APP_CONFIG.NAME}. All rights reserved.</p>
           </div>
         </footer>
       </div>

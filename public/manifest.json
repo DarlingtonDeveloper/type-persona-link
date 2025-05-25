@@ -1,0 +1,73 @@
+{
+    "name": "E3 Circle",
+    "short_name": "E3Circle",
+    "description": "Personal profile and social link management system",
+    "version": "1.0.0",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "theme_color": "#1e293b",
+    "background_color": "#ffffff",
+    "lang": "en-US",
+    "scope": "/",
+    "categories": [
+        "social",
+        "productivity",
+        "utilities"
+    ],
+    "icons": [
+        {
+            "src": "/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Find Profile",
+            "short_name": "Find",
+            "description": "Search for an E3 Circle profile",
+            "url": "/?action=search",
+            "icons": [
+                {
+                    "src": "/icon-96x96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/screenshot-mobile.png",
+            "sizes": "390x844",
+            "type": "image/png",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "/screenshot-desktop.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide"
+        }
+    ],
+    "prefer_related_applications": false,
+    "related_applications": [],
+    "edge_side_panel": {
+        "preferred_width": 320
+    },
+    "launch_handler": {
+        "client_mode": "focus-existing"
+    }
+}
