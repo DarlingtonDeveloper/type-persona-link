@@ -122,17 +122,6 @@ export const RELATIONSHIP_STATUS_OPTIONS = [
     { value: 'prefer-not-to-say', label: 'Prefer not to say' }
 ] as const;
 
-export const JOB_CATEGORY_OPTIONS = [
-    { value: 'fitness', label: 'Fitness' },
-    { value: 'clothing', label: 'Clothing' },
-    { value: 'beauty', label: 'Beauty' },
-    { value: 'business', label: 'Business' },
-    { value: 'technology', label: 'Technology' },
-    { value: 'creative-art', label: 'Creative & Art' },
-    { value: 'academic', label: 'Academic' },
-    { value: 'other', label: 'Other' }
-] as const;
-
 export const LINK_CATEGORIES_BY_POSITION = {
     0: [ // Link 1 - Professional/Contact focused
         { value: 'social-media', label: 'Social Media', icon: 'MessageCircle' },
@@ -239,3 +228,29 @@ export const COMPLETION_SETTINGS = {
     AUTO_REDIRECT: true,
     CONFIRMATION_MESSAGE: 'These details are now fixed and complete the transaction.'
 } as const;
+
+export const JOB_CATEGORY_OPTIONS = [
+    { value: 'technology', label: 'Technology' },
+    { value: 'healthcare', label: 'Healthcare' },
+    { value: 'education', label: 'Education' },
+    { value: 'finance', label: 'Finance' },
+    { value: 'marketing', label: 'Marketing' },
+    { value: 'sales', label: 'Sales' },
+    { value: 'design', label: 'Design' },
+    { value: 'engineering', label: 'Engineering' },
+    { value: 'legal', label: 'Legal' },
+    { value: 'consulting', label: 'Consulting' },
+    { value: 'retail', label: 'Retail' },
+    { value: 'hospitality', label: 'Hospitality' },
+    { value: 'construction', label: 'Construction' },
+    { value: 'manufacturing', label: 'Manufacturing' },
+    { value: 'transportation', label: 'Transportation' },
+    { value: 'media', label: 'Media & Entertainment' },
+    { value: 'nonprofit', label: 'Non-profit' },
+    { value: 'government', label: 'Government' },
+    { value: 'freelance', label: 'Freelance' },
+    { value: 'student', label: 'Student' },
+    { value: 'unemployed', label: 'Unemployed' },
+    { value: 'retired', label: 'Retired' },
+    { value: 'other', label: 'Other' }
+] as const;

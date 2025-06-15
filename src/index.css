@@ -348,3 +348,116 @@
     border-color: var(--brand-white);
   }
 }
+
+/* Add these styles to your src/index.css file */
+
+/* Enhanced NFC animation */
+@keyframes nfc-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+@keyframes nfc-wave {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Welcome screen specific animations */
+.nfc-wave-1 {
+  animation: nfc-wave 2s infinite;
+}
+
+.nfc-wave-2 {
+  animation: nfc-wave 2s infinite;
+  animation-delay: 0.7s;
+}
+
+.nfc-wave-3 {
+  animation: nfc-wave 2s infinite;
+  animation-delay: 1.4s;
+}
+
+/* Activate button fade-in */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.activate-button-enter {
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+/* E3 Logo glow effect */
+.e3-logo-glow {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.e3-logo-glow:hover {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+}
+
+/* Improved button styling */
+.activate-button {
+  background: rgba(107, 114, 128, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.activate-button:hover {
+  background: rgba(75, 85, 99, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.activate-button:active {
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .e3-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .e3-logo span {
+    font-size: 24px;
+  }
+
+  .nfc-icon {
+    width: 120px;
+    height: 120px;
+  }
+
+  .welcome-text {
+    font-size: 28px;
+  }
+}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import { BRAND_SPECS, LOCAL_STORAGE_KEYS } from '@/constants';
 
 interface WelcomeGifProps {
@@ -10,23 +9,18 @@ interface WelcomeGifProps {
 
 const WelcomeGif: React.FC<WelcomeGifProps> = ({ onComplete, userCode }) => {
     const [timeLeft, setTimeLeft] = useState(BRAND_SPECS.WELCOME_GIF_DURATION);
-    const [canSkip, setCanSkip] = useState(false);
+    const [showActivateButton, setShowActivateButton] = useState(false);
     const [gifLoaded, setGifLoaded] = useState(false);
     const [gifError, setGifError] = useState(false);
+    const [logoLoaded, setLogoLoaded] = useState(false);
+    const [logoError, setLogoError] = useState(false);
+    const [gifLoopCount, setGifLoopCount] = useState(0);
 
-    // Allow skip after 5 seconds
-    useEffect(() => {
-        const skipTimer = setTimeout(() => {
-            setCanSkip(true);
-        }, 5000);
-
-        return () => clearTimeout(skipTimer);
-    }, []);
-
-    // Main countdown timer
+    // Track GIF loops - assuming the GIF is 30 seconds for 1 complete loop
     useEffect(() => {
         if (timeLeft <= 0) {
-            handleComplete();
+            setGifLoopCount(prev => prev + 1);
+            setShowActivateButton(true);
             return;
         }
 
@@ -37,102 +31,113 @@ const WelcomeGif: React.FC<WelcomeGifProps> = ({ onComplete, userCode }) => {
         return () => clearInterval(timer);
     }, [timeLeft]);
 
-    const handleComplete = () => {
+    const handleActivate = () => {
         // Mark welcome as viewed
         try {
             localStorage.setItem(LOCAL_STORAGE_KEYS.WELCOME_GIF_VIEWED, 'true');
         } catch (error) {
             console.warn('Could not save welcome viewed status:', error);
         }
-
         onComplete();
     };
 
-    const handleSkip = () => {
-        if (canSkip) {
-            handleComplete();
-        }
-    };
-
-    const progressPercentage = ((BRAND_SPECS.WELCOME_GIF_DURATION - timeLeft) / BRAND_SPECS.WELCOME_GIF_DURATION) * 100;
-
     return (
-        <div className="text-center space-y-6 max-w-md mx-auto">
-            {/* GIF Container */}
-            <div className="welcome-gif-container relative">
-                {!gifError ? (
-                    <>
+        <div className="min-h-screen bg-black flex flex-col items-center justify-between p-8">
+            {/* White E3 Logo at top */}
+            <div className="flex-shrink-0 pt-16">
+                <div className="w-24 h-24 flex items-center justify-center">
+                    {!logoError ? (
                         <img
-                            src="/welcome.gif"
-                            alt="Welcome to E3 Circle"
-                            className="welcome-gif w-full h-auto rounded-xl shadow-lg max-h-96 object-cover"
-                            onLoad={() => setGifLoaded(true)}
+                            src="/whitelogo.png"
+                            alt="E3 Circle Logo"
+                            className="w-full h-full object-contain"
+                            onLoad={() => setLogoLoaded(true)}
                             onError={() => {
-                                setGifError(true);
-                                console.warn('Welcome GIF failed to load');
+                                console.warn('Logo failed to load, using fallback');
+                                setLogoError(true);
                             }}
-                            style={{ display: gifLoaded ? 'block' : 'none' }}
                         />
-
-                        {/* Loading placeholder */}
-                        {!gifLoaded && (
-                            <div className="w-full h-64 bg-brand-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-white"></div>
-                            </div>
-                        )}
-                    </>
-                ) : (
-                    /* Fallback content if GIF fails */
-                    <div className="welcome-container w-full h-64 rounded-xl flex flex-col items-center justify-center p-8">
-                        <div className="w-20 h-20 bg-brand-white/20 rounded-full flex items-center justify-center mb-4">
-                            <span className="text-brand-white text-3xl font-bold">E3</span>
+                    ) : (
+                        /* Fallback text logo */
+                        <div className="w-24 h-24 bg-transparent border-4 border-white rounded-full flex items-center justify-center">
+                            <span className="text-white text-3xl font-bold tracking-wider">E3</span>
                         </div>
-                        <h2 className="brand-gif-text text-brand-white mb-2">Welcome to E3 Circle!</h2>
-                        <p className="text-brand-white/80 text-lg">Your profile system</p>
-                    </div>
-                )}
-            </div>
-
-            {/* Welcome Text */}
-            <div className="space-y-2">
-                <h1 className="brand-heading text-brand-white">Welcome to E3 Circle!</h1>
-                <p className="brand-body text-brand-white/90">Let's set up your profile</p>
-                <p className="text-brand-white/70 text-lg">User Code: {userCode}</p>
-            </div>
-
-            {/* Progress Section */}
-            <div className="welcome-container rounded-lg p-4 space-y-3">
-                <p className="text-brand-white brand-gif-text">
-                    {gifError ? 'Continuing to setup...' : `Auto-advancing in ${timeLeft} seconds`}
-                </p>
-
-                <Progress
-                    value={progressPercentage}
-                    className="w-full h-3 bg-brand-white/20"
-                />
-
-                <div className="flex justify-between text-brand-white/60 text-sm">
-                    <span>0s</span>
-                    <span>{BRAND_SPECS.WELCOME_GIF_DURATION}s</span>
+                    )}
                 </div>
             </div>
 
-            {/* Skip Button */}
-            {(canSkip || gifError) && (
-                <Button
-                    onClick={handleSkip}
-                    size="lg"
-                    className="brand-button-primary w-full"
-                    disabled={!canSkip && !gifError}
-                >
-                    {gifError ? 'Continue to Setup' : 'Skip Introduction'}
-                </Button>
-            )}
+            {/* Center content - GIF section */}
+            <div className="flex-1 flex flex-col items-center justify-center space-y-8 max-w-sm mx-auto">
+                {!gifError ? (
+                    <>
+                        {/* Hide text when GIF is loaded and visible */}
+                        {!gifLoaded && (
+                            <h1 className="welcome-text text-white text-3xl font-medium text-center leading-tight">
+                                Tap a compatible phone
+                            </h1>
+                        )}
 
-            {/* Help Text */}
-            <p className="text-brand-white/60 text-sm">
-                We'll guide you through setting up your personal profile
-            </p>
+                        {/* Actual GIF Display */}
+                        <div className="w-64 h-64 flex items-center justify-center">
+                            <img
+                                src="/welcome.gif"
+                                alt="Welcome animation"
+                                className={`w-full h-full object-contain rounded-lg transition-opacity duration-500 ${gifLoaded ? 'opacity-100' : 'opacity-0'
+                                    }`}
+                                onLoad={() => {
+                                    setGifLoaded(true);
+                                    console.log('Welcome GIF loaded successfully');
+                                }}
+                                onError={(e) => {
+                                    setGifError(true);
+                                    console.warn('Welcome GIF failed to load from /welcome.gif');
+                                    // If GIF fails, show button after 5 seconds instead
+                                    setTimeout(() => setShowActivateButton(true), 5000);
+                                }}
+                            />
+
+                            {/* Loading placeholder */}
+                            {!gifLoaded && (
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                                </div>
+                            )}
+                        </div>
+                    </>
+                ) : (
+                    /* Fallback content if GIF fails */
+                    <>
+                        <h1 className="welcome-text text-white text-3xl font-medium text-center leading-tight">
+                            Tap a compatible phone
+                        </h1>
+                        <div className="nfc-icon w-32 h-32 border-4 border-white rounded-full flex items-center justify-center bg-transparent">
+                            <div className="w-16 h-16 relative">
+                                <div className="absolute inset-0 border-4 border-white rounded-full nfc-wave-1"></div>
+                                <div className="absolute inset-2 border-4 border-white rounded-full nfc-wave-2"></div>
+                                <div className="absolute inset-4 border-4 border-white rounded-full nfc-wave-3"></div>
+                                <div className="absolute inset-6 bg-white rounded-full"></div>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
+
+            {/* Bottom section - Activate button */}
+            <div className="flex-shrink-0 w-full max-w-sm mx-auto pb-16">
+                <div
+                    className={`transition-all duration-1000 ${showActivateButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                        }`}
+                >
+                    <Button
+                        onClick={handleActivate}
+                        disabled={!showActivateButton}
+                        className="activate-button w-full text-white font-medium py-4 px-8 rounded-full text-lg"
+                        size="lg"
+                    >
+                        Activate
+                    </Button>
+                </div>
+            </div>
         </div>
     );
 };
