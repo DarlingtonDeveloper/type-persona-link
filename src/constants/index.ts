@@ -133,24 +133,23 @@ export const JOB_CATEGORY_OPTIONS = [
     { value: 'other', label: 'Other' }
 ] as const;
 
-// New: Position-specific link categories based on client requirements
 export const LINK_CATEGORIES_BY_POSITION = {
-    0: [ // Link 1
+    0: [ // Link 1 - Professional/Contact focused
         { value: 'social-media', label: 'Social Media', icon: 'MessageCircle' },
         { value: 'email', label: 'Email', icon: 'Mail' },
-        { value: 'phone', label: 'Phone Number', icon: 'Phone' },
+        { value: 'phone-number', label: 'Phone Number', icon: 'Phone' },
         { value: 'business-website', label: 'Business Website', icon: 'Briefcase' },
         { value: 'personal-website', label: 'Personal Website', icon: 'Globe' },
         { value: 'other', label: 'Other', icon: 'Link' }
     ],
-    1: [ // Link 2
+    1: [ // Link 2 - Personal interests/favorites
         { value: 'social-media', label: 'Social Media', icon: 'MessageCircle' },
         { value: 'favorite-song', label: 'What is your favourite song?', icon: 'Music' },
         { value: 'favorite-restaurant', label: 'What is your favourite restaurant?', icon: 'MapPin' },
         { value: 'favorite-art', label: 'What is your favourite piece of art?', icon: 'Palette' },
         { value: 'other', label: 'Other', icon: 'Link' }
     ],
-    2: [ // Link 3
+    2: [ // Link 3 - Professional/business focused
         { value: 'social-media', label: 'Social Media', icon: 'MessageCircle' },
         { value: 'affiliation-link', label: 'Affiliation Link', icon: 'ExternalLink' },
         { value: 'business-email', label: 'Business Email', icon: 'Mail' },
