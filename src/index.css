@@ -1,3 +1,6 @@
+/* Import Inter font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,20 +38,21 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Brand-specific CSS variables */
+    --brand-black: #1b1b1b;
+    --brand-white: #FEFEFA;
+    --brand-font-family: 'Inter', sans-serif;
+    --brand-font-size-gif: 30px;
+    --brand-font-size-heading: 50px;
+    --brand-font-size-body: 30px;
   }
 
   .dark {
@@ -97,5 +101,250 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: var(--brand-font-family);
+  }
+
+  /* Brand-specific typography classes */
+  .brand-heading {
+    font-family: var(--brand-font-family);
+    font-size: var(--brand-font-size-heading);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--brand-black);
+  }
+
+  .brand-body {
+    font-family: var(--brand-font-family);
+    font-size: var(--brand-font-size-body);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--brand-black);
+  }
+
+  .brand-gif-text {
+    font-family: var(--brand-font-family);
+    font-size: var(--brand-font-size-gif);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  /* Welcome GIF specific styles */
+  .welcome-container {
+    background: linear-gradient(135deg,
+        rgba(27, 27, 27, 0.1) 0%,
+        rgba(254, 254, 250, 0.1) 100%);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(254, 254, 250, 0.2);
+  }
+
+  .welcome-gif {
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(27, 27, 27, 0.3);
+    transition: transform 0.3s ease;
+  }
+
+  .welcome-gif:hover {
+    transform: scale(1.02);
+  }
+
+  /* Progress bar animations */
+  .progress-bar-animated {
+    background: linear-gradient(90deg,
+        var(--brand-white) 0%,
+        rgba(254, 254, 250, 0.8) 50%,
+        var(--brand-white) 100%);
+    animation: progress-bar 30s linear forwards;
+  }
+
+  /* Onboarding form enhancements */
+  .onboarding-card {
+    background: rgba(254, 254, 250, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(27, 27, 27, 0.1);
+    box-shadow: 0 4px 30px rgba(27, 27, 27, 0.1);
+  }
+
+  .onboarding-input {
+    border: 2px solid rgba(27, 27, 27, 0.1);
+    background: rgba(254, 254, 250, 0.8);
+    transition: all 0.3s ease;
+  }
+
+  .onboarding-input:focus {
+    border-color: var(--brand-black);
+    background: var(--brand-white);
+    box-shadow: 0 0 0 3px rgba(27, 27, 27, 0.1);
+  }
+
+  /* Link category cards */
+  .link-category-card {
+    background: rgba(254, 254, 250, 0.9);
+    border: 2px solid rgba(27, 27, 27, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .link-category-card:hover {
+    border-color: var(--brand-black);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(27, 27, 27, 0.15);
+  }
+
+  /* Bio and interests section */
+  .bio-section {
+    background: linear-gradient(135deg,
+        rgba(254, 254, 250, 0.95) 0%,
+        rgba(254, 254, 250, 0.85) 100%);
+    backdrop-filter: blur(10px);
+  }
+
+  /* Completion page styles */
+  .completion-container {
+    background: radial-gradient(circle at center,
+        rgba(254, 254, 250, 0.95) 0%,
+        rgba(254, 254, 250, 0.9) 100%);
+    backdrop-filter: blur(15px);
+  }
+
+  .completion-icon {
+    animation: bounce-in 0.6s ease-out;
+  }
+
+  /* Enhanced button styles */
+  .brand-button-primary {
+    background: var(--brand-black);
+    color: var(--brand-white);
+    border: 2px solid var(--brand-black);
+    font-family: var(--brand-font-family);
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .brand-button-primary:hover {
+    background: transparent;
+    color: var(--brand-black);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(27, 27, 27, 0.2);
+  }
+
+  .brand-button-secondary {
+    background: transparent;
+    color: var(--brand-black);
+    border: 2px solid var(--brand-black);
+    font-family: var(--brand-font-family);
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .brand-button-secondary:hover {
+    background: var(--brand-black);
+    color: var(--brand-white);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(27, 27, 27, 0.2);
+  }
+
+  /* Mobile responsiveness for brand fonts */
+  @media (max-width: 768px) {
+    .brand-heading {
+      font-size: 36px;
+    }
+
+    .brand-body {
+      font-size: 24px;
+    }
+
+    .brand-gif-text {
+      font-size: 24px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .brand-heading {
+      font-size: 28px;
+    }
+
+    .brand-body {
+      font-size: 20px;
+    }
+
+    .brand-gif-text {
+      font-size: 20px;
+    }
+  }
+
+  /* Custom scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(254, 254, 250, 0.1);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(27, 27, 27, 0.3);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(27, 27, 27, 0.5);
+  }
+
+  /* Print styles */
+  @media print {
+
+    .brand-heading,
+    .brand-body,
+    .brand-gif-text {
+      color: #000;
+      font-size: 16px;
+    }
+  }
+}
+
+/* Additional utility classes for brand consistency */
+@layer utilities {
+  .text-brand-heading {
+    font-family: var(--brand-font-family);
+    font-size: var(--brand-font-size-heading);
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .text-brand-body {
+    font-family: var(--brand-font-family);
+    font-size: var(--brand-font-size-body);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .text-brand-gif {
+    font-family: var(--brand-font-family);
+    font-size: var(--brand-font-size-gif);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .bg-brand-black {
+    background-color: var(--brand-black);
+  }
+
+  .bg-brand-white {
+    background-color: var(--brand-white);
+  }
+
+  .text-brand-black {
+    color: var(--brand-black);
+  }
+
+  .text-brand-white {
+    color: var(--brand-white);
+  }
+
+  .border-brand-black {
+    border-color: var(--brand-black);
+  }
+
+  .border-brand-white {
+    border-color: var(--brand-white);
   }
 }

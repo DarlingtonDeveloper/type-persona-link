@@ -1,4 +1,3 @@
-// Application Constants
 
 export const APP_CONFIG = {
     NAME: 'E3 Circle',
@@ -15,12 +14,29 @@ export const USER_CODE = {
 } as const;
 
 export const ONBOARDING_STEPS = [
-    'E3 Circle Registration',
+    'Welcome to E3 Circle',
     'Personal Details',
-    'Additional Information',
-    'Profile Display',
-    'Terms & Privacy'
+    'Your Links',
+    'Photo & Bio',
+    'Terms & Privacy',
+    'Complete Setup'
 ] as const;
+
+export const BRAND_SPECS = {
+    COLORS: {
+        BLACK_GREY: '#1b1b1b',
+        WHITE_EGGSHELL: '#FEFEFA'
+    },
+    FONTS: {
+        FAMILY: 'Inter',
+        SIZES: {
+            GIF: 30, // px
+            HEADING: 50, // px  
+            BODY: 30 // px
+        }
+    },
+    WELCOME_GIF_DURATION: 30 // seconds
+} as const;
 
 export const VALIDATION_RULES = {
     PASSWORD: {
@@ -47,6 +63,18 @@ export const VALIDATION_RULES = {
     },
     LABEL: {
         MAX_LENGTH: 50
+    },
+    POSTCODE: {
+        MAX_LENGTH: 20
+    },
+    BIO_DESCRIPTION: {
+        MAX_LENGTH: 500
+    },
+    INTEREST: {
+        MAX_LENGTH: 100
+    },
+    LINK_DESCRIPTION: {
+        MAX_LENGTH: 200
     }
 } as const;
 
@@ -105,6 +133,32 @@ export const JOB_CATEGORY_OPTIONS = [
     { value: 'other', label: 'Other' }
 ] as const;
 
+// New: Position-specific link categories based on client requirements
+export const LINK_CATEGORIES_BY_POSITION = {
+    0: [ // Link 1
+        { value: 'social-media', label: 'Social Media', icon: 'MessageCircle' },
+        { value: 'email', label: 'Email', icon: 'Mail' },
+        { value: 'phone', label: 'Phone Number', icon: 'Phone' },
+        { value: 'business-website', label: 'Business Website', icon: 'Briefcase' },
+        { value: 'personal-website', label: 'Personal Website', icon: 'Globe' },
+        { value: 'other', label: 'Other', icon: 'Link' }
+    ],
+    1: [ // Link 2
+        { value: 'social-media', label: 'Social Media', icon: 'MessageCircle' },
+        { value: 'favorite-song', label: 'What is your favourite song?', icon: 'Music' },
+        { value: 'favorite-restaurant', label: 'What is your favourite restaurant?', icon: 'MapPin' },
+        { value: 'favorite-art', label: 'What is your favourite piece of art?', icon: 'Palette' },
+        { value: 'other', label: 'Other', icon: 'Link' }
+    ],
+    2: [ // Link 3
+        { value: 'social-media', label: 'Social Media', icon: 'MessageCircle' },
+        { value: 'affiliation-link', label: 'Affiliation Link', icon: 'ExternalLink' },
+        { value: 'business-email', label: 'Business Email', icon: 'Mail' },
+        { value: 'portfolio-cv', label: 'Portfolio / CV', icon: 'FileText' },
+        { value: 'other', label: 'Other', icon: 'Link' }
+    ]
+} as const;
+
 export const SOCIAL_PLATFORMS = {
     INSTAGRAM: 'instagram.com',
     TIKTOK: 'tiktok.com',
@@ -126,7 +180,8 @@ export const ERROR_MESSAGES = {
     FILE_TOO_LARGE: 'File size is too large. Maximum size is 5MB.',
     INVALID_FILE_TYPE: 'Invalid file type. Only JPEG, PNG, and WebP images are allowed.',
     SESSION_EXPIRED: 'Your session has expired. Please log in again.',
-    GENERIC_ERROR: 'An unexpected error occurred. Please try again.'
+    GENERIC_ERROR: 'An unexpected error occurred. Please try again.',
+    WELCOME_GIF_LOAD_ERROR: 'Welcome video could not be loaded. Continuing to setup...'
 } as const;
 
 export const SUCCESS_MESSAGES = {
@@ -136,14 +191,16 @@ export const SUCCESS_MESSAGES = {
     LINK_DELETED: 'Link deleted successfully!',
     PHOTO_UPLOADED: 'Photo uploaded successfully!',
     ONBOARDING_COMPLETE: 'Welcome! Your profile has been set up successfully.',
-    PROGRESS_SAVED: 'Progress saved successfully!'
+    PROGRESS_SAVED: 'Progress saved successfully!',
+    WELCOME_COMPLETE: 'Welcome sequence completed!'
 } as const;
 
 export const LOCAL_STORAGE_KEYS = {
     USER_SESSION: 'e3_session',
     THEME_PREFERENCE: 'e3_theme',
     LANGUAGE_PREFERENCE: 'e3_language',
-    ONBOARDING_PROGRESS: 'e3_onboarding_progress'
+    ONBOARDING_PROGRESS: 'e3_onboarding_progress',
+    WELCOME_GIF_VIEWED: 'e3_welcome_viewed'
 } as const;
 
 export const API_ENDPOINTS = {
@@ -174,5 +231,12 @@ export const ANIMATION_DURATIONS = {
     FAST: 150,
     NORMAL: 300,
     SLOW: 500,
-    VERY_SLOW: 1000
+    VERY_SLOW: 1000,
+    WELCOME_GIF: 30000 // 30 seconds
+} as const;
+
+export const COMPLETION_SETTINGS = {
+    DISPLAY_DURATION: 3000, // 3 seconds
+    AUTO_REDIRECT: true,
+    CONFIRMATION_MESSAGE: 'These details are now fixed and complete the transaction.'
 } as const;

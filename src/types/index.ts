@@ -18,6 +18,10 @@ export interface User {
     privacy_accepted: boolean;
     created_at: string;
     updated_at: string;
+    postcode?: string;
+    bio_description?: string;
+    interests?: string; // JSON array or comma-separated
+    communication_preferences?: boolean;
 }
 
 export interface UserLink {
@@ -31,6 +35,7 @@ export interface UserLink {
     created_at: string;
     updated_at: string;
     category?: LinkCategory;
+    description?: string;
 }
 
 export interface LinkCategory {
@@ -41,36 +46,67 @@ export interface LinkCategory {
 }
 
 export interface OnboardingFormData {
-    // Step 1: Registration
+    // Step 1: Personal Details (consolidated)
     email: string;
     password: string;
     confirmPassword: string;
-
-    // Step 2: Personal Details
     name: string;
     date_of_birth: string;
     gender: string;
-
-    // Step 3: Additional Information
     eye_color: string;
     relationship_status: string;
     job_category: string;
     job_title?: string;
-
-    // Step 4: Profile Display
     mobile: string;
-    profile_photo_url?: string;
+    postcode: string; // New
+
+    // Step 2: Links (expanded to 3)
     links: LinkFormData[];
 
-    // Step 5: Terms
+    // Step 3: Photo & Bio (new bio fields)
+    profile_photo_url?: string;
+    bio_description: string; // New
+    interests: string[]; // New - array of 3 interests
+
+    // Step 4: Terms (updated)
     terms_accepted: boolean;
     privacy_accepted: boolean;
+    communication_preferences: boolean; // New
 }
 
 export interface LinkFormData {
     label: string;
     url: string;
     categoryId: string;
+    description?: string; // New
+}
+
+// New: Position-specific link category type
+export interface PositionLinkCategory {
+    value: string;
+    label: string;
+    icon: string;
+}
+
+export interface LinkCategoriesByPosition {
+    0: PositionLinkCategory[];
+    1: PositionLinkCategory[];
+    2: PositionLinkCategory[];
+}
+
+// New: Welcome GIF state
+export interface WelcomeGifState {
+    timeLeft: number;
+    canSkip: boolean;
+    isPlaying: boolean;
+    hasViewed: boolean;
+}
+
+// New: Completion page state
+export interface CompletionState {
+    isVisible: boolean;
+    timeLeft: number;
+    autoRedirect: boolean;
 }
 
 export interface ValidationResult {
@@ -100,11 +136,16 @@ export interface DashboardStats {
     totalLinks: number;
     dailySignups: number;
     completionRate: number;
+    // New stats
+    averageLinksPerUser: number;
+    averageCompletionTime: number;
+    mostPopularLinkCategories: string[];
 }
 
 export interface UserWithStats extends User {
     link_count: number;
     last_activity: string | null;
+    completion_time?: number; // New - time taken to complete onboarding
 }
 
 export interface PasswordStrength {
@@ -182,6 +223,15 @@ export interface AnalyticsEvent {
     metadata?: Record<string, any>;
 }
 
+// New: Onboarding analytics
+export interface OnboardingAnalytics {
+    stepStartTime: number;
+    stepCompletionTimes: number[];
+    abandonmentPoints: number[];
+    validationErrors: string[];
+    totalTime: number;
+}
+
 export interface FeatureFlag {
     name: string;
     enabled: boolean;
@@ -196,6 +246,16 @@ export interface ThemeConfig {
     accentColor: string;
     borderRadius: number;
     fontFamily: string;
+    // New: Brand-specific colors
+    brandColors: {
+        blackGrey: string;
+        whiteEggshell: string;
+    };
+    fontSizes: {
+        gif: number;
+        heading: number;
+        body: number;
+    };
 }
 
 export interface LocalStorageData {
@@ -203,6 +263,7 @@ export interface LocalStorageData {
     theme?: ThemeConfig;
     preferences?: UserPreferences;
     cache?: Record<string, any>;
+    welcomeViewed?: boolean; // New
 }
 
 export interface UserPreferences {
@@ -222,6 +283,12 @@ export interface UserPreferences {
         reducedMotion: boolean;
         highContrast: boolean;
         fontSize: 'small' | 'medium' | 'large';
+    };
+    // New: Onboarding preferences
+    onboarding: {
+        skipWelcomeGif: boolean;
+        autoSaveProgress: boolean;
+        showHelpTips: boolean;
     };
 }
 
@@ -256,7 +323,7 @@ export interface SelectOption {
 export interface FormField {
     name: string;
     label: string;
-    type: 'text' | 'email' | 'password' | 'tel' | 'url' | 'select' | 'textarea' | 'file';
+    type: 'text' | 'email' | 'password' | 'tel' | 'url' | 'select' | 'textarea' | 'file' | 'date';
     required: boolean;
     placeholder?: string;
     options?: SelectOption[];
@@ -330,6 +397,8 @@ export type OnboardingStepChangeEvent = {
     previousStep: number;
     totalSteps: number;
     isComplete: boolean;
+    stepName: string;
+    timeSpent: number; // New
 };
 
 export type LinkActionEvent = {
@@ -337,11 +406,37 @@ export type LinkActionEvent = {
     linkId?: string;
     linkData?: UserLink;
     position?: number;
+    category?: string; // New
 };
 
 export type UserActionEvent = {
-    action: 'register' | 'login' | 'logout' | 'update_profile' | 'complete_onboarding';
+    action: 'register' | 'login' | 'logout' | 'update_profile' | 'complete_onboarding' | 'view_welcome'; // New action
     userId: string;
     timestamp: string;
     metadata?: Record<string, any>;
 };
+
+// New: Welcome GIF events
+export type WelcomeGifEvent = {
+    action: 'play' | 'pause' | 'skip' | 'complete' | 'error';
+    timeWatched: number;
+    totalDuration: number;
+    timestamp: string;
+};
+
+// New: Bio and interests types
+export interface BioData {
+    description: string;
+    interests: string[];
+    wordCount: number;
+    characterCount: number;
+}
+
+// New: Enhanced link data
+export interface EnhancedLinkData extends LinkFormData {
+    position: number;
+    categoryIcon: string;
+    categoryLabel: string;
+    isValid: boolean;
+    validationErrors: string[];
+}
