@@ -273,30 +273,30 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
     return (
         <>
             {currentStep === 0 ? (
-                // Welcome step renders with pure black background, no DynamicBackground
-                <div className="min-h-screen flex items-center justify-center p-4">
-                    {renderStep()}
-                </div>
+                // Welcome step renders full screen with no wrapper padding
+                renderStep()
             ) : (
                 // Other steps use DynamicBackground
                 <DynamicBackground>
-                    <div className="min-h-screen flex items-center justify-center p-4">
-                        <div className="w-full max-w-2xl">
-                            <Card className="bg-white/90 backdrop-blur-sm shadow-lg">
-                                <CardHeader>
-                                    <div className="space-y-2">
-                                        <Progress value={progress} className="w-full" />
-                                        <CardTitle className="text-center">
+                    <div className="min-h-screen flex items-center justify-center p-4 md:p-8">
+                        <div className="w-full max-w-4xl mx-auto">
+                            <Card className="bg-white/95 backdrop-blur-sm shadow-xl border-0">
+                                <CardHeader className="pb-6">
+                                    <div className="space-y-4">
+                                        <Progress value={progress} className="w-full h-2" />
+                                        <CardTitle className="text-center text-2xl md:text-3xl font-bold">
                                             {ONBOARDING_STEPS[currentStep]}
                                         </CardTitle>
-                                        <p className="text-sm text-center text-gray-600">
+                                        <p className="text-center text-gray-600 text-lg">
                                             Step {currentStep + 1} of {ONBOARDING_STEPS.length}
                                         </p>
                                     </div>
                                 </CardHeader>
 
-                                <CardContent>
-                                    {renderStep()}
+                                <CardContent className="px-6 md:px-12 pb-8">
+                                    <div className="max-w-3xl mx-auto">
+                                        {renderStep()}
+                                    </div>
                                 </CardContent>
                             </Card>
                         </div>

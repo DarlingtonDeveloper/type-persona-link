@@ -77,20 +77,20 @@ const PhotoBioStep: React.FC<PhotoBioStepProps> = ({
     };
 
     return (
-        <div className="space-y-6">
-            <div className="space-y-2">
-                <h3 className="text-lg font-semibold">Profile Photo & Bio</h3>
-                <p className="text-sm text-gray-600">
+        <div className="space-y-8">
+            <div className="space-y-3">
+                <h3 className="text-xl font-semibold text-gray-800">Profile Photo & Bio</h3>
+                <p className="text-gray-600 text-lg">
                     Add a photo and tell others about yourself.
                 </p>
             </div>
 
             {/* Profile Photo Section */}
-            <div className="space-y-4">
-                <h4 className="font-medium">Profile Photo</h4>
+            <div className="space-y-6">
+                <h4 className="text-lg font-medium text-gray-800 border-b pb-2">Profile Photo</h4>
 
-                <div className="flex flex-col items-center space-y-4">
-                    <div className="w-32 h-32 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center overflow-hidden bg-gray-50">
+                <div className="flex flex-col items-center space-y-6">
+                    <div className="w-40 h-40 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center overflow-hidden bg-gray-50 hover:border-gray-400 transition-colors">
                         {photoPreview ? (
                             <img
                                 src={photoPreview}
@@ -98,14 +98,14 @@ const PhotoBioStep: React.FC<PhotoBioStepProps> = ({
                                 className="w-full h-full object-cover"
                             />
                         ) : (
-                            <User className="w-12 h-12 text-gray-400" />
+                            <User className="w-16 h-16 text-gray-400" />
                         )}
                     </div>
 
                     <div className="text-center">
                         <Label htmlFor="photo-upload" className="cursor-pointer">
-                            <div className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                                <Upload className="w-4 h-4 mr-2" />
+                            <div className="inline-flex items-center px-6 py-3 border border-gray-300 rounded-lg shadow-sm text-base font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                                <Upload className="w-5 h-5 mr-3" />
                                 {uploading ? 'Uploading...' : photoPreview ? 'Change Photo' : 'Upload Photo'}
                             </div>
                         </Label>
@@ -117,7 +117,7 @@ const PhotoBioStep: React.FC<PhotoBioStepProps> = ({
                             disabled={uploading}
                             className="hidden"
                         />
-                        <p className="text-xs text-gray-500 mt-1">
+                        <p className="text-sm text-gray-500 mt-2">
                             JPEG, PNG, or WebP. Max 5MB.
                         </p>
                     </div>
@@ -125,32 +125,33 @@ const PhotoBioStep: React.FC<PhotoBioStepProps> = ({
             </div>
 
             {/* Job Information */}
-            <div className="space-y-4">
-                <h4 className="font-medium">Professional Information</h4>
+            <div className="space-y-6">
+                <h4 className="text-lg font-medium text-gray-800 border-b pb-2">Professional Information</h4>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <Label htmlFor="jobTitle">Job Title *</Label>
+                        <Label htmlFor="jobTitle" className="text-base font-medium">Job Title *</Label>
                         <Input
                             id="jobTitle"
                             value={formData.job_title || ''}
                             onChange={(e) => onFormDataChange('job_title', e.target.value)}
                             placeholder="e.g., Software Developer"
                             maxLength={100}
+                            className="h-12 text-lg mt-2"
                         />
                     </div>
                     <div>
-                        <Label htmlFor="jobCategory">Job Category *</Label>
+                        <Label htmlFor="jobCategory" className="text-base font-medium">Job Category *</Label>
                         <Select
                             value={formData.job_category || ''}
                             onValueChange={(value) => onFormDataChange('job_category', value)}
                         >
-                            <SelectTrigger>
+                            <SelectTrigger className="h-12 text-lg mt-2">
                                 <SelectValue placeholder="Select category" />
                             </SelectTrigger>
                             <SelectContent>
                                 {JOB_CATEGORY_OPTIONS.map(option => (
-                                    <SelectItem key={option.value} value={option.value}>
+                                    <SelectItem key={option.value} value={option.value} className="text-lg">
                                         {option.label}
                                     </SelectItem>
                                 ))}
@@ -161,36 +162,37 @@ const PhotoBioStep: React.FC<PhotoBioStepProps> = ({
             </div>
 
             {/* Bio Description */}
-            <div className="space-y-4">
-                <h4 className="font-medium">Bio</h4>
+            <div className="space-y-6">
+                <h4 className="text-lg font-medium text-gray-800 border-b pb-2">Bio</h4>
 
                 <div>
-                    <Label htmlFor="bioDescription">Tell others about yourself</Label>
+                    <Label htmlFor="bioDescription" className="text-base font-medium">Tell others about yourself</Label>
                     <Textarea
                         id="bioDescription"
                         value={formData.bio_description || ''}
                         onChange={(e) => onFormDataChange('bio_description', e.target.value)}
                         placeholder="Write a brief description about yourself, your interests, or what you do..."
                         maxLength={VALIDATION_RULES.BIO_DESCRIPTION.MAX_LENGTH}
-                        rows={4}
+                        rows={5}
+                        className="text-lg mt-2 resize-none"
                     />
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-sm text-gray-500 mt-2">
                         {(formData.bio_description || '').length} / {VALIDATION_RULES.BIO_DESCRIPTION.MAX_LENGTH} characters
                     </p>
                 </div>
             </div>
 
             {/* Interests */}
-            <div className="space-y-4">
-                <h4 className="font-medium">Interests</h4>
-                <p className="text-sm text-gray-600">
+            <div className="space-y-6">
+                <h4 className="text-lg font-medium text-gray-800 border-b pb-2">Interests</h4>
+                <p className="text-gray-600">
                     Share up to 3 things you're interested in or passionate about.
                 </p>
 
-                <div className="space-y-3">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {[0, 1, 2].map((index) => (
                         <div key={index}>
-                            <Label htmlFor={`interest-${index}`}>Interest {index + 1}</Label>
+                            <Label htmlFor={`interest-${index}`} className="text-base font-medium">Interest {index + 1}</Label>
                             <Input
                                 id={`interest-${index}`}
                                 value={formData.interests?.[index] || ''}
@@ -201,32 +203,33 @@ const PhotoBioStep: React.FC<PhotoBioStepProps> = ({
                                             "e.g., Travel"
                                 }
                                 maxLength={VALIDATION_RULES.INTEREST.MAX_LENGTH}
+                                className="h-12 text-lg mt-2"
                             />
                         </div>
                     ))}
                 </div>
             </div>
 
-            <Alert>
-                <AlertDescription>
+            <Alert className="border-l-4 border-blue-500">
+                <AlertDescription className="text-base">
                     Your photo and bio will be visible to anyone who visits your profile.
                     Make sure to only share information you're comfortable with being public.
                 </AlertDescription>
             </Alert>
 
             {/* Navigation */}
-            <div className="flex gap-2">
+            <div className="flex gap-4 pt-6">
                 <Button
                     variant="outline"
                     onClick={onBack}
-                    className="flex-1"
+                    className="flex-1 h-12 text-lg"
                 >
                     Back
                 </Button>
                 <Button
                     onClick={onNext}
                     disabled={loading || !isValid()}
-                    className="flex-1"
+                    className="flex-1 h-12 text-lg"
                 >
                     {loading ? "Saving..." : "Continue"}
                 </Button>

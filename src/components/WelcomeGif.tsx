@@ -8,19 +8,18 @@ interface WelcomeGifProps {
 }
 
 const WelcomeGif: React.FC<WelcomeGifProps> = ({ onComplete, userCode }) => {
-    const [timeLeft, setTimeLeft] = useState(BRAND_SPECS.WELCOME_GIF_DURATION);
-    const [showActivateButton, setShowActivateButton] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(25); // Changed to 25 seconds
+    const [isActivated, setIsActivated] = useState(false);
     const [gifLoaded, setGifLoaded] = useState(false);
     const [gifError, setGifError] = useState(false);
     const [logoLoaded, setLogoLoaded] = useState(false);
     const [logoError, setLogoError] = useState(false);
     const [gifLoopCount, setGifLoopCount] = useState(0);
 
-    // Track GIF loops - assuming the GIF is 30 seconds for 1 complete loop
+    // Track GIF loops and activate button after 25 seconds
     useEffect(() => {
         if (timeLeft <= 0) {
-            setGifLoopCount(prev => prev + 1);
-            setShowActivateButton(true);
+            setIsActivated(true);
             return;
         }
 
@@ -91,8 +90,8 @@ const WelcomeGif: React.FC<WelcomeGifProps> = ({ onComplete, userCode }) => {
                                 onError={(e) => {
                                     setGifError(true);
                                     console.warn('Welcome GIF failed to load from /welcome.gif');
-                                    // If GIF fails, show button after 5 seconds instead
-                                    setTimeout(() => setShowActivateButton(true), 5000);
+                                    // If GIF fails, activate button after 5 seconds instead
+                                    setTimeout(() => setIsActivated(true), 5000);
                                 }}
                             />
 
@@ -124,19 +123,17 @@ const WelcomeGif: React.FC<WelcomeGifProps> = ({ onComplete, userCode }) => {
 
             {/* Bottom section - Activate button */}
             <div className="flex-shrink-0 w-full max-w-sm mx-auto pb-16">
-                <div
-                    className={`transition-all duration-1000 ${showActivateButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                <Button
+                    onClick={handleActivate}
+                    disabled={!isActivated}
+                    className={`activate-button w-full text-white font-medium py-4 px-8 rounded-full text-lg transition-all duration-300 ${isActivated
+                        ? 'bg-gray-600 hover:bg-gray-500 animate-pulse cursor-pointer'
+                        : 'bg-gray-800 cursor-not-allowed opacity-50'
                         }`}
+                    size="lg"
                 >
-                    <Button
-                        onClick={handleActivate}
-                        disabled={!showActivateButton}
-                        className="activate-button w-full text-white font-medium py-4 px-8 rounded-full text-lg"
-                        size="lg"
-                    >
-                        Activate
-                    </Button>
-                </div>
+                    Activate
+                </Button>
             </div>
         </div>
     );
