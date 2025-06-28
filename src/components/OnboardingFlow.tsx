@@ -273,35 +273,22 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
     return (
         <>
             {currentStep === 0 ? (
-                // Welcome step renders full screen with no wrapper padding
+                // Welcome step renders full screen with no wrapper
                 renderStep()
             ) : (
-                // Other steps use DynamicBackground
-                <DynamicBackground>
-                    <div className="min-h-screen flex items-center justify-center p-4 md:p-8">
-                        <div className="w-full max-w-4xl mx-auto">
-                            <Card className="bg-white/95 backdrop-blur-sm shadow-xl border-0">
-                                <CardHeader className="pb-6">
-                                    <div className="space-y-4">
-                                        <Progress value={progress} className="w-full h-2" />
-                                        <CardTitle className="text-center text-2xl md:text-3xl font-bold">
-                                            {ONBOARDING_STEPS[currentStep]}
-                                        </CardTitle>
-                                        <p className="text-center text-gray-600 text-lg">
-                                            Step {currentStep + 1} of {ONBOARDING_STEPS.length}
-                                        </p>
-                                    </div>
-                                </CardHeader>
+                <div className="min-h-screen flex items-center justify-center p-4 md:p-8">
+                    <div className="w-full max-w-7xl mx-auto">
+                        <div className="w-full">
+                            {/* Progress bar only - no duplicate title or step text */}
+                            <div className="mb-8">
+                                <Progress value={progress} className="w-full h-2" />
+                            </div>
 
-                                <CardContent className="px-6 md:px-12 pb-8">
-                                    <div className="max-w-3xl mx-auto">
-                                        {renderStep()}
-                                    </div>
-                                </CardContent>
-                            </Card>
+                            {/* Render the step component directly */}
+                            {renderStep()}
                         </div>
                     </div>
-                </DynamicBackground>
+                </div>
             )}
         </>
     );

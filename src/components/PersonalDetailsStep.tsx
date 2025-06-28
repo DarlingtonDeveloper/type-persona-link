@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Eye, EyeOff } from 'lucide-react';
+import { User, Calendar, Eye, Mail, Phone, MapPin, Users, Heart, Briefcase } from 'lucide-react';
 import {
     VALIDATION_RULES,
     GENDER_OPTIONS,
@@ -33,243 +33,302 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
     loading,
     userCode
 }) => {
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-    const handlePasswordChange = (field: 'password' | 'confirmPassword', value: string) => {
-        onPasswordChange({
-            ...passwords,
-            [field]: value
-        });
-    };
-
     const isValid = () => {
         return (
             formData.email &&
             formData.name &&
-            passwords.password &&
-            passwords.confirmPassword &&
-            passwords.password === passwords.confirmPassword &&
             formData.date_of_birth &&
             formData.gender &&
             formData.eye_color &&
-            formData.mobile
+            formData.mobile &&
+            formData.postcode &&
+            formData.relationship_status &&
+            formData.occupation
         );
     };
 
+    const filledFields = Object.keys(formData).filter(key =>
+        ['name', 'date_of_birth', 'eye_color', 'email', 'mobile', 'postcode',
+            'gender', 'relationship_status', 'occupation'].includes(key) &&
+        formData[key as keyof OnboardingFormData]
+    ).length;
+
     return (
-        <div className="space-y-8">
-            {/* Registration Section */}
-            <div className="space-y-6">
-                <h3 className="text-xl font-semibold text-gray-800 border-b pb-2">Account Registration</h3>
+        <div className="min-h-screen bg-black p-8">
+            <div className="max-w-7xl mx-auto">
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="md:col-span-2">
-                        <Label htmlFor="userCode" className="text-base font-medium">E3 Number</Label>
-                        <Input
-                            id="userCode"
-                            value={userCode}
-                            disabled
-                            className="bg-gray-100 h-12 text-lg mt-2"
-                        />
+                {/* FLOATING HEADER */}
+                <div className="text-center mb-16 relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent h-px top-1/2"></div>
+                    <div className="relative bg-black px-12 inline-block">
+                        <h1 className="text-6xl font-light text-white tracking-wide mb-4">
+                            Personal <span className="font-semibold">Details</span>
+                        </h1>
+                        <div className="flex items-center justify-center gap-2 text-white/60">
+                            <div className="w-8 h-px bg-white/20"></div>
+                            <span className="text-lg tracking-widest uppercase">Complete Your Profile</span>
+                            <div className="w-8 h-px bg-white/20"></div>
+                        </div>
                     </div>
+                </div>
 
-                    <div className="md:col-span-2">
-                        <Label htmlFor="email" className="text-base font-medium">Email Address *</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            value={formData.email || ''}
-                            onChange={(e) => onFormDataChange('email', e.target.value)}
-                            placeholder="Enter your email"
-                            maxLength={VALIDATION_RULES.EMAIL.MAX_LENGTH}
-                            className="h-12 text-lg mt-2"
-                        />
-                    </div>
-
-                    <div>
-                        <Label htmlFor="password" className="text-base font-medium">Password *</Label>
-                        <div className="relative mt-2">
-                            <Input
-                                id="password"
-                                type={showPassword ? "text" : "password"}
-                                value={passwords.password}
-                                onChange={(e) => handlePasswordChange('password', e.target.value)}
-                                placeholder="Enter password"
-                                minLength={VALIDATION_RULES.PASSWORD.MIN_LENGTH}
-                                maxLength={VALIDATION_RULES.PASSWORD.MAX_LENGTH}
-                                className="h-12 text-lg pr-12"
+                {/* Progress Arc */}
+                <div className="flex justify-center mb-16">
+                    <div className="relative w-32 h-16">
+                        <svg className="w-full h-full" viewBox="0 0 100 50">
+                            <path
+                                d="M 10 40 Q 50 10 90 40"
+                                stroke="#ffffff"
+                                strokeWidth="1"
+                                fill="none"
+                                opacity="0.2"
                             />
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="sm"
-                                className="absolute right-0 top-0 h-full px-3"
-                                onClick={() => setShowPassword(!showPassword)}
-                            >
-                                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                            </Button>
+                            <path
+                                d="M 10 40 Q 50 10 90 40"
+                                stroke="#ffffff"
+                                strokeWidth="2"
+                                fill="none"
+                                strokeDasharray="100"
+                                strokeDashoffset={100 - (filledFields / 9) * 100}
+                                className="transition-all duration-1000 ease-out"
+                            />
+                        </svg>
+                        <div className="absolute inset-0 flex items-end justify-center">
+                            <span className="text-xs font-medium text-white/60 tracking-wider">
+                                {filledFields}/9
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* THREE HORIZONTAL CONTAINERS */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+
+                    {/* Container 1: Identity */}
+                    <div className="group relative">
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
+                        <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+
+                            <div className="text-center mb-8">
+                                <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                                    <User className="h-8 w-8 text-black" />
+                                </div>
+                                <h3 className="text-2xl font-light text-white tracking-wide">Identity</h3>
+                                <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                            </div>
+
+                            <div className="space-y-6">
+                                <div className="relative">
+                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                        Full Name
+                                    </Label>
+                                    <Input
+                                        value={formData.name || ''}
+                                        onChange={(e) => onFormDataChange('name', e.target.value)}
+                                        className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30"
+                                        maxLength={VALIDATION_RULES.NAME.MAX_LENGTH}
+                                    />
+                                </div>
+
+                                <div className="relative">
+                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                        Date of Birth
+                                    </Label>
+                                    <div className="relative">
+                                        <Input
+                                            type="date"
+                                            value={formData.date_of_birth || ''}
+                                            onChange={(e) => onFormDataChange('date_of_birth', e.target.value)}
+                                            max={new Date().toISOString().split('T')[0]}
+                                            className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
+                                        />
+                                        <Calendar className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    </div>
+                                </div>
+
+                                <div className="relative">
+                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                        Eye Colour
+                                    </Label>
+                                    <div className="relative">
+                                        <Select value={formData.eye_color || ''} onValueChange={(value) => onFormDataChange('eye_color', value)}>
+                                            <SelectTrigger className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {EYE_COLOR_OPTIONS.map((color) => (
+                                                    <SelectItem key={color.value} value={color.value}>
+                                                        {color.label}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                        <Eye className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div>
-                        <Label htmlFor="confirmPassword" className="text-base font-medium">Re-enter Password *</Label>
-                        <div className="relative mt-2">
-                            <Input
-                                id="confirmPassword"
-                                type={showConfirmPassword ? "text" : "password"}
-                                value={passwords.confirmPassword}
-                                onChange={(e) => handlePasswordChange('confirmPassword', e.target.value)}
-                                placeholder="Confirm password"
-                                className="h-12 text-lg pr-12"
-                            />
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="sm"
-                                className="absolute right-0 top-0 h-full px-3"
-                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                            >
-                                {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                            </Button>
+                    {/* Container 2: Contact */}
+                    <div className="group relative">
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
+                        <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+
+                            <div className="text-center mb-8">
+                                <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                                    <Mail className="h-8 w-8 text-black" />
+                                </div>
+                                <h3 className="text-2xl font-light text-white tracking-wide">Contact</h3>
+                                <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                            </div>
+
+                            <div className="space-y-6">
+                                <div className="relative">
+                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                        Email Address
+                                    </Label>
+                                    <div className="relative">
+                                        <Input
+                                            type="email"
+                                            value={formData.email || ''}
+                                            onChange={(e) => onFormDataChange('email', e.target.value)}
+                                            className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
+                                        />
+                                        <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    </div>
+                                </div>
+
+                                <div className="relative">
+                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                        Phone Number
+                                    </Label>
+                                    <div className="relative">
+                                        <Input
+                                            type="tel"
+                                            value={formData.mobile || ''}
+                                            onChange={(e) => onFormDataChange('mobile', e.target.value)}
+                                            className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
+                                            minLength={VALIDATION_RULES.MOBILE.MIN_LENGTH}
+                                            maxLength={VALIDATION_RULES.MOBILE.MAX_LENGTH}
+                                        />
+                                        <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    </div>
+                                </div>
+
+                                <div className="relative">
+                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                        Postcode
+                                    </Label>
+                                    <div className="relative">
+                                        <Input
+                                            value={formData.postcode || ''}
+                                            onChange={(e) => onFormDataChange('postcode', e.target.value)}
+                                            className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
+                                            maxLength={VALIDATION_RULES.POSTCODE.MAX_LENGTH}
+                                        />
+                                        <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        {passwords.password && passwords.confirmPassword && passwords.password !== passwords.confirmPassword && (
-                            <p className="text-sm text-red-600 mt-2">Passwords do not match</p>
+                    </div>
+
+                    {/* Container 3: Personal */}
+                    <div className="group relative">
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
+                        <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+
+                            <div className="text-center mb-8">
+                                <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                                    <Heart className="h-8 w-8 text-black" />
+                                </div>
+                                <h3 className="text-2xl font-light text-white tracking-wide">Personal</h3>
+                                <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                            </div>
+
+                            <div className="space-y-6">
+                                <div className="relative">
+                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                        Gender
+                                    </Label>
+                                    <div className="relative">
+                                        <Select value={formData.gender || ''} onValueChange={(value) => onFormDataChange('gender', value)}>
+                                            <SelectTrigger className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {GENDER_OPTIONS.map((gender) => (
+                                                    <SelectItem key={gender.value} value={gender.value}>
+                                                        {gender.label}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                        <Users className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    </div>
+                                </div>
+
+                                <div className="relative">
+                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                        Relationship
+                                    </Label>
+                                    <div className="relative">
+                                        <Select value={formData.relationship_status || ''} onValueChange={(value) => onFormDataChange('relationship_status', value)}>
+                                            <SelectTrigger className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {RELATIONSHIP_STATUS_OPTIONS.map((status) => (
+                                                    <SelectItem key={status.value} value={status.value}>
+                                                        {status.label}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                        <Heart className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    </div>
+                                </div>
+
+                                <div className="relative">
+                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                        Occupation
+                                    </Label>
+                                    <div className="relative">
+                                        <Input
+                                            value={formData.occupation || ''}
+                                            onChange={(e) => onFormDataChange('occupation', e.target.value)}
+                                            className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
+                                            maxLength={VALIDATION_RULES.OCCUPATION?.MAX_LENGTH || 100}
+                                        />
+                                        <Briefcase className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Single Continue Button - Welcome Gif Style */}
+                <div className="flex justify-center">
+                    <Button
+                        onClick={onNext}
+                        disabled={loading || !isValid()}
+                        className={`h-12 px-8 rounded-full transition-all duration-300 ${isValid() && !loading
+                            ? 'bg-gray-600 hover:bg-gray-500 animate-pulse cursor-pointer text-white'
+                            : 'bg-gray-800 cursor-not-allowed opacity-50 text-white'
+                            }`}
+                    >
+                        {loading ? (
+                            <div className="flex items-center gap-2">
+                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                Saving
+                            </div>
+                        ) : (
+                            'Continue'
                         )}
-                    </div>
+                    </Button>
                 </div>
-            </div>
-
-            {/* Personal Information Section */}
-            <div className="space-y-6">
-                <h3 className="text-xl font-semibold text-gray-800 border-b pb-2">Personal Information</h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <Label htmlFor="name" className="text-base font-medium">Full Name *</Label>
-                        <Input
-                            id="name"
-                            value={formData.name || ''}
-                            onChange={(e) => onFormDataChange('name', e.target.value)}
-                            placeholder="Enter your full name"
-                            maxLength={VALIDATION_RULES.NAME.MAX_LENGTH}
-                            className="h-12 text-lg mt-2"
-                        />
-                    </div>
-                    <div>
-                        <Label htmlFor="dateOfBirth" className="text-base font-medium">Date of Birth *</Label>
-                        <Input
-                            id="dateOfBirth"
-                            type="date"
-                            value={formData.date_of_birth || ''}
-                            onChange={(e) => onFormDataChange('date_of_birth', e.target.value)}
-                            className="h-12 text-lg mt-2"
-                        />
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <Label htmlFor="gender" className="text-base font-medium">Gender *</Label>
-                        <Select
-                            value={formData.gender || ''}
-                            onValueChange={(value) => onFormDataChange('gender', value)}
-                        >
-                            <SelectTrigger className="h-12 text-lg mt-2">
-                                <SelectValue placeholder="Select gender" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {GENDER_OPTIONS.map(option => (
-                                    <SelectItem key={option.value} value={option.value} className="text-lg">
-                                        {option.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div>
-                        <Label htmlFor="eyeColor" className="text-base font-medium">Eye Colour *</Label>
-                        <Select
-                            value={formData.eye_color || ''}
-                            onValueChange={(value) => onFormDataChange('eye_color', value)}
-                        >
-                            <SelectTrigger className="h-12 text-lg mt-2">
-                                <SelectValue placeholder="Select eye colour" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {EYE_COLOR_OPTIONS.map(option => (
-                                    <SelectItem key={option.value} value={option.value} className="text-lg">
-                                        {option.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <Label htmlFor="relationshipStatus" className="text-base font-medium">Relationship Status</Label>
-                        <Select
-                            value={formData.relationship_status || ''}
-                            onValueChange={(value) => onFormDataChange('relationship_status', value)}
-                        >
-                            <SelectTrigger className="h-12 text-lg mt-2">
-                                <SelectValue placeholder="Select status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {RELATIONSHIP_STATUS_OPTIONS.map(option => (
-                                    <SelectItem key={option.value} value={option.value} className="text-lg">
-                                        {option.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div>
-                        <Label htmlFor="mobile" className="text-base font-medium">Mobile Number *</Label>
-                        <Input
-                            id="mobile"
-                            type="tel"
-                            value={formData.mobile || ''}
-                            onChange={(e) => onFormDataChange('mobile', e.target.value)}
-                            placeholder="Enter mobile number"
-                            minLength={VALIDATION_RULES.MOBILE.MIN_LENGTH}
-                            maxLength={VALIDATION_RULES.MOBILE.MAX_LENGTH}
-                            className="h-12 text-lg mt-2"
-                        />
-                    </div>
-                </div>
-
-                <div>
-                    <Label htmlFor="postcode" className="text-base font-medium">Postcode</Label>
-                    <Input
-                        id="postcode"
-                        value={formData.postcode || ''}
-                        onChange={(e) => onFormDataChange('postcode', e.target.value)}
-                        placeholder="Enter your postcode"
-                        maxLength={VALIDATION_RULES.POSTCODE.MAX_LENGTH}
-                        className="h-12 text-lg mt-2"
-                    />
-                </div>
-            </div>
-
-            {/* Navigation */}
-            <div className="flex gap-4 pt-6">
-                <Button
-                    variant="outline"
-                    onClick={onBack}
-                    className="flex-1 h-12 text-lg"
-                >
-                    Back
-                </Button>
-                <Button
-                    onClick={onNext}
-                    disabled={loading || !isValid()}
-                    className="flex-1 h-12 text-lg"
-                >
-                    {loading ? "Saving..." : "Continue"}
-                </Button>
             </div>
         </div>
     );
