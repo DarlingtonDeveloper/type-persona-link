@@ -18,8 +18,7 @@ export interface User {
     privacy_accepted: boolean;
     created_at?: string;
     updated_at?: string;
-    // Extended fields
-    postcode?: string;
+    location?: string;
     bio_description?: string;
     interests?: string[];
     communication_preferences?: boolean;
@@ -62,7 +61,7 @@ export interface OnboardingFormData {
     eye_color: string;
     relationship_status?: string;
     mobile: string;
-    postcode?: string;
+    location?: string;
 
     // Professional info
     job_title: string;

@@ -33,23 +33,42 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
     loading,
     userCode
 }) => {
+    // Location options for London areas
+    const LOCATION_OPTIONS = [
+        { value: 'north_london', label: 'North London' },
+        { value: 'east_london', label: 'East London' },
+        { value: 'west_london', label: 'West London' },
+        { value: 'south_london', label: 'South London' },
+        { value: 'central_london', label: 'Central London' },
+        { value: 'other', label: 'Other' }
+    ];
     const isValid = () => {
-        return (
-            formData.email &&
-            formData.name &&
-            formData.date_of_birth &&
-            formData.gender &&
-            formData.eye_color &&
-            formData.mobile &&
-            formData.postcode &&
-            formData.relationship_status &&
-            formData.occupation
-        );
+        // Core required fields that exist in the database
+        const requiredFields = {
+            name: formData.name,
+            date_of_birth: formData.date_of_birth,
+            gender: formData.gender,
+            eye_color: formData.eye_color,
+            email: formData.email,
+            mobile: formData.mobile,
+            location: formData.location,  // New location field
+            relationship_status: formData.relationship_status,
+            job_title: formData.job_title
+        };
+
+        // Check all required fields are filled
+        const allFieldsFilled = Object.values(requiredFields).every(field => field && field.trim() !== '');
+
+        // Log for debugging
+        if (!allFieldsFilled) {
+            console.log('Missing fields:', Object.entries(requiredFields).filter(([key, value]) => !value || value.trim() === ''));
+        }
+
+        return allFieldsFilled;
     };
 
     const filledFields = Object.keys(formData).filter(key =>
-        ['name', 'date_of_birth', 'eye_color', 'email', 'mobile', 'postcode',
-            'gender', 'relationship_status', 'occupation'].includes(key) &&
+        ['name', 'date_of_birth', 'eye_color', 'email', 'mobile', 'location', 'gender', 'relationship_status', 'job_title'].includes(key) &&
         formData[key as keyof OnboardingFormData]
     ).length;
 
@@ -218,15 +237,21 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
 
                                 <div className="relative">
                                     <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
-                                        Postcode
+                                        Location
                                     </Label>
                                     <div className="relative">
-                                        <Input
-                                            value={formData.postcode || ''}
-                                            onChange={(e) => onFormDataChange('postcode', e.target.value)}
-                                            className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
-                                            maxLength={VALIDATION_RULES.POSTCODE.MAX_LENGTH}
-                                        />
+                                        <Select value={formData.location || ''} onValueChange={(value) => onFormDataChange('location', value)}>
+                                            <SelectTrigger className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {LOCATION_OPTIONS.map((location) => (
+                                                    <SelectItem key={location.value} value={location.value}>
+                                                        {location.label}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
                                         <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
                                     </div>
                                 </div>
@@ -292,14 +317,14 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
 
                                 <div className="relative">
                                     <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
-                                        Occupation
+                                        Job Title
                                     </Label>
                                     <div className="relative">
                                         <Input
-                                            value={formData.occupation || ''}
-                                            onChange={(e) => onFormDataChange('occupation', e.target.value)}
+                                            value={formData.job_title || ''}
+                                            onChange={(e) => onFormDataChange('job_title', e.target.value)}
                                             className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
-                                            maxLength={VALIDATION_RULES.OCCUPATION?.MAX_LENGTH || 100}
+                                            maxLength={100}
                                         />
                                         <Briefcase className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
                                     </div>

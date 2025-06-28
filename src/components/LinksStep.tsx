@@ -73,31 +73,31 @@ const LinksStep: React.FC<LinksStepProps> = ({
     };
 
     return (
-        <div className="space-y-6">
-            <div className="space-y-2">
-                <h3 className="text-lg font-semibold">Your Links</h3>
-                <p className="text-sm text-gray-600">
+        <div className="space-y-8">
+            <div className="space-y-3">
+                <h3 className="text-xl font-semibold text-gray-800">Your Links</h3>
+                <p className="text-gray-600 text-lg">
                     Add up to 3 links to your profile. At least one link is required.
                 </p>
             </div>
 
             {/* URL Help */}
-            <div className="space-y-2">
+            <div className="space-y-3">
                 <Button
                     type="button"
                     variant="outline"
-                    size="sm"
+                    size="lg"
                     onClick={() => setShowUrlHelp(!showUrlHelp)}
-                    className="w-full justify-start"
+                    className="w-full justify-start h-12 text-lg"
                 >
-                    <HelpCircle className="h-4 w-4 mr-2" />
+                    <HelpCircle className="h-5 w-5 mr-3" />
                     How to get URLs from apps
                 </Button>
 
                 {showUrlHelp && (
-                    <Alert>
-                        <AlertDescription className="text-sm">
-                            <div className="space-y-2">
+                    <Alert className="border-l-4 border-blue-500">
+                        <AlertDescription className="text-base">
+                            <div className="space-y-3">
                                 <p><strong>Instagram:</strong> Go to your profile → ... → Share Profile → Copy Link</p>
                                 <p><strong>TikTok:</strong> Go to your profile → Share → Copy Link</p>
                                 <p><strong>LinkedIn:</strong> View your profile → Contact info → Your profile URL</p>
@@ -110,34 +110,35 @@ const LinksStep: React.FC<LinksStepProps> = ({
             </div>
 
             {/* Links Form */}
-            <div className="space-y-6">
+            <div className="space-y-8">
                 {[0, 1, 2].map((index) => (
-                    <div key={index} className="border rounded-lg p-4 space-y-4">
-                        <h4 className="font-medium">Link {index + 1} {index === 0 && '*'}</h4>
+                    <div key={index} className="border-2 border-gray-200 rounded-xl p-6 space-y-6 hover:border-gray-300 transition-colors">
+                        <h4 className="text-lg font-medium text-gray-800">Link {index + 1} {index === 0 && '*'}</h4>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <Label htmlFor={`link-label-${index}`}>Label *</Label>
+                                <Label htmlFor={`link-label-${index}`} className="text-base font-medium">Label *</Label>
                                 <Input
                                     id={`link-label-${index}`}
                                     value={formData.links?.[index]?.label || ''}
                                     onChange={(e) => updateLink(index, 'label', e.target.value)}
                                     placeholder="e.g., My Instagram, Portfolio"
                                     maxLength={VALIDATION_RULES.LABEL.MAX_LENGTH}
+                                    className="h-12 text-lg mt-2"
                                 />
                             </div>
                             <div>
-                                <Label htmlFor={`link-category-${index}`}>Category *</Label>
+                                <Label htmlFor={`link-category-${index}`} className="text-base font-medium">Category *</Label>
                                 <Select
                                     value={formData.links?.[index]?.categoryId || ''}
                                     onValueChange={(value) => updateLink(index, 'categoryId', value)}
                                 >
-                                    <SelectTrigger>
+                                    <SelectTrigger className="h-12 text-lg mt-2">
                                         <SelectValue placeholder="Select category" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {getAvailableCategories(index).map(option => (
-                                            <SelectItem key={option.value} value={option.value}>
+                                            <SelectItem key={option.value} value={option.value} className="text-lg">
                                                 {option.label}
                                             </SelectItem>
                                         ))}
@@ -147,7 +148,7 @@ const LinksStep: React.FC<LinksStepProps> = ({
                         </div>
 
                         <div>
-                            <Label htmlFor={`link-url-${index}`}>URL *</Label>
+                            <Label htmlFor={`link-url-${index}`} className="text-base font-medium">URL *</Label>
                             <Input
                                 id={`link-url-${index}`}
                                 type="url"
@@ -155,43 +156,45 @@ const LinksStep: React.FC<LinksStepProps> = ({
                                 onChange={(e) => updateLink(index, 'url', e.target.value)}
                                 placeholder="https://example.com"
                                 maxLength={VALIDATION_RULES.URL.MAX_LENGTH}
+                                className="h-12 text-lg mt-2"
                             />
                         </div>
 
                         <div>
-                            <Label htmlFor={`link-description-${index}`}>Description (Optional)</Label>
+                            <Label htmlFor={`link-description-${index}`} className="text-base font-medium">Description (Optional)</Label>
                             <Textarea
                                 id={`link-description-${index}`}
                                 value={formData.links?.[index]?.description || ''}
                                 onChange={(e) => updateLink(index, 'description', e.target.value)}
                                 placeholder="Brief description of this link"
                                 maxLength={VALIDATION_RULES.LINK_DESCRIPTION.MAX_LENGTH}
-                                rows={2}
+                                rows={3}
+                                className="text-lg mt-2 resize-none"
                             />
                         </div>
                     </div>
                 ))}
             </div>
 
-            <Alert>
-                <AlertDescription>
+            <Alert className="border-l-4 border-yellow-500">
+                <AlertDescription className="text-base">
                     Note: Your links will be publicly visible on your profile. Make sure they lead to appropriate content.
                 </AlertDescription>
             </Alert>
 
             {/* Navigation */}
-            <div className="flex gap-2">
+            <div className="flex gap-4 pt-6">
                 <Button
                     variant="outline"
                     onClick={onBack}
-                    className="flex-1"
+                    className="flex-1 h-12 text-lg"
                 >
                     Back
                 </Button>
                 <Button
                     onClick={onNext}
                     disabled={loading || !hasValidLinks()}
-                    className="flex-1"
+                    className="flex-1 h-12 text-lg"
                 >
                     {loading ? "Saving..." : "Continue"}
                 </Button>

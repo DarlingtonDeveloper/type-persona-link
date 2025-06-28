@@ -23,6 +23,7 @@ export interface Database {
           job_title: string | null
           job_category: string | null
           mobile: string | null
+          location: string | null
           profile_photo_url: string | null
           onboarding_step: number
           is_onboarding_complete: boolean
@@ -44,6 +45,7 @@ export interface Database {
           job_title?: string | null
           job_category?: string | null
           mobile?: string | null
+          location?: string | null
           profile_photo_url?: string | null
           onboarding_step?: number
           is_onboarding_complete?: boolean
@@ -65,6 +67,7 @@ export interface Database {
           job_title?: string | null
           job_category?: string | null
           mobile?: string | null
+          location?: string | null
           profile_photo_url?: string | null
           onboarding_step?: number
           is_onboarding_complete?: boolean
