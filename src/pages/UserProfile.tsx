@@ -33,9 +33,7 @@ const UserProfile: React.FC = () => {
                     .from('users')
                     .select(`
                         *,
-                        postcode,
                         bio_description,
-                        interests,
                         communication_preferences
                     `)
                     .eq('user_code', userCode.toUpperCase())

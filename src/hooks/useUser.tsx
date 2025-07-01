@@ -39,7 +39,26 @@ export const useUser = (userCode: string) => {
                 // Fetch user data
                 const { data: userData, error: userError } = await supabase
                     .from('users')
-                    .select('*')
+                    .select(`id,
+                            user_code,
+                            email,
+                            name,
+                            date_of_birth,
+                            gender,
+                            eye_color,
+                            relationship_status,
+                            job_title,
+                            mobile,
+                            profile_photo_url,
+                            onboarding_step,
+                            is_onboarding_complete,
+                            terms_accepted,
+                            privacy_accepted,
+                            created_at,
+                            updated_at,
+                            location,
+                            bio_description,
+                            communication_preferences`)
                     .eq('user_code', userCode.toUpperCase())
                     .single();
 

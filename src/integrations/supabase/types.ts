@@ -14,14 +14,12 @@ export interface Database {
           id: string
           user_code: string
           email: string | null
-          password_hash: string | null
           name: string | null
           date_of_birth: string | null
           gender: string | null
           eye_color: string | null
           relationship_status: string | null
           job_title: string | null
-          job_category: string | null
           mobile: string | null
           location: string | null
           profile_photo_url: string | null
@@ -31,19 +29,19 @@ export interface Database {
           privacy_accepted: boolean
           created_at: string
           updated_at: string
+          bio_description: string | null
+          communication_preferences: boolean
         }
         Insert: {
           id?: string
           user_code: string
           email?: string | null
-          password_hash?: string | null
           name?: string | null
           date_of_birth?: string | null
           gender?: string | null
           eye_color?: string | null
           relationship_status?: string | null
           job_title?: string | null
-          job_category?: string | null
           mobile?: string | null
           location?: string | null
           profile_photo_url?: string | null
@@ -53,19 +51,19 @@ export interface Database {
           privacy_accepted?: boolean
           created_at?: string
           updated_at?: string
+          bio_description?: string | null
+          communication_preferences?: boolean
         }
         Update: {
           id?: string
           user_code?: string
           email?: string | null
-          password_hash?: string | null
           name?: string | null
           date_of_birth?: string | null
           gender?: string | null
           eye_color?: string | null
           relationship_status?: string | null
           job_title?: string | null
-          job_category?: string | null
           mobile?: string | null
           location?: string | null
           profile_photo_url?: string | null
@@ -75,6 +73,8 @@ export interface Database {
           privacy_accepted?: boolean
           created_at?: string
           updated_at?: string
+          bio_description?: string | null
+          communication_preferences?: boolean
         }
       }
       link_categories: {
