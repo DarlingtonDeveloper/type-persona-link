@@ -43,8 +43,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
         profile_photo_url: user.profile_photo_url || '',
         terms_accepted: user.terms_accepted || false,
         privacy_accepted: user.privacy_accepted || false,
-        // New fields
-        postcode: '',
+        location: user.location || '',
         bio_description: '',
         interests: ['', '', ''],
         communication_preferences: false,
@@ -127,8 +126,10 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
     };
 
     const saveStepData = async () => {
+        const { links, ...userUpdateData } = formData;
+
         const updates: Partial<User> = {
-            ...formData,
+            ...userUpdateData,
             onboarding_step: currentStep + 1,
             updated_at: new Date().toISOString()
         };
@@ -139,72 +140,24 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
             .eq('id', user.id);
 
         if (error) throw error;
-
-        // Update local user state
-        onUpdate({ ...user, ...updates });
     };
 
     const completeOnboarding = async () => {
-        try {
-            // Final user update
-            const finalUserData: Partial<User> = {
-                ...formData,
-                is_onboarding_complete: true,
-                onboarding_step: ONBOARDING_STEPS.length,
-                updated_at: new Date().toISOString()
-            };
+        const { links, ...finalUserData } = formData;
 
-            const { error: userError } = await supabase
-                .from('users')
-                .update(finalUserData)
-                .eq('id', user.id);
+        const userUpdates: Partial<User> = {
+            ...finalUserData,
+            is_onboarding_complete: true,
+            onboarding_step: ONBOARDING_STEPS.length,
+            updated_at: new Date().toISOString()
+        };
 
-            if (userError) throw userError;
+        const { error: userError } = await supabase
+            .from('users')
+            .update(userUpdates)
+            .eq('id', user.id);
 
-            // Save links
-            const userLinks: UserLink[] = [];
-            if (formData.links) {
-                for (const [index, link] of formData.links.entries()) {
-                    if (link.label && link.url && link.categoryId) {
-                        const { data: linkData, error: linkError } = await supabase
-                            .from('user_links')
-                            .insert({
-                                user_id: user.id,
-                                label: link.label,
-                                url: link.url,
-                                category_id: link.categoryId,
-                                description: link.description || null,
-                                display_order: index + 1,
-                                is_primary: index === 0
-                            })
-                            .select()
-                            .single();
-
-                        if (linkError) throw linkError;
-                        if (linkData) userLinks.push(linkData);
-                    }
-                }
-            }
-
-            // Show success message
-            toast({
-                title: "Success!",
-                description: SUCCESS_MESSAGES.ONBOARDING_COMPLETE,
-            });
-
-            // Complete after short delay
-            setTimeout(() => {
-                onComplete({ ...user, ...finalUserData }, userLinks);
-            }, 1500);
-
-        } catch (error: any) {
-            console.error('Error completing onboarding:', error);
-            toast({
-                title: "Error",
-                description: error.message || ERROR_MESSAGES.GENERIC_ERROR,
-                variant: "destructive"
-            });
-        }
+        if (userError) throw userError;
     };
 
     const renderStep = () => {
