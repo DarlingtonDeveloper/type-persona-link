@@ -152,10 +152,11 @@ export const useOnboarding = (user: User) => {
     const saveProgress = async (stepData: Partial<User>, step: number): Promise<ApiResponse> => {
         setSaving(true);
         try {
+            const { interests, ...cleanedStepData } = stepData as any;
             const { error } = await supabase
                 .from('users')
                 .update({
-                    ...stepData,
+                    ...cleanedStepData,
                     onboarding_step: step,
                     updated_at: new Date().toISOString()
                 })
@@ -175,10 +176,11 @@ export const useOnboarding = (user: User) => {
     const completeOnboarding = async (userData: Partial<User>, links: UserLinkInput[]): Promise<ApiResponse<UserLink[]>> => {
         setSaving(true);
         try {
+            const { interests, ...cleanedUserData } = userData as any;
             const { error: userError } = await supabase
                 .from('users')
                 .update({
-                    ...userData,
+                    ...cleanedUserData,
                     is_onboarding_complete: true,
                     onboarding_step: 5
                 })
@@ -195,7 +197,6 @@ export const useOnboarding = (user: User) => {
             );
 
             const inserts = transformUserLinksInputToInsert(user.id, links, categoryMap);
-            console.log('Link inserts payload:', inserts);
             const result = await saveUserLinks(inserts);
 
             if (!result.success) throw new Error(result.error);
