@@ -3,182 +3,149 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { HelpCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { VALIDATION_RULES } from '@/constants';
-import { OnboardingFormData, LinkCategory } from '@/types';
+import { HelpCircle } from 'lucide-react';
 
-interface LinksStepProps {
-    formData: Partial<OnboardingFormData>;
-    linkCategories: LinkCategory[];
+const LINK_TYPES = [
+    { type: 'social-media', label: 'Social Media' },
+    { type: 'email', label: 'Email' },
+    { type: 'mobile', label: 'Mobile' },
+    { type: 'website', label: 'Website' },
+    { type: 'business', label: 'Business' },
+    { type: 'affiliate', label: 'Affiliate' },
+];
+
+const SOCIAL_PLATFORMS = ['Instagram', 'Twitter', 'LinkedIn', 'TikTok', 'Facebook'];
+
+interface UserLink {
+    type?: string;
+    platform?: string;
+    username?: string;
+    email?: string;
+    phone?: string;
+    url?: string;
+}
+
+interface Props {
+    formData: { links: UserLink[] };
     onFormDataChange: (field: string, value: any) => void;
     onNext: () => void;
     onBack: () => void;
     loading: boolean;
 }
 
-// Position-specific link categories based on client requirements
-const LINK_CATEGORIES_BY_POSITION = {
-    0: [ // Link 1
-        { value: 'social-media', label: 'Social Media' },
-        { value: 'email', label: 'Email' },
-        { value: 'phone', label: 'Phone Number' },
-        { value: 'business-website', label: 'Business Website' },
-        { value: 'personal-website', label: 'Personal Website' },
-        { value: 'other', label: 'Other' }
-    ],
-    1: [ // Link 2
-        { value: 'social-media', label: 'Social Media' },
-        { value: 'favorite-song', label: 'What is your favourite song?' },
-        { value: 'favorite-restaurant', label: 'What is your favourite restaurant?' },
-        { value: 'favorite-art', label: 'What is your favourite piece of art?' },
-        { value: 'other', label: 'Other' }
-    ],
-    2: [ // Link 3
-        { value: 'social-media', label: 'Social Media' },
-        { value: 'affiliation-link', label: 'Affiliation Link' },
-        { value: 'business-email', label: 'Business Email' },
-        { value: 'portfolio-cv', label: 'Portfolio / CV' },
-        { value: 'other', label: 'Other' }
-    ]
-};
+const LinksStep: React.FC<Props> = ({ formData, onFormDataChange, onNext, onBack, loading }) => {
+    const links = formData.links || [{}, {}, {}];
 
-const LinksStep: React.FC<LinksStepProps> = ({
-    formData,
-    linkCategories,
-    onFormDataChange,
-    onNext,
-    onBack,
-    loading
-}) => {
-    const [showUrlHelp, setShowUrlHelp] = useState(false);
-
-    const updateLink = (index: number, field: string, value: string) => {
-        const updatedLinks = [...(formData.links || [])];
-        updatedLinks[index] = {
-            ...updatedLinks[index],
-            [field]: value
-        };
-        onFormDataChange('links', updatedLinks);
+    const updateLink = (index: number, data: Partial<UserLink>) => {
+        const updated = [...links];
+        updated[index] = { ...updated[index], ...data };
+        onFormDataChange('links', updated);
     };
 
-    const getAvailableCategories = (position: number) => {
-        return LINK_CATEGORIES_BY_POSITION[position as keyof typeof LINK_CATEGORIES_BY_POSITION] || [];
+    const isLinkValid = (link: UserLink) => {
+        switch (link.type) {
+            case 'social-media':
+                return !!link.platform && !!link.username;
+            case 'email':
+                return !!link.email;
+            case 'mobile':
+                return !!link.phone;
+            case 'website':
+            case 'business':
+            case 'affiliate':
+                return !!link.url;
+            default:
+                return false;
+        }
     };
 
-    const hasValidLinks = () => {
-        const links = formData.links || [];
-        return links.some(link => link.label && link.url && link.categoryId);
-    };
+    const allValid = links.every(isLinkValid);
 
     return (
         <div className="space-y-8">
-            <div className="space-y-3">
-                <h3 className="text-xl font-semibold text-gray-800">Your Links</h3>
-                <p className="text-gray-600 text-lg">
-                    Add up to 3 links to your profile. At least one link is required.
-                </p>
-            </div>
+            <h3 className="text-xl font-semibold text-gray-800">Add Your Links</h3>
 
-            {/* URL Help */}
-            <div className="space-y-3">
-                <Button
-                    type="button"
-                    variant="outline"
-                    size="lg"
-                    onClick={() => setShowUrlHelp(!showUrlHelp)}
-                    className="w-full justify-start h-12 text-lg"
-                >
-                    <HelpCircle className="h-5 w-5 mr-3" />
-                    How to get URLs from apps
-                </Button>
+            {links.map((link, index) => (
+                <div key={index} className="border border-gray-300 rounded-xl p-4 space-y-4">
+                    <h4 className="text-lg font-medium">Link {index + 1}</h4>
 
-                {showUrlHelp && (
-                    <Alert className="border-l-4 border-blue-500">
-                        <AlertDescription className="text-base">
-                            <div className="space-y-3">
-                                <p><strong>Instagram:</strong> Go to your profile → ... → Share Profile → Copy Link</p>
-                                <p><strong>TikTok:</strong> Go to your profile → Share → Copy Link</p>
-                                <p><strong>LinkedIn:</strong> View your profile → Contact info → Your profile URL</p>
-                                <p><strong>Twitter/X:</strong> Go to your profile → Share → Copy Link</p>
-                                <p><strong>Websites:</strong> Copy the full URL from your browser address bar</p>
-                            </div>
-                        </AlertDescription>
-                    </Alert>
-                )}
-            </div>
-
-            {/* Links Form */}
-            <div className="space-y-8">
-                {[0, 1, 2].map((index) => (
-                    <div key={index} className="border-2 border-gray-200 rounded-xl p-6 space-y-6 hover:border-gray-300 transition-colors">
-                        <h4 className="text-lg font-medium text-gray-800">Link {index + 1} {index === 0 && '*'}</h4>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <Label htmlFor={`link-label-${index}`} className="text-base font-medium">Label *</Label>
-                                <Input
-                                    id={`link-label-${index}`}
-                                    value={formData.links?.[index]?.label || ''}
-                                    onChange={(e) => updateLink(index, 'label', e.target.value)}
-                                    placeholder="e.g., My Instagram, Portfolio"
-                                    maxLength={VALIDATION_RULES.LABEL.MAX_LENGTH}
-                                    className="h-12 text-lg mt-2"
-                                />
-                            </div>
-                            <div>
-                                <Label htmlFor={`link-category-${index}`} className="text-base font-medium">Category *</Label>
-                                <Select
-                                    value={formData.links?.[index]?.categoryId || ''}
-                                    onValueChange={(value) => updateLink(index, 'categoryId', value)}
-                                >
-                                    <SelectTrigger className="h-12 text-lg mt-2">
-                                        <SelectValue placeholder="Select category" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {getAvailableCategories(index).map(option => (
-                                            <SelectItem key={option.value} value={option.value} className="text-lg">
-                                                {option.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <Label htmlFor={`link-url-${index}`} className="text-base font-medium">URL *</Label>
-                            <Input
-                                id={`link-url-${index}`}
-                                type="url"
-                                value={formData.links?.[index]?.url || ''}
-                                onChange={(e) => updateLink(index, 'url', e.target.value)}
-                                placeholder="https://example.com"
-                                maxLength={VALIDATION_RULES.URL.MAX_LENGTH}
-                                className="h-12 text-lg mt-2"
-                            />
-                        </div>
-
-                        <div>
-                            <Label htmlFor={`link-description-${index}`} className="text-base font-medium">Description (Optional)</Label>
-                            <Textarea
-                                id={`link-description-${index}`}
-                                value={formData.links?.[index]?.description || ''}
-                                onChange={(e) => updateLink(index, 'description', e.target.value)}
-                                placeholder="Brief description of this link"
-                                maxLength={VALIDATION_RULES.LINK_DESCRIPTION.MAX_LENGTH}
-                                rows={3}
-                                className="text-lg mt-2 resize-none"
-                            />
-                        </div>
+                    {/* Type buttons */}
+                    <div className="flex flex-wrap gap-2">
+                        {LINK_TYPES.map(({ type, label }) => (
+                            <Button
+                                key={type}
+                                variant={link.type === type ? 'default' : 'outline'}
+                                onClick={() => updateLink(index, { type, platform: '', username: '', email: '', phone: '', url: '' })}
+                            >
+                                {label}
+                            </Button>
+                        ))}
                     </div>
-                ))}
-            </div>
 
+                    {/* Type-specific inputs */}
+                    {link.type === 'social-media' && (
+                        <>
+                            <Label>Platform</Label>
+                            <Select value={link.platform || ''} onValueChange={(val) => updateLink(index, { platform: val })}>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Select a platform" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {SOCIAL_PLATFORMS.map(p => (
+                                        <SelectItem key={p} value={p}>{p}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+
+                            <Label className="mt-2">Username</Label>
+                            <Input
+                                value={link.username || ''}
+                                onChange={(e) => updateLink(index, { username: e.target.value })}
+                                placeholder="@yourhandle"
+                            />
+                        </>
+                    )}
+
+                    {link.type === 'email' && (
+                        <>
+                            <Label>Email</Label>
+                            <Input
+                                type="email"
+                                value={link.email || ''}
+                                onChange={(e) => updateLink(index, { email: e.target.value })}
+                            />
+                        </>
+                    )}
+
+                    {link.type === 'mobile' && (
+                        <>
+                            <Label>Phone Number</Label>
+                            <Input
+                                type="tel"
+                                value={link.phone || ''}
+                                onChange={(e) => updateLink(index, { phone: e.target.value })}
+                            />
+                        </>
+                    )}
+
+                    {['website', 'business', 'affiliate'].includes(link.type || '') && (
+                        <>
+                            <Label>URL</Label>
+                            <Input
+                                type="url"
+                                value={link.url || ''}
+                                onChange={(e) => updateLink(index, { url: e.target.value })}
+                            />
+                        </>
+                    )}
+                </div>
+            ))}
+
+            {/* Warning */}
             <Alert className="border-l-4 border-yellow-500">
                 <AlertDescription className="text-base">
-                    Note: Your links will be publicly visible on your profile. Make sure they lead to appropriate content.
+                    All fields must be filled to continue.
                 </AlertDescription>
             </Alert>
 
@@ -193,8 +160,8 @@ const LinksStep: React.FC<LinksStepProps> = ({
                 </Button>
                 <Button
                     onClick={onNext}
-                    disabled={loading || !hasValidLinks()}
-                    className="flex-1 h-12 text-lg"
+                    disabled={!allValid || loading}
+                    className={`flex-1 h-12 text-lg transition-all duration-300 ${allValid ? 'animate-pulse' : ''}`}
                 >
                     {loading ? "Saving..." : "Continue"}
                 </Button>

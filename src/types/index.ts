@@ -9,7 +9,6 @@ export interface User {
     eye_color?: string;
     relationship_status?: string;
     job_title?: string;
-    job_category?: string;
     mobile?: string;
     profile_photo_url?: string;
     onboarding_step: number;
@@ -20,11 +19,10 @@ export interface User {
     updated_at?: string;
     location?: string;
     bio_description?: string;
-    interests?: string[];
     communication_preferences?: boolean;
 }
 
-// User links interface
+// User links interface (stored in DB)
 export interface UserLink {
     id: string;
     user_id: string;
@@ -40,6 +38,18 @@ export interface UserLink {
         name: string;
         icon_name: string;
     };
+}
+
+// Onboarding link structure (temporary, used in form)
+export type LinkType = 'social-media' | 'email' | 'mobile' | 'website' | 'business' | 'affiliate';
+
+export interface UserLinkInput {
+    type: LinkType;
+    platform?: string;     // for social media
+    username?: string;     // for social media
+    email?: string;
+    phone?: string;
+    url?: string;
 }
 
 // Link categories interface
@@ -65,20 +75,13 @@ export interface OnboardingFormData {
 
     // Professional info
     job_title: string;
-    job_category: string;
 
     // Profile content
     profile_photo_url?: string;
     bio_description?: string;
-    interests: string[];
 
-    // Links
-    links: Array<{
-        label: string;
-        url: string;
-        categoryId: string;
-        description?: string;
-    }>;
+    // Links (new dynamic format)
+    links: UserLinkInput[];
 
     // Legal
     terms_accepted: boolean;
@@ -161,27 +164,4 @@ export type DeepPartial<T> = {
     [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
 
-export type RequiredFields<T, K extends keyof T> = T & Required<Pick<T, K>>;
-
-// Database table types (for Supabase)
-export interface Database {
-    public: {
-        Tables: {
-            users: {
-                Row: User;
-                Insert: Omit<User, 'id' | 'created_at' | 'updated_at'>;
-                Update: Partial<Omit<User, 'id' | 'created_at'>>;
-            };
-            user_links: {
-                Row: UserLink;
-                Insert: Omit<UserLink, 'id' | 'created_at' | 'updated_at'>;
-                Update: Partial<Omit<UserLink, 'id' | 'created_at'>>;
-            };
-            link_categories: {
-                Row: LinkCategory;
-                Insert: Omit<LinkCategory, 'id' | 'created_at' | 'updated_at'>;
-                Update: Partial<Omit<LinkCategory, 'id' | 'created_at'>>;
-            };
-        };
-    };
-}
+export type RequiredFields<T, K extends keyof T>
