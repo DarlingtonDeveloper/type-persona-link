@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Upload, User } from 'lucide-react';
+import { Upload, User, Camera } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { VALIDATION_RULES, JOB_CATEGORY_OPTIONS, FILE_UPLOAD } from '@/constants';
+import { VALIDATION_RULES, FILE_UPLOAD } from '@/constants';
 import { OnboardingFormData } from '@/types';
 
 interface PhotoBioStepProps {
@@ -66,173 +64,166 @@ const PhotoBioStep: React.FC<PhotoBioStepProps> = ({
         }
     };
 
-    const updateInterest = (index: number, value: string) => {
-        const updatedInterests = [...(formData.interests || ['', '', ''])];
-        updatedInterests[index] = value;
-        onFormDataChange('interests', updatedInterests);
-    };
-
     const isValid = () => {
-        return formData.job_title && formData.job_category;
+        // Only require bio description for this step
+        return formData.bio_description && formData.bio_description.trim().length > 0;
     };
 
     return (
-        <div className="space-y-8">
-            <div className="space-y-3">
-                <h3 className="text-xl font-semibold text-gray-800">Profile Photo & Bio</h3>
-                <p className="text-gray-600 text-lg">
-                    Add a photo and tell others about yourself.
-                </p>
-            </div>
+        <div className="min-h-screen bg-black p-8">
+            <div className="max-w-6xl mx-auto">
 
-            {/* Profile Photo Section */}
-            <div className="space-y-6">
-                <h4 className="text-lg font-medium text-gray-800 border-b pb-2">Profile Photo</h4>
-
-                <div className="flex flex-col items-center space-y-6">
-                    <div className="w-40 h-40 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center overflow-hidden bg-gray-50 hover:border-gray-400 transition-colors">
-                        {photoPreview ? (
-                            <img
-                                src={photoPreview}
-                                alt="Profile preview"
-                                className="w-full h-full object-cover"
-                            />
-                        ) : (
-                            <User className="w-16 h-16 text-gray-400" />
-                        )}
-                    </div>
-
-                    <div className="text-center">
-                        <Label htmlFor="photo-upload" className="cursor-pointer">
-                            <div className="inline-flex items-center px-6 py-3 border border-gray-300 rounded-lg shadow-sm text-base font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">
-                                <Upload className="w-5 h-5 mr-3" />
-                                {uploading ? 'Uploading...' : photoPreview ? 'Change Photo' : 'Upload Photo'}
-                            </div>
-                        </Label>
-                        <Input
-                            id="photo-upload"
-                            type="file"
-                            accept=".jpg,.jpeg,.png,.webp"
-                            onChange={handlePhotoUpload}
-                            disabled={uploading}
-                            className="hidden"
-                        />
-                        <p className="text-sm text-gray-500 mt-2">
-                            JPEG, PNG, or WebP. Max 5MB.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            {/* Job Information */}
-            <div className="space-y-6">
-                <h4 className="text-lg font-medium text-gray-800 border-b pb-2">Professional Information</h4>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <Label htmlFor="jobTitle" className="text-base font-medium">Job Title *</Label>
-                        <Input
-                            id="jobTitle"
-                            value={formData.job_title || ''}
-                            onChange={(e) => onFormDataChange('job_title', e.target.value)}
-                            placeholder="e.g., Software Developer"
-                            maxLength={100}
-                            className="h-12 text-lg mt-2"
-                        />
-                    </div>
-                    <div>
-                        <Label htmlFor="jobCategory" className="text-base font-medium">Job Category *</Label>
-                        <Select
-                            value={formData.job_category || ''}
-                            onValueChange={(value) => onFormDataChange('job_category', value)}
-                        >
-                            <SelectTrigger className="h-12 text-lg mt-2">
-                                <SelectValue placeholder="Select category" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {JOB_CATEGORY_OPTIONS.map(option => (
-                                    <SelectItem key={option.value} value={option.value} className="text-lg">
-                                        {option.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-                </div>
-            </div>
-
-            {/* Bio Description */}
-            <div className="space-y-6">
-                <h4 className="text-lg font-medium text-gray-800 border-b pb-2">Bio</h4>
-
-                <div>
-                    <Label htmlFor="bioDescription" className="text-base font-medium">Tell others about yourself</Label>
-                    <Textarea
-                        id="bioDescription"
-                        value={formData.bio_description || ''}
-                        onChange={(e) => onFormDataChange('bio_description', e.target.value)}
-                        placeholder="Write a brief description about yourself, your interests, or what you do..."
-                        maxLength={VALIDATION_RULES.BIO_DESCRIPTION.MAX_LENGTH}
-                        rows={5}
-                        className="text-lg mt-2 resize-none"
-                    />
-                    <p className="text-sm text-gray-500 mt-2">
-                        {(formData.bio_description || '').length} / {VALIDATION_RULES.BIO_DESCRIPTION.MAX_LENGTH} characters
-                    </p>
-                </div>
-            </div>
-
-            {/* Interests */}
-            <div className="space-y-6">
-                <h4 className="text-lg font-medium text-gray-800 border-b pb-2">Interests</h4>
-                <p className="text-gray-600">
-                    Share up to 3 things you're interested in or passionate about.
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {[0, 1, 2].map((index) => (
-                        <div key={index}>
-                            <Label htmlFor={`interest-${index}`} className="text-base font-medium">Interest {index + 1}</Label>
-                            <Input
-                                id={`interest-${index}`}
-                                value={formData.interests?.[index] || ''}
-                                onChange={(e) => updateInterest(index, e.target.value)}
-                                placeholder={
-                                    index === 0 ? "e.g., Photography" :
-                                        index === 1 ? "e.g., Cooking" :
-                                            "e.g., Travel"
-                                }
-                                maxLength={VALIDATION_RULES.INTEREST.MAX_LENGTH}
-                                className="h-12 text-lg mt-2"
-                            />
+                {/* FLOATING HEADER */}
+                <div className="text-center mb-16 relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent h-px top-1/2"></div>
+                    <div className="relative bg-black px-12 inline-block">
+                        <h1 className="text-6xl font-light text-white tracking-wide mb-4">
+                            Photo & <span className="font-semibold">Bio</span>
+                        </h1>
+                        <div className="flex items-center justify-center gap-2 text-white/60">
+                            <div className="w-8 h-px bg-white/20"></div>
+                            <span className="text-lg tracking-widest uppercase">Express Yourself</span>
+                            <div className="w-8 h-px bg-white/20"></div>
                         </div>
-                    ))}
+                    </div>
                 </div>
-            </div>
 
-            <Alert className="border-l-4 border-blue-500">
-                <AlertDescription className="text-base">
-                    Your photo and bio will be visible to anyone who visits your profile.
-                    Make sure to only share information you're comfortable with being public.
-                </AlertDescription>
-            </Alert>
+                {/* TWO HORIZONTAL CONTAINERS */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
 
-            {/* Navigation */}
-            <div className="flex gap-4 pt-6">
-                <Button
-                    variant="outline"
-                    onClick={onBack}
-                    className="flex-1 h-12 text-lg"
-                >
-                    Back
-                </Button>
-                <Button
-                    onClick={onNext}
-                    disabled={loading || !isValid()}
-                    className="flex-1 h-12 text-lg"
-                >
-                    {loading ? "Saving..." : "Continue"}
-                </Button>
+                    {/* Container 1: Profile Photo */}
+                    <div className="group relative">
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
+                        <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+
+                            <div className="text-center mb-8">
+                                <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                                    <Camera className="h-8 w-8 text-black" />
+                                </div>
+                                <h3 className="text-2xl font-light text-white tracking-wide">Profile Photo</h3>
+                                <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                            </div>
+
+                            <div className="flex flex-col items-center space-y-8">
+                                {/* Photo Preview Circle */}
+                                <div className="relative group/photo">
+                                    <div className="w-48 h-48 border-2 border-dashed border-white/20 rounded-full flex items-center justify-center overflow-hidden bg-white/5 hover:border-white/40 transition-all duration-300 group-hover/photo:scale-105">
+                                        {photoPreview ? (
+                                            <img
+                                                src={photoPreview}
+                                                alt="Profile preview"
+                                                className="w-full h-full object-cover"
+                                            />
+                                        ) : (
+                                            <User className="w-20 h-20 text-white/40" />
+                                        )}
+                                    </div>
+
+                                    {/* Upload overlay on hover */}
+                                    <div className="absolute inset-0 rounded-full bg-black/60 opacity-0 group-hover/photo:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                        <div className="text-center">
+                                            <Upload className="w-8 h-8 text-white mx-auto mb-2" />
+                                            <p className="text-white text-sm font-medium">
+                                                {photoPreview ? 'Change Photo' : 'Upload Photo'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Upload Button */}
+                                <div className="text-center w-full">
+                                    <Label htmlFor="photo-upload" className="cursor-pointer">
+                                        <div className="inline-flex items-center px-8 py-4 border-2 border-white/20 rounded-2xl text-base font-medium text-white bg-white/5 hover:bg-white/10 hover:border-white/40 transition-all duration-300 transform hover:-translate-y-1">
+                                            <Upload className="w-5 h-5 mr-3" />
+                                            {uploading ? 'Uploading...' : photoPreview ? 'Change Photo' : 'Upload Photo'}
+                                        </div>
+                                    </Label>
+                                    <input
+                                        id="photo-upload"
+                                        type="file"
+                                        accept=".jpg,.jpeg,.png,.webp"
+                                        onChange={handlePhotoUpload}
+                                        disabled={uploading}
+                                        className="hidden"
+                                    />
+                                    <p className="text-white/40 text-sm mt-4">
+                                        JPEG, PNG, or WebP • Maximum 5MB
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Container 2: Bio */}
+                    <div className="group relative">
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
+                        <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 h-full">
+
+                            <div className="text-center mb-8">
+                                <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                                    <User className="h-8 w-8 text-black" />
+                                </div>
+                                <h3 className="text-2xl font-light text-white tracking-wide">About You</h3>
+                                <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                            </div>
+
+                            <div className="space-y-6 flex-1">
+                                <div className="relative">
+                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                        Tell others about yourself *
+                                    </Label>
+                                    <Textarea
+                                        value={formData.bio_description || ''}
+                                        onChange={(e) => onFormDataChange('bio_description', e.target.value)}
+                                        placeholder="Write a brief description about yourself, your interests, or what you do..."
+                                        maxLength={VALIDATION_RULES.BIO_DESCRIPTION.MAX_LENGTH}
+                                        rows={8}
+                                        className="bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white placeholder:text-white/40 focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 resize-none pt-6"
+                                    />
+                                    <div className="flex justify-between items-center mt-3">
+                                        <p className="text-white/40 text-sm">
+                                            Express your personality and interests
+                                        </p>
+                                        <p className="text-white/60 text-sm font-medium">
+                                            {(formData.bio_description || '').length} / {VALIDATION_RULES.BIO_DESCRIPTION.MAX_LENGTH}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Privacy Notice */}
+                <div className="mb-12">
+                    <Alert className="bg-white/5 border-white/10 rounded-2xl backdrop-blur-sm">
+                        <AlertDescription className="text-white/70 text-base text-center">
+                            <span className="font-medium text-white">Privacy Notice:</span> Your photo and bio will be visible to anyone who visits your profile.
+                            Make sure to only share information you're comfortable with being public.
+                        </AlertDescription>
+                    </Alert>
+                </div>
+
+                {/* Navigation */}
+                <div className="flex gap-6">
+                    <Button
+                        variant="outline"
+                        onClick={onBack}
+                        className="flex-1 h-14 text-lg bg-transparent border-2 border-white/20 text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300 rounded-2xl"
+                    >
+                        Back
+                    </Button>
+                    <Button
+                        onClick={onNext}
+                        disabled={loading || !isValid()}
+                        className={`flex-1 h-14 text-lg rounded-2xl transition-all duration-300 ${isValid()
+                            ? 'bg-white text-black hover:bg-white/90 transform hover:-translate-y-1 shadow-lg'
+                            : 'bg-white/20 text-white/50 cursor-not-allowed'
+                            }`}
+                    >
+                        {loading ? "Saving..." : "Continue"}
+                    </Button>
+                </div>
             </div>
         </div>
     );
