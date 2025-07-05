@@ -104,12 +104,9 @@ export const GENDER_OPTIONS = [
 ] as const;
 
 export const EYE_COLOR_OPTIONS = [
-    { value: 'brown', label: 'Brown' },
     { value: 'blue', label: 'Blue' },
-    { value: 'green', label: 'Green' },
-    { value: 'hazel', label: 'Hazel' },
-    { value: 'gray', label: 'Gray' },
-    { value: 'amber', label: 'Amber' }
+    { value: 'brown', label: 'Brown' },
+    { value: 'green', label: 'Green' }
 ] as const;
 
 export const RELATIONSHIP_STATUS_OPTIONS = [
