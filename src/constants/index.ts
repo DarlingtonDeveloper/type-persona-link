@@ -115,6 +115,20 @@ export const RELATIONSHIP_STATUS_OPTIONS = [
     { value: 'in-relationship', label: 'In a Relationship' }
 ] as const;
 
+export const JOB_TITLE_OPTIONS = [
+    { value: 'not-working', label: 'Not working' },
+    { value: 'health-care', label: 'Health Care' },
+    { value: 'tech', label: 'Tech' },
+    { value: 'manual-labour', label: 'Manual Labour' },
+    { value: 'retail', label: 'Retail' },
+    { value: 'food', label: 'Food' },
+    { value: 'public-services', label: 'Public Services' },
+    { value: 'arts', label: 'Arts' },
+    { value: 'politics', label: 'Politics' },
+    { value: 'student', label: 'Student' },
+    { value: 'other', label: 'Other' }
+] as const;
+
 export const LINK_CATEGORIES_BY_POSITION = {
     0: [ // Link 1 - Professional/Contact focused
         { value: 'social-media', label: 'Social Media', icon: 'MessageCircle' },
