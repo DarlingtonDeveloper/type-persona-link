@@ -114,11 +114,8 @@ export const EYE_COLOR_OPTIONS = [
 
 export const RELATIONSHIP_STATUS_OPTIONS = [
     { value: 'single', label: 'Single' },
-    { value: 'in-relationship', label: 'In a relationship' },
-    { value: 'married', label: 'Married' },
-    { value: 'divorced', label: 'Divorced' },
-    { value: 'widowed', label: 'Widowed' },
-    { value: 'prefer-not-to-say', label: 'Prefer not to say' }
+    { value: 'complicated', label: "It's Complicated" },
+    { value: 'in-relationship', label: 'In a Relationship' }
 ] as const;
 
 export const LINK_CATEGORIES_BY_POSITION = {

@@ -331,23 +331,59 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                 </div>
 
                                 <div className="relative">
-                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                    <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-black px-2 text-sm font-medium text-white/70 z-10">
                                         Relationship
                                     </Label>
-                                    <div className="relative">
-                                        <Select value={formData.relationship_status || ''} onValueChange={(value) => onFormDataChange('relationship_status', value)}>
-                                            <SelectTrigger className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {RELATIONSHIP_STATUS_OPTIONS.map((status) => (
-                                                    <SelectItem key={status.value} value={status.value}>
-                                                        {status.label}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                        <Heart className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    <div className="pt-4">
+                                        <div className="grid grid-cols-3 gap-3">
+                                            {/* Single */}
+                                            <Button
+                                                onClick={() => onFormDataChange('relationship_status', 'single')}
+                                                variant="ghost"
+                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.relationship_status === 'single'
+                                                    ? 'bg-white/25 border-white/50 shadow-lg'
+                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                    }`}
+                                            >
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                                </svg>
+                                                <span className="text-xs text-center">Single</span>
+                                            </Button>
+
+                                            {/* It's Complicated */}
+                                            <Button
+                                                onClick={() => onFormDataChange('relationship_status', 'complicated')}
+                                                variant="ghost"
+                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.relationship_status === 'complicated'
+                                                    ? 'bg-white/25 border-white/50 shadow-lg'
+                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                    }`}
+                                            >
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <circle cx="12" cy="12" r="10" />
+                                                    <path d="M9 9h6v6" />
+                                                    <path d="m9 15 6-6" />
+                                                </svg>
+                                                <span className="text-xs text-center">It's Complicated</span>
+                                            </Button>
+
+                                            {/* In a Relationship */}
+                                            <Button
+                                                onClick={() => onFormDataChange('relationship_status', 'in-relationship')}
+                                                variant="ghost"
+                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.relationship_status === 'in-relationship'
+                                                    ? 'bg-white/25 border-white/50 shadow-lg'
+                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                    }`}
+                                            >
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                                    <path d="M16.84 8.61a3.5 3.5 0 0 0-4.78 0L12 8.67l-0.06-0.06a3.5 3.5 0 0 0-4.78 4.78l0.06 0.06L12 18.23l4.78-4.78 0.06-0.06a3.5 3.5 0 0 0 0-4.78z" />
+                                                </svg>
+                                                <span className="text-xs text-center">In a Relationship</span>
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
 
