@@ -8,7 +8,8 @@ import {
     VALIDATION_RULES,
     GENDER_OPTIONS,
     EYE_COLOR_OPTIONS,
-    RELATIONSHIP_STATUS_OPTIONS
+    RELATIONSHIP_STATUS_OPTIONS,
+    JOB_TITLE_OPTIONS
 } from '@/constants';
 import { OnboardingFormData } from '@/types';
 
@@ -434,12 +435,18 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                         Job Title
                                     </Label>
                                     <div className="relative">
-                                        <Input
-                                            value={formData.job_title || ''}
-                                            onChange={(e) => onFormDataChange('job_title', e.target.value)}
-                                            className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
-                                            maxLength={100}
-                                        />
+                                        <Select value={formData.job_title || ''} onValueChange={(value) => onFormDataChange('job_title', value)}>
+                                            <SelectTrigger className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {JOB_TITLE_OPTIONS.map((job) => (
+                                                    <SelectItem key={job.value} value={job.value}>
+                                                        {job.label}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
                                         <Briefcase className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
                                     </div>
                                 </div>
