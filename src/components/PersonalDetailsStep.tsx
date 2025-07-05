@@ -274,23 +274,59 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
 
                             <div className="space-y-6">
                                 <div className="relative">
-                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                    <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-black px-2 text-sm font-medium text-white/70 z-10">
                                         Gender
                                     </Label>
-                                    <div className="relative">
-                                        <Select value={formData.gender || ''} onValueChange={(value) => onFormDataChange('gender', value)}>
-                                            <SelectTrigger className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {GENDER_OPTIONS.map((gender) => (
-                                                    <SelectItem key={gender.value} value={gender.value}>
-                                                        {gender.label}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                        <Users className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    <div className="pt-4">
+                                        <div className="grid grid-cols-3 gap-3">
+                                            {/* Male */}
+                                            <Button
+                                                onClick={() => onFormDataChange('gender', 'male')}
+                                                variant="ghost"
+                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.gender === 'male'
+                                                    ? 'bg-white/25 border-white/50 shadow-lg'
+                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                    }`}
+                                            >
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <circle cx="10" cy="14" r="6" />
+                                                    <path d="m15 9 5-5" />
+                                                    <path d="m20 4-2 2" />
+                                                    <path d="m20 4 2 2" />
+                                                </svg>
+                                                <span className="text-xs text-center">Male</span>
+                                            </Button>
+
+                                            {/* Female */}
+                                            <Button
+                                                onClick={() => onFormDataChange('gender', 'female')}
+                                                variant="ghost"
+                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.gender === 'female'
+                                                    ? 'bg-white/25 border-white/50 shadow-lg'
+                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                    }`}
+                                            >
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <circle cx="12" cy="8" r="7" />
+                                                    <path d="M12 15v6" />
+                                                    <path d="M9 18h6" />
+                                                </svg>
+                                                <span className="text-xs text-center">Female</span>
+                                            </Button>
+
+                                            {/* Other */}
+                                            <Button
+                                                onClick={() => onFormDataChange('gender', 'other')}
+                                                variant="ghost"
+                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.gender === 'other'
+                                                    ? 'bg-white/25 border-white/50 shadow-lg'
+                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                    }`}
+                                            >
+                                                <Users size={20} />
+                                                <span className="text-xs text-center">Other</span>
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
 
