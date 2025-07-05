@@ -181,36 +181,6 @@ const TermsPrivacyStep: React.FC<TermsPrivacyStepProps> = ({
                     </div>
                 </div>
 
-                {/* Communication Preferences */}
-                <div className="group relative mb-12">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
-                    <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:shadow-lg transition-all duration-500">
-
-                        <div className="flex items-start space-x-4">
-                            <div className="w-12 h-12 bg-gradient-to-br from-white/20 to-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                <Info className="h-6 w-6 text-white" />
-                            </div>
-                            <div className="space-y-4 flex-1">
-                                <h4 className="text-xl font-medium text-white">Communication Preferences</h4>
-                                <div className="flex items-center space-x-3">
-                                    <Checkbox
-                                        id="communications"
-                                        checked={formData.communication_preferences || false}
-                                        onCheckedChange={(checked) => onFormDataChange('communication_preferences', checked)}
-                                        className="w-5 h-5 border-2 border-white/20 data-[state=checked]:bg-white data-[state=checked]:border-white data-[state=checked]:text-black"
-                                    />
-                                    <Label htmlFor="communications" className="text-white/80 cursor-pointer">
-                                        I would like to receive updates and promotional emails from E3 Circle
-                                    </Label>
-                                </div>
-                                <p className="text-white/50 text-sm">
-                                    You can change this preference at any time in your account settings.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 {/* Important Notice */}
                 <div className="mb-12">
                     <Alert className="bg-orange-500/10 border-orange-500/20 rounded-2xl backdrop-blur-sm">

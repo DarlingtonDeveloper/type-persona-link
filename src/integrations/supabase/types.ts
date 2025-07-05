@@ -30,7 +30,6 @@ export interface Database {
           created_at: string
           updated_at: string
           bio_description: string | null
-          communication_preferences: boolean
         }
         Insert: {
           id?: string
@@ -52,7 +51,6 @@ export interface Database {
           created_at?: string
           updated_at?: string
           bio_description?: string | null
-          communication_preferences?: boolean
         }
         Update: {
           id?: string
@@ -74,7 +72,6 @@ export interface Database {
           created_at?: string
           updated_at?: string
           bio_description?: string | null
-          communication_preferences?: boolean
         }
       }
       link_categories: {

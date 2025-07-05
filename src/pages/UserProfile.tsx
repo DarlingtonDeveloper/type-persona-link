@@ -33,8 +33,7 @@ const UserProfile: React.FC = () => {
                     .from('users')
                     .select(`
                         *,
-                        bio_description,
-                        communication_preferences
+                        bio_description
                     `)
                     .eq('user_code', userCode.toUpperCase())
                     .single();

@@ -44,7 +44,6 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ user, onUpdate, onCompl
         privacy_accepted: user.privacy_accepted || false,
         location: user.location || '',
         bio_description: '',
-        communication_preferences: false,
         links: [
             { label: '', url: '', categoryId: '', description: '' },
             { label: '', url: '', categoryId: '', description: '' },

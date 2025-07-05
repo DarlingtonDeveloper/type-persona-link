@@ -19,7 +19,6 @@ export interface User {
     updated_at?: string;
     location?: string;
     bio_description?: string;
-    communication_preferences?: boolean;
 }
 
 // User links interface (stored in DB)
@@ -86,7 +85,6 @@ export interface OnboardingFormData {
     // Legal
     terms_accepted: boolean;
     privacy_accepted: boolean;
-    communication_preferences: boolean;
 }
 
 // Form validation interface
