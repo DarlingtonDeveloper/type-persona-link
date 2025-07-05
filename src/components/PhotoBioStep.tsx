@@ -65,9 +65,15 @@ const PhotoBioStep: React.FC<PhotoBioStepProps> = ({
     };
 
     const isValid = () => {
-        // Only require bio description for this step
         return formData.bio_description && formData.bio_description.trim().length > 0;
     };
+
+    const countWords = (text) => {
+        if (!text || text.trim() === '') return 0;
+        return text.trim().split(/\s+/).length;
+    };
+
+    const MAX_WORDS = 100;
 
     return (
         <div className="min-h-screen bg-black p-8">
@@ -169,23 +175,16 @@ const PhotoBioStep: React.FC<PhotoBioStepProps> = ({
 
                             <div className="space-y-6 flex-1">
                                 <div className="relative">
-                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
-                                        Tell others about yourself *
-                                    </Label>
                                     <Textarea
                                         value={formData.bio_description || ''}
                                         onChange={(e) => onFormDataChange('bio_description', e.target.value)}
-                                        placeholder="Write a brief description about yourself, your interests, or what you do..."
-                                        maxLength={VALIDATION_RULES.BIO_DESCRIPTION.MAX_LENGTH}
+                                        placeholder="Write something about you in less than 100 words."
                                         rows={8}
                                         className="bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white placeholder:text-white/40 focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 resize-none pt-6"
                                     />
                                     <div className="flex justify-between items-center mt-3">
-                                        <p className="text-white/40 text-sm">
-                                            Express your personality and interests
-                                        </p>
                                         <p className="text-white/60 text-sm font-medium">
-                                            {(formData.bio_description || '').length} / {VALIDATION_RULES.BIO_DESCRIPTION.MAX_LENGTH}
+                                            {countWords(formData.bio_description || '')} / {MAX_WORDS} words
                                         </p>
                                     </div>
                                 </div>
