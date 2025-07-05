@@ -98,93 +98,87 @@ const PhotoBioStep: React.FC<PhotoBioStepProps> = ({
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
 
                     {/* Container 1: Profile Photo */}
-                    <div className="group relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
-                        <div className="e3-container e3-container-hover">
-                            <div className="text-center mb-8">
-                                <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
-                                    <Camera className="h-8 w-8 text-black" />
+                    <div className="e3-container e3-container-hover">
+                        <div className="text-center mb-8">
+                            <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                                <Camera className="h-8 w-8 text-black" />
+                            </div>
+                            <h3 className="text-2xl font-light text-white tracking-wide">Profile Photo</h3>
+                            <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                        </div>
+
+                        <div className="flex flex-col items-center space-y-8">
+                            {/* Photo Preview Circle */}
+                            <div className="relative group/photo">
+                                <div className="w-48 h-48 border-2 border-dashed border-white/20 rounded-full flex items-center justify-center overflow-hidden bg-white/5 hover:border-white/40 transition-all duration-300 group-hover/photo:scale-105">
+                                    {photoPreview ? (
+                                        <img
+                                            src={photoPreview}
+                                            alt="Profile preview"
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <User className="w-20 h-20 text-white/40" />
+                                    )}
                                 </div>
-                                <h3 className="text-2xl font-light text-white tracking-wide">Profile Photo</h3>
-                                <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+
+                                {/* Upload overlay on hover */}
+                                <div className="absolute inset-0 rounded-full bg-black/60 opacity-0 group-hover/photo:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                    <div className="text-center">
+                                        <Upload className="w-8 h-8 text-white mx-auto mb-2" />
+                                        <p className="text-white text-sm font-medium">
+                                            {photoPreview ? 'Change Photo' : 'Upload Photo'}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div className="flex flex-col items-center space-y-8">
-                                {/* Photo Preview Circle */}
-                                <div className="relative group/photo">
-                                    <div className="w-48 h-48 border-2 border-dashed border-white/20 rounded-full flex items-center justify-center overflow-hidden bg-white/5 hover:border-white/40 transition-all duration-300 group-hover/photo:scale-105">
-                                        {photoPreview ? (
-                                            <img
-                                                src={photoPreview}
-                                                alt="Profile preview"
-                                                className="w-full h-full object-cover"
-                                            />
-                                        ) : (
-                                            <User className="w-20 h-20 text-white/40" />
-                                        )}
+                            {/* Upload Button */}
+                            <div className="text-center w-full">
+                                <Label htmlFor="photo-upload" className="cursor-pointer">
+                                    <div className="inline-flex items-center px-8 py-4 border-2 border-white/20 rounded-2xl text-base font-medium text-white bg-white/5 hover:bg-white/10 hover:border-white/40 transition-all duration-300 transform hover:-translate-y-1">
+                                        <Upload className="w-5 h-5 mr-3" />
+                                        {uploading ? 'Uploading...' : photoPreview ? 'Change Photo' : 'Upload Photo'}
                                     </div>
-
-                                    {/* Upload overlay on hover */}
-                                    <div className="absolute inset-0 rounded-full bg-black/60 opacity-0 group-hover/photo:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                        <div className="text-center">
-                                            <Upload className="w-8 h-8 text-white mx-auto mb-2" />
-                                            <p className="text-white text-sm font-medium">
-                                                {photoPreview ? 'Change Photo' : 'Upload Photo'}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Upload Button */}
-                                <div className="text-center w-full">
-                                    <Label htmlFor="photo-upload" className="cursor-pointer">
-                                        <div className="inline-flex items-center px-8 py-4 border-2 border-white/20 rounded-2xl text-base font-medium text-white bg-white/5 hover:bg-white/10 hover:border-white/40 transition-all duration-300 transform hover:-translate-y-1">
-                                            <Upload className="w-5 h-5 mr-3" />
-                                            {uploading ? 'Uploading...' : photoPreview ? 'Change Photo' : 'Upload Photo'}
-                                        </div>
-                                    </Label>
-                                    <input
-                                        id="photo-upload"
-                                        type="file"
-                                        accept=".jpg,.jpeg,.png,.webp"
-                                        onChange={handlePhotoUpload}
-                                        disabled={uploading}
-                                        className="hidden"
-                                    />
-                                    <p className="text-white/40 text-sm mt-4">
-                                        JPEG, PNG, or WebP • Maximum 5MB
-                                    </p>
-                                </div>
+                                </Label>
+                                <input
+                                    id="photo-upload"
+                                    type="file"
+                                    accept=".jpg,.jpeg,.png,.webp"
+                                    onChange={handlePhotoUpload}
+                                    disabled={uploading}
+                                    className="hidden"
+                                />
+                                <p className="text-white/40 text-sm mt-4">
+                                    JPEG, PNG, or WebP • Maximum 5MB
+                                </p>
                             </div>
                         </div>
                     </div>
 
                     {/* Container 2: Bio */}
-                    <div className="group relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
-                        <div className="e3-container e3-container-hover">
-                            <div className="text-center mb-8">
-                                <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
-                                    <User className="h-8 w-8 text-black" />
-                                </div>
-                                <h3 className="text-2xl font-light text-white tracking-wide">About You</h3>
-                                <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                    <div className="e3-container e3-container-hover">
+                        <div className="text-center mb-8">
+                            <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                                <User className="h-8 w-8 text-black" />
                             </div>
+                            <h3 className="text-2xl font-light text-white tracking-wide">About You</h3>
+                            <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                        </div>
 
-                            <div className="space-y-6 flex-1">
-                                <div className="relative">
-                                    <Textarea
-                                        value={formData.bio_description || ''}
-                                        onChange={(e) => onFormDataChange('bio_description', e.target.value)}
-                                        placeholder="Write something about you in less than 100 words."
-                                        rows={8}
-                                        className="bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white placeholder:text-white/40 focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 resize-none pt-6"
-                                    />
-                                    <div className="flex justify-between items-center mt-3">
-                                        <p className="text-white/60 text-sm font-medium">
-                                            {countWords(formData.bio_description || '')} / {MAX_WORDS} words
-                                        </p>
-                                    </div>
+                        <div className="space-y-6 flex-1">
+                            <div className="relative">
+                                <Textarea
+                                    value={formData.bio_description || ''}
+                                    onChange={(e) => onFormDataChange('bio_description', e.target.value)}
+                                    placeholder="Write something about you in less than 100 words."
+                                    rows={8}
+                                    className="bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white placeholder:text-white/40 focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 resize-none pt-6"
+                                />
+                                <div className="flex justify-between items-center mt-3">
+                                    <p className="text-white/60 text-sm font-medium">
+                                        {countWords(formData.bio_description || '')} / {MAX_WORDS} words
+                                    </p>
                                 </div>
                             </div>
                         </div>
