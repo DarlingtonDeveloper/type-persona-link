@@ -166,23 +166,65 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                 </div>
 
                                 <div className="relative">
-                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
-                                        Eye Colour
+                                    <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                        Eye Color
                                     </Label>
-                                    <div className="relative">
-                                        <Select value={formData.eye_color || ''} onValueChange={(value) => onFormDataChange('eye_color', value)}>
-                                            <SelectTrigger className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {EYE_COLOR_OPTIONS.map((color) => (
-                                                    <SelectItem key={color.value} value={color.value}>
-                                                        {color.label}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                        <Eye className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    <div className="pt-4">
+                                        <div className="grid grid-cols-3 gap-3">
+                                            {/* Blue - Sea/Waves */}
+                                            <Button
+                                                onClick={() => onFormDataChange('eye_color', 'blue')}
+                                                variant="ghost"
+                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.eye_color === 'blue'
+                                                    ? 'bg-white/25 border-white/50 shadow-lg'
+                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                    }`}
+                                            >
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+                                                    <path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+                                                    <path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+                                                </svg>
+                                                <span className="text-xs text-center">Blue</span>
+                                            </Button>
+
+                                            {/* Brown - Earth/Circle */}
+                                            <Button
+                                                onClick={() => onFormDataChange('eye_color', 'brown')}
+                                                variant="ghost"
+                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.eye_color === 'brown'
+                                                    ? 'bg-white/25 border-white/50 shadow-lg'
+                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                    }`}
+                                            >
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <circle cx="12" cy="12" r="10" />
+                                                    <path d="M8 12h4" />
+                                                    <path d="M8 16h2" />
+                                                    <path d="M16 8h2" />
+                                                    <path d="M14 12h2" />
+                                                    <path d="M10 8h2" />
+                                                </svg>
+                                                <span className="text-xs text-center">Brown</span>
+                                            </Button>
+
+                                            {/* Green - Plant/Leaf */}
+                                            <Button
+                                                onClick={() => onFormDataChange('eye_color', 'green')}
+                                                variant="ghost"
+                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.eye_color === 'green'
+                                                    ? 'bg-white/25 border-white/50 shadow-lg'
+                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                    }`}
+                                            >
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M7 20s-4-7 6-11c0 0-3 1-3 5 0 0 4-2 8 2" />
+                                                    <path d="M12 19s4-7-6-11c0 0 3 1 3 5 0 0-4-2-8 2" />
+                                                    <path d="M12 22v-8" />
+                                                </svg>
+                                                <span className="text-xs text-center">Green</span>
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
