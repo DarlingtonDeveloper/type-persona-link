@@ -127,8 +127,7 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                     {/* Container 1: Identity */}
                     <div className="group relative">
                         <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
-                        <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-
+                        <div className="e3-container e3-container-hover">
                             <div className="text-center mb-8">
                                 <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
                                     <User className="h-8 w-8 text-black" />
@@ -235,8 +234,7 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                     {/* Container 2: Contact */}
                     <div className="group relative">
                         <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
-                        <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-
+                        <div className="e3-container e3-container-hover">
                             <div className="text-center mb-8">
                                 <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
                                     <Mail className="h-8 w-8 text-black" />
@@ -305,8 +303,7 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                     {/* Container 3: Personal */}
                     <div className="group relative">
                         <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
-                        <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-
+                        <div className="e3-container e3-container-hover">
                             <div className="text-center mb-8">
                                 <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
                                     <Heart className="h-8 w-8 text-black" />

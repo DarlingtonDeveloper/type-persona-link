@@ -264,7 +264,7 @@ Or visit our help center for FAQs and guides.
                     </div>
 
                     {/* Enhanced Bio with Typewriter Effect */}
-                    <div className="bg-brand-white/90 backdrop-blur-sm rounded-xl p-6 mb-8 shadow-lg border border-brand-black/10">
+                    <div className="bg-brand-black/80 backdrop-blur-sm rounded-xl p-6 shadow">
                         <TypewriterBio
                             textArray={getBioTexts()}
                             typingDelay={100}
