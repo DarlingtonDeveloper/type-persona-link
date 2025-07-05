@@ -100,8 +100,7 @@ export const TIMEOUTS = {
 export const GENDER_OPTIONS = [
     { value: 'male', label: 'Male' },
     { value: 'female', label: 'Female' },
-    { value: 'non-binary', label: 'Non-binary' },
-    { value: 'prefer-not-to-say', label: 'Prefer not to say' }
+    { value: 'other', label: 'Other' }
 ] as const;
 
 export const EYE_COLOR_OPTIONS = [
