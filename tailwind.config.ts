@@ -20,8 +20,8 @@ export default {
 		extend: {
 			// Brand-specific font family
 			fontFamily: {
-				'brand': ['Inter', 'sans-serif'],
-				'sans': ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+				'brand': ['Montserrat', 'sans-serif'],
+				'sans': ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
 			},
 			// Brand-specific font sizes
 			fontSize: {
@@ -128,67 +128,41 @@ export default {
 					'0%': { width: '0%' },
 					'100%': { width: '100%' }
 				},
-				// New: Completion animations
+				// New: Completion page animations
 				'bounce-in': {
 					'0%': {
-						transform: 'scale(0.3)',
-						opacity: '0'
+						opacity: '0',
+						transform: 'scale(0.5)'
 					},
 					'50%': {
-						transform: 'scale(1.05)',
-						opacity: '0.8'
-					},
-					'70%': {
-						transform: 'scale(0.9)',
-						opacity: '0.9'
+						opacity: '0.8',
+						transform: 'scale(1.1)'
 					},
 					'100%': {
-						transform: 'scale(1)',
-						opacity: '1'
+						opacity: '1',
+						transform: 'scale(1)'
 					}
 				},
-				'slide-in-right': {
+				'slide-in-from-bottom': {
 					'0%': {
-						transform: 'translateX(100%)',
-						opacity: '0'
+						opacity: '0',
+						transform: 'translateY(100px)'
 					},
 					'100%': {
-						transform: 'translateX(0)',
-						opacity: '1'
+						opacity: '1',
+						transform: 'translateY(0)'
 					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'blink': 'blink 0.7s infinite',
-				'typewriter': 'typewriter 2s steps(40) forwards',
-				// New animations
+				'blink': 'blink 1s infinite',
+				'typewriter': 'typewriter 4s steps(40) 1s 1 normal both',
 				'fade-in-up': 'fade-in-up 0.6s ease-out',
-				'progress-bar': 'progress-bar 30s linear',
+				'progress-bar': 'progress-bar 30s linear forwards',
 				'bounce-in': 'bounce-in 0.6s ease-out',
-				'slide-in-right': 'slide-in-right 0.4s ease-out',
-			},
-			// New: Brand-specific spacing for consistent design
-			spacing: {
-				'brand-xs': '8px',
-				'brand-sm': '16px',
-				'brand-md': '24px',
-				'brand-lg': '32px',
-				'brand-xl': '48px',
-			},
-			// New: Enhanced shadows for glassmorphism effects
-			boxShadow: {
-				'brand-soft': '0 2px 20px rgba(27, 27, 27, 0.1)',
-				'brand-medium': '0 4px 30px rgba(27, 27, 27, 0.15)',
-				'brand-strong': '0 8px 40px rgba(27, 27, 27, 0.2)',
-			},
-			// New: Backdrop blur utilities
-			backdropBlur: {
-				'brand-xs': '2px',
-				'brand-sm': '4px',
-				'brand-md': '8px',
-				'brand-lg': '16px',
+				'slide-in-from-bottom': 'slide-in-from-bottom 0.8s ease-out',
 			}
 		}
 	},
