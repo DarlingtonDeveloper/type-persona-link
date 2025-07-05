@@ -125,106 +125,103 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
 
                     {/* Container 1: Identity */}
-                    <div className="group relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
-                        <div className="e3-container e3-container-hover">
-                            <div className="text-center mb-8">
-                                <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
-                                    <User className="h-8 w-8 text-black" />
-                                </div>
-                                <h3 className="text-2xl font-light text-white tracking-wide">Identity</h3>
-                                <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                    <div className="e3-container e3-container-hover">
+                        <div className="text-center mb-8">
+                            <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                                <User className="h-8 w-8 text-black" />
+                            </div>
+                            <h3 className="text-2xl font-light text-white tracking-wide">Identity</h3>
+                            <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div className="relative">
+                                <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                    Full Name
+                                </Label>
+                                <Input
+                                    value={formData.name || ''}
+                                    onChange={(e) => onFormDataChange('name', e.target.value)}
+                                    className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30"
+                                    maxLength={VALIDATION_RULES.NAME.MAX_LENGTH}
+                                />
                             </div>
 
-                            <div className="space-y-6">
+                            <div className="relative">
+                                <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                    Date of Birth
+                                </Label>
                                 <div className="relative">
-                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
-                                        Full Name
-                                    </Label>
                                     <Input
-                                        value={formData.name || ''}
-                                        onChange={(e) => onFormDataChange('name', e.target.value)}
-                                        className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30"
-                                        maxLength={VALIDATION_RULES.NAME.MAX_LENGTH}
+                                        type="date"
+                                        value={formData.date_of_birth || ''}
+                                        onChange={(e) => onFormDataChange('date_of_birth', e.target.value)}
+                                        max={new Date().toISOString().split('T')[0]}
+                                        className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
                                     />
+                                    <Calendar className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
                                 </div>
+                            </div>
 
-                                <div className="relative">
-                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
-                                        Date of Birth
-                                    </Label>
-                                    <div className="relative">
-                                        <Input
-                                            type="date"
-                                            value={formData.date_of_birth || ''}
-                                            onChange={(e) => onFormDataChange('date_of_birth', e.target.value)}
-                                            max={new Date().toISOString().split('T')[0]}
-                                            className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
-                                        />
-                                        <Calendar className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
-                                    </div>
-                                </div>
+                            <div className="relative">
+                                <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                    Eye Color
+                                </Label>
+                                <div className="pt-4">
+                                    <div className="grid grid-cols-3 gap-3">
+                                        {/* Blue - Sea/Waves */}
+                                        <Button
+                                            onClick={() => onFormDataChange('eye_color', 'blue')}
+                                            variant="ghost"
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.eye_color === 'blue'
+                                                ? 'bg-white/25 border-white/50 shadow-lg'
+                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                }`}
+                                        >
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+                                                <path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+                                                <path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+                                            </svg>
+                                            <span className="text-xs text-center">Blue</span>
+                                        </Button>
 
-                                <div className="relative">
-                                    <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-black px-2 text-sm font-medium text-white/70 z-10">
-                                        Eye Color
-                                    </Label>
-                                    <div className="pt-4">
-                                        <div className="grid grid-cols-3 gap-3">
-                                            {/* Blue - Sea/Waves */}
-                                            <Button
-                                                onClick={() => onFormDataChange('eye_color', 'blue')}
-                                                variant="ghost"
-                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.eye_color === 'blue'
-                                                    ? 'bg-white/25 border-white/50 shadow-lg'
-                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
-                                                    }`}
-                                            >
-                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
-                                                    <path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
-                                                    <path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
-                                                </svg>
-                                                <span className="text-xs text-center">Blue</span>
-                                            </Button>
+                                        {/* Brown - Earth/Circle */}
+                                        <Button
+                                            onClick={() => onFormDataChange('eye_color', 'brown')}
+                                            variant="ghost"
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.eye_color === 'brown'
+                                                ? 'bg-white/25 border-white/50 shadow-lg'
+                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                }`}
+                                        >
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <circle cx="12" cy="12" r="10" />
+                                                <path d="M8 12h4" />
+                                                <path d="M8 16h2" />
+                                                <path d="M16 8h2" />
+                                                <path d="M14 12h2" />
+                                                <path d="M10 8h2" />
+                                            </svg>
+                                            <span className="text-xs text-center">Brown</span>
+                                        </Button>
 
-                                            {/* Brown - Earth/Circle */}
-                                            <Button
-                                                onClick={() => onFormDataChange('eye_color', 'brown')}
-                                                variant="ghost"
-                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.eye_color === 'brown'
-                                                    ? 'bg-white/25 border-white/50 shadow-lg'
-                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
-                                                    }`}
-                                            >
-                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <circle cx="12" cy="12" r="10" />
-                                                    <path d="M8 12h4" />
-                                                    <path d="M8 16h2" />
-                                                    <path d="M16 8h2" />
-                                                    <path d="M14 12h2" />
-                                                    <path d="M10 8h2" />
-                                                </svg>
-                                                <span className="text-xs text-center">Brown</span>
-                                            </Button>
-
-                                            {/* Green - Plant/Leaf */}
-                                            <Button
-                                                onClick={() => onFormDataChange('eye_color', 'green')}
-                                                variant="ghost"
-                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.eye_color === 'green'
-                                                    ? 'bg-white/25 border-white/50 shadow-lg'
-                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
-                                                    }`}
-                                            >
-                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <path d="M7 20s-4-7 6-11c0 0-3 1-3 5 0 0 4-2 8 2" />
-                                                    <path d="M12 19s4-7-6-11c0 0 3 1 3 5 0 0-4-2-8 2" />
-                                                    <path d="M12 22v-8" />
-                                                </svg>
-                                                <span className="text-xs text-center">Green</span>
-                                            </Button>
-                                        </div>
+                                        {/* Green - Plant/Leaf */}
+                                        <Button
+                                            onClick={() => onFormDataChange('eye_color', 'green')}
+                                            variant="ghost"
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.eye_color === 'green'
+                                                ? 'bg-white/25 border-white/50 shadow-lg'
+                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                }`}
+                                        >
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M7 20s-4-7 6-11c0 0-3 1-3 5 0 0 4-2 8 2" />
+                                                <path d="M12 19s4-7-6-11c0 0 3 1 3 5 0 0-4-2-8 2" />
+                                                <path d="M12 22v-8" />
+                                            </svg>
+                                            <span className="text-xs text-center">Green</span>
+                                        </Button>
                                     </div>
                                 </div>
                             </div>
@@ -232,220 +229,214 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                     </div>
 
                     {/* Container 2: Contact */}
-                    <div className="group relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
-                        <div className="e3-container e3-container-hover">
-                            <div className="text-center mb-8">
-                                <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
-                                    <Mail className="h-8 w-8 text-black" />
+                    <div className="e3-container e3-container-hover">
+                        <div className="text-center mb-8">
+                            <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                                <Mail className="h-8 w-8 text-black" />
+                            </div>
+                            <h3 className="text-2xl font-light text-white tracking-wide">Contact</h3>
+                            <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div className="relative">
+                                <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                    Email Address
+                                </Label>
+                                <div className="relative">
+                                    <Input
+                                        type="email"
+                                        value={formData.email || ''}
+                                        onChange={(e) => onFormDataChange('email', e.target.value)}
+                                        className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
+                                    />
+                                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
                                 </div>
-                                <h3 className="text-2xl font-light text-white tracking-wide">Contact</h3>
-                                <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
                             </div>
 
-                            <div className="space-y-6">
+                            <div className="relative">
+                                <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                    Phone Number
+                                </Label>
                                 <div className="relative">
-                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
-                                        Email Address
-                                    </Label>
-                                    <div className="relative">
-                                        <Input
-                                            type="email"
-                                            value={formData.email || ''}
-                                            onChange={(e) => onFormDataChange('email', e.target.value)}
-                                            className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
-                                        />
-                                        <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
-                                    </div>
+                                    <Input
+                                        type="tel"
+                                        value={formData.mobile || ''}
+                                        onChange={(e) => onFormDataChange('mobile', e.target.value)}
+                                        className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
+                                        minLength={VALIDATION_RULES.MOBILE.MIN_LENGTH}
+                                        maxLength={VALIDATION_RULES.MOBILE.MAX_LENGTH}
+                                    />
+                                    <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
                                 </div>
+                            </div>
 
+                            <div className="relative">
+                                <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                    Location
+                                </Label>
                                 <div className="relative">
-                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
-                                        Phone Number
-                                    </Label>
-                                    <div className="relative">
-                                        <Input
-                                            type="tel"
-                                            value={formData.mobile || ''}
-                                            onChange={(e) => onFormDataChange('mobile', e.target.value)}
-                                            className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
-                                            minLength={VALIDATION_RULES.MOBILE.MIN_LENGTH}
-                                            maxLength={VALIDATION_RULES.MOBILE.MAX_LENGTH}
-                                        />
-                                        <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
-                                    </div>
-                                </div>
-
-                                <div className="relative">
-                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
-                                        Location
-                                    </Label>
-                                    <div className="relative">
-                                        <Select value={formData.location || ''} onValueChange={(value) => onFormDataChange('location', value)}>
-                                            <SelectTrigger className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {LOCATION_OPTIONS.map((location) => (
-                                                    <SelectItem key={location.value} value={location.value}>
-                                                        {location.label}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                        <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
-                                    </div>
+                                    <Select value={formData.location || ''} onValueChange={(value) => onFormDataChange('location', value)}>
+                                        <SelectTrigger className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12">
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {LOCATION_OPTIONS.map((location) => (
+                                                <SelectItem key={location.value} value={location.value}>
+                                                    {location.label}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Container 3: Personal */}
-                    <div className="group relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
-                        <div className="e3-container e3-container-hover">
-                            <div className="text-center mb-8">
-                                <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
-                                    <Heart className="h-8 w-8 text-black" />
+                    <div className="e3-container e3-container-hover">
+                        <div className="text-center mb-8">
+                            <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                                <Heart className="h-8 w-8 text-black" />
+                            </div>
+                            <h3 className="text-2xl font-light text-white tracking-wide">Personal</h3>
+                            <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div className="relative">
+                                <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                    Gender
+                                </Label>
+                                <div className="pt-4">
+                                    <div className="grid grid-cols-3 gap-3">
+                                        {/* Male */}
+                                        <Button
+                                            onClick={() => onFormDataChange('gender', 'male')}
+                                            variant="ghost"
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.gender === 'male'
+                                                ? 'bg-white/25 border-white/50 shadow-lg'
+                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                }`}
+                                        >
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <circle cx="10" cy="14" r="6" />
+                                                <path d="m15 9 5-5" />
+                                                <path d="m20 4-2 2" />
+                                                <path d="m20 4 2 2" />
+                                            </svg>
+                                            <span className="text-xs text-center">Male</span>
+                                        </Button>
+
+                                        {/* Female */}
+                                        <Button
+                                            onClick={() => onFormDataChange('gender', 'female')}
+                                            variant="ghost"
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.gender === 'female'
+                                                ? 'bg-white/25 border-white/50 shadow-lg'
+                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                }`}
+                                        >
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <circle cx="12" cy="8" r="7" />
+                                                <path d="M12 15v6" />
+                                                <path d="M9 18h6" />
+                                            </svg>
+                                            <span className="text-xs text-center">Female</span>
+                                        </Button>
+
+                                        {/* Other */}
+                                        <Button
+                                            onClick={() => onFormDataChange('gender', 'other')}
+                                            variant="ghost"
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.gender === 'other'
+                                                ? 'bg-white/25 border-white/50 shadow-lg'
+                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                }`}
+                                        >
+                                            <Users size={20} />
+                                            <span className="text-xs text-center">Other</span>
+                                        </Button>
+                                    </div>
                                 </div>
-                                <h3 className="text-2xl font-light text-white tracking-wide">Personal</h3>
-                                <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
                             </div>
 
-                            <div className="space-y-6">
-                                <div className="relative">
-                                    <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-black px-2 text-sm font-medium text-white/70 z-10">
-                                        Gender
-                                    </Label>
-                                    <div className="pt-4">
-                                        <div className="grid grid-cols-3 gap-3">
-                                            {/* Male */}
-                                            <Button
-                                                onClick={() => onFormDataChange('gender', 'male')}
-                                                variant="ghost"
-                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.gender === 'male'
-                                                    ? 'bg-white/25 border-white/50 shadow-lg'
-                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
-                                                    }`}
-                                            >
-                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <circle cx="10" cy="14" r="6" />
-                                                    <path d="m15 9 5-5" />
-                                                    <path d="m20 4-2 2" />
-                                                    <path d="m20 4 2 2" />
-                                                </svg>
-                                                <span className="text-xs text-center">Male</span>
-                                            </Button>
+                            <div className="relative">
+                                <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                    Relationship
+                                </Label>
+                                <div className="pt-4">
+                                    <div className="grid grid-cols-3 gap-3">
+                                        {/* Single */}
+                                        <Button
+                                            onClick={() => onFormDataChange('relationship_status', 'single')}
+                                            variant="ghost"
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.relationship_status === 'single'
+                                                ? 'bg-white/25 border-white/50 shadow-lg'
+                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                }`}
+                                        >
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                            </svg>
+                                            <span className="text-xs text-center">Single</span>
+                                        </Button>
 
-                                            {/* Female */}
-                                            <Button
-                                                onClick={() => onFormDataChange('gender', 'female')}
-                                                variant="ghost"
-                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.gender === 'female'
-                                                    ? 'bg-white/25 border-white/50 shadow-lg'
-                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
-                                                    }`}
-                                            >
-                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <circle cx="12" cy="8" r="7" />
-                                                    <path d="M12 15v6" />
-                                                    <path d="M9 18h6" />
-                                                </svg>
-                                                <span className="text-xs text-center">Female</span>
-                                            </Button>
+                                        {/* It's Complicated */}
+                                        <Button
+                                            onClick={() => onFormDataChange('relationship_status', 'complicated')}
+                                            variant="ghost"
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.relationship_status === 'complicated'
+                                                ? 'bg-white/25 border-white/50 shadow-lg'
+                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                }`}
+                                        >
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <circle cx="12" cy="12" r="10" />
+                                                <path d="M9 9h6v6" />
+                                                <path d="m9 15 6-6" />
+                                            </svg>
+                                            <span className="text-xs text-center">It's Complicated</span>
+                                        </Button>
 
-                                            {/* Other */}
-                                            <Button
-                                                onClick={() => onFormDataChange('gender', 'other')}
-                                                variant="ghost"
-                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.gender === 'other'
-                                                    ? 'bg-white/25 border-white/50 shadow-lg'
-                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
-                                                    }`}
-                                            >
-                                                <Users size={20} />
-                                                <span className="text-xs text-center">Other</span>
-                                            </Button>
-                                        </div>
+                                        {/* In a Relationship */}
+                                        <Button
+                                            onClick={() => onFormDataChange('relationship_status', 'in-relationship')}
+                                            variant="ghost"
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.relationship_status === 'in-relationship'
+                                                ? 'bg-white/25 border-white/50 shadow-lg'
+                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                                }`}
+                                        >
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                                <path d="M16.84 8.61a3.5 3.5 0 0 0-4.78 0L12 8.67l-0.06-0.06a3.5 3.5 0 0 0-4.78 4.78l0.06 0.06L12 18.23l4.78-4.78 0.06-0.06a3.5 3.5 0 0 0 0-4.78z" />
+                                            </svg>
+                                            <span className="text-xs text-center">In a Relationship</span>
+                                        </Button>
                                     </div>
                                 </div>
+                            </div>
 
+                            <div className="relative">
+                                <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                    Job Title
+                                </Label>
                                 <div className="relative">
-                                    <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-black px-2 text-sm font-medium text-white/70 z-10">
-                                        Relationship
-                                    </Label>
-                                    <div className="pt-4">
-                                        <div className="grid grid-cols-3 gap-3">
-                                            {/* Single */}
-                                            <Button
-                                                onClick={() => onFormDataChange('relationship_status', 'single')}
-                                                variant="ghost"
-                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.relationship_status === 'single'
-                                                    ? 'bg-white/25 border-white/50 shadow-lg'
-                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
-                                                    }`}
-                                            >
-                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                                                </svg>
-                                                <span className="text-xs text-center">Single</span>
-                                            </Button>
-
-                                            {/* It's Complicated */}
-                                            <Button
-                                                onClick={() => onFormDataChange('relationship_status', 'complicated')}
-                                                variant="ghost"
-                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.relationship_status === 'complicated'
-                                                    ? 'bg-white/25 border-white/50 shadow-lg'
-                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
-                                                    }`}
-                                            >
-                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <circle cx="12" cy="12" r="10" />
-                                                    <path d="M9 9h6v6" />
-                                                    <path d="m9 15 6-6" />
-                                                </svg>
-                                                <span className="text-xs text-center">It's Complicated</span>
-                                            </Button>
-
-                                            {/* In a Relationship */}
-                                            <Button
-                                                onClick={() => onFormDataChange('relationship_status', 'in-relationship')}
-                                                variant="ghost"
-                                                className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.relationship_status === 'in-relationship'
-                                                    ? 'bg-white/25 border-white/50 shadow-lg'
-                                                    : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
-                                                    }`}
-                                            >
-                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                                                    <path d="M16.84 8.61a3.5 3.5 0 0 0-4.78 0L12 8.67l-0.06-0.06a3.5 3.5 0 0 0-4.78 4.78l0.06 0.06L12 18.23l4.78-4.78 0.06-0.06a3.5 3.5 0 0 0 0-4.78z" />
-                                                </svg>
-                                                <span className="text-xs text-center">In a Relationship</span>
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="relative">
-                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
-                                        Job Title
-                                    </Label>
-                                    <div className="relative">
-                                        <Select value={formData.job_title || ''} onValueChange={(value) => onFormDataChange('job_title', value)}>
-                                            <SelectTrigger className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {JOB_TITLE_OPTIONS.map((job) => (
-                                                    <SelectItem key={job.value} value={job.value}>
-                                                        {job.label}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                        <Briefcase className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
-                                    </div>
+                                    <Select value={formData.job_title || ''} onValueChange={(value) => onFormDataChange('job_title', value)}>
+                                        <SelectTrigger className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12">
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {JOB_TITLE_OPTIONS.map((job) => (
+                                                <SelectItem key={job.value} value={job.value}>
+                                                    {job.label}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <Briefcase className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
                                 </div>
                             </div>
                         </div>

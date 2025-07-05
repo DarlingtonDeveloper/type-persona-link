@@ -145,104 +145,101 @@ const LinksStep: React.FC<Props> = ({ formData, onFormDataChange, onNext, onBack
         const IconComponent = iconComponent;
 
         return (
-            <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl blur-xl transform group-hover:scale-105 transition-transform duration-500"></div>
-                <div className="e3-container e3-container-hover">
-                    <div className="text-center mb-8">
-                        <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
-                            <IconComponent className="h-8 w-8 text-black" />
-                        </div>
-                        <h3 className="text-2xl font-light text-white tracking-wide">{title}</h3>
-                        <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+            <div className="e3-container e3-container-hover">
+                <div className="text-center mb-8">
+                    <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                        <IconComponent className="h-8 w-8 text-black" />
                     </div>
+                    <h3 className="text-2xl font-light text-white tracking-wide">{title}</h3>
+                    <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                </div>
 
-                    <div className="space-y-6">
-                        {/* Category Selection - Always show if no type or empty type */}
-                        {(!link.type || link.type === '') ? (
-                            <div className="space-y-4">
-                                <p className="text-sm text-white/60 text-center">Choose link type</p>
-                                <div className="grid grid-cols-2 gap-3">
-                                    {LINK_CATEGORIES.map((category) => {
-                                        const CategoryIcon = category.icon;
-                                        return (
-                                            <Button
-                                                key={category.type}
-                                                onClick={() => selectCategory(index, category.type)}
-                                                variant="ghost"
-                                                className="h-16 flex-col gap-2 bg-white/15 border-2 border-white/30 rounded-xl hover:bg-white/25 hover:border-white/50 transition-all duration-300 text-white hover:text-white hover:scale-105"
-                                            >
-                                                <CategoryIcon size={20} />
-                                                <span className="text-xs">{category.label}</span>
-                                            </Button>
-                                        );
-                                    })}
-                                </div>
+                <div className="space-y-6">
+                    {/* Category Selection - Always show if no type or empty type */}
+                    {(!link.type || link.type === '') ? (
+                        <div className="space-y-4">
+                            <p className="text-sm text-white/60 text-center">Choose link type</p>
+                            <div className="grid grid-cols-2 gap-3">
+                                {LINK_CATEGORIES.map((category) => {
+                                    const CategoryIcon = category.icon;
+                                    return (
+                                        <Button
+                                            key={category.type}
+                                            onClick={() => selectCategory(index, category.type)}
+                                            variant="ghost"
+                                            className="h-16 flex-col gap-2 bg-white/15 border-2 border-white/30 rounded-xl hover:bg-white/25 hover:border-white/50 transition-all duration-300 text-white hover:text-white hover:scale-105"
+                                        >
+                                            <CategoryIcon size={20} />
+                                            <span className="text-xs">{category.label}</span>
+                                        </Button>
+                                    );
+                                })}
                             </div>
-                        ) : (
-                            <>
-                                {/* Platform Selection for Social Media */}
-                                {link.type === 'social-media' && (!link.platform || link.platform === '') && (
-                                    <div className="space-y-4">
-                                        <p className="text-sm text-white/60 text-center">Choose platform</p>
-                                        <div className="grid grid-cols-2 gap-3">
-                                            {SOCIAL_PLATFORMS.map((platform) => {
-                                                const PlatformIcon = platform.icon;
-                                                return (
-                                                    <Button
-                                                        key={platform.name}
-                                                        onClick={() => selectPlatform(index, platform.name)}
-                                                        variant="ghost"
-                                                        className="h-16 flex-col gap-2 bg-white/15 border-2 border-white/30 rounded-xl hover:bg-white/25 hover:border-white/50 transition-all duration-300 text-white hover:text-white hover:scale-105"
-                                                    >
-                                                        <PlatformIcon size={20} />
-                                                        <span className="text-xs">{platform.name}</span>
-                                                    </Button>
-                                                );
-                                            })}
-                                        </div>
+                        </div>
+                    ) : (
+                        <>
+                            {/* Platform Selection for Social Media */}
+                            {link.type === 'social-media' && (!link.platform || link.platform === '') && (
+                                <div className="space-y-4">
+                                    <p className="text-sm text-white/60 text-center">Choose platform</p>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        {SOCIAL_PLATFORMS.map((platform) => {
+                                            const PlatformIcon = platform.icon;
+                                            return (
+                                                <Button
+                                                    key={platform.name}
+                                                    onClick={() => selectPlatform(index, platform.name)}
+                                                    variant="ghost"
+                                                    className="h-16 flex-col gap-2 bg-white/15 border-2 border-white/30 rounded-xl hover:bg-white/25 hover:border-white/50 transition-all duration-300 text-white hover:text-white hover:scale-105"
+                                                >
+                                                    <PlatformIcon size={20} />
+                                                    <span className="text-xs">{platform.name}</span>
+                                                </Button>
+                                            );
+                                        })}
                                     </div>
-                                )}
-
-                                {/* Input Field */}
-                                {(link.type !== 'social-media' || (link.platform && link.platform !== '')) && (
-                                    <div className="relative">
-                                        <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
-                                            {link.type === 'social-media' ? 'Username' :
-                                                link.type === 'email' ? 'Email Address' :
-                                                    link.type === 'mobile' ? 'Phone Number' : 'URL'}
-                                        </Label>
-                                        <div className="relative">
-                                            <Input
-                                                type={link.type === 'email' ? 'email' : link.type === 'mobile' ? 'tel' : 'text'}
-                                                value={getInputValue(link)}
-                                                onChange={(e) => handleInputChange(index, e.target.value, link)}
-                                                placeholder={getInputPlaceholder(link)}
-                                                className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
-                                            />
-                                            <User className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Reset button for selected category */}
-                                <div className="flex justify-center">
-                                    <Button
-                                        onClick={() => {
-                                            updateLink(index, {});
-                                            // Force re-render by updating the links array
-                                            const resetLinks = [...links];
-                                            resetLinks[index] = {};
-                                            onFormDataChange('links', resetLinks);
-                                        }}
-                                        variant="ghost"
-                                        className="text-xs text-white/40 hover:text-white/60 hover:bg-transparent p-2"
-                                    >
-                                        Reset
-                                    </Button>
                                 </div>
-                            </>
-                        )}
-                    </div>
+                            )}
+
+                            {/* Input Field */}
+                            {(link.type !== 'social-media' || (link.platform && link.platform !== '')) && (
+                                <div className="relative">
+                                    <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                        {link.type === 'social-media' ? 'Username' :
+                                            link.type === 'email' ? 'Email Address' :
+                                                link.type === 'mobile' ? 'Phone Number' : 'URL'}
+                                    </Label>
+                                    <div className="relative">
+                                        <Input
+                                            type={link.type === 'email' ? 'email' : link.type === 'mobile' ? 'tel' : 'text'}
+                                            value={getInputValue(link)}
+                                            onChange={(e) => handleInputChange(index, e.target.value, link)}
+                                            placeholder={getInputPlaceholder(link)}
+                                            className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
+                                        />
+                                        <User className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Reset button for selected category */}
+                            <div className="flex justify-center">
+                                <Button
+                                    onClick={() => {
+                                        updateLink(index, {});
+                                        // Force re-render by updating the links array
+                                        const resetLinks = [...links];
+                                        resetLinks[index] = {};
+                                        onFormDataChange('links', resetLinks);
+                                    }}
+                                    variant="ghost"
+                                    className="text-xs text-white/40 hover:text-white/60 hover:bg-transparent p-2"
+                                >
+                                    Reset
+                                </Button>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         );
