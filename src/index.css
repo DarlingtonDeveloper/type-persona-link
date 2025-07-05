@@ -53,6 +53,19 @@
     --brand-font-size-gif: 30px;
     --brand-font-size-heading: 50px;
     --brand-font-size-body: 30px;
+
+    /* E3 Container System Variables */
+    --container-bg-primary: rgba(27, 27, 27, 0.95);
+    --container-bg-secondary: rgba(27, 27, 27, 0.85);
+    --container-bg-light: rgba(254, 254, 250, 0.95);
+    --container-border: rgba(254, 254, 250, 0.1);
+    --container-border-light: rgba(27, 27, 27, 0.1);
+    --container-text-primary: var(--brand-white);
+    --container-text-secondary: rgba(254, 254, 250, 0.8);
+    --container-radius: 1.5rem;
+    --container-padding: 2rem;
+    --container-shadow: 0 4px 30px rgba(27, 27, 27, 0.3);
+    --container-backdrop-blur: 12px;
   }
 
   .dark {
@@ -128,87 +141,6 @@
     line-height: 1.2;
   }
 
-  /* Welcome GIF specific styles */
-  .welcome-container {
-    background: linear-gradient(135deg,
-        rgba(27, 27, 27, 0.1) 0%,
-        rgba(254, 254, 250, 0.1) 100%);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(254, 254, 250, 0.2);
-  }
-
-  .welcome-gif {
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(27, 27, 27, 0.3);
-    transition: transform 0.3s ease;
-  }
-
-  .welcome-gif:hover {
-    transform: scale(1.02);
-  }
-
-  /* Progress bar animations */
-  .progress-bar-animated {
-    background: linear-gradient(90deg,
-        var(--brand-white) 0%,
-        rgba(254, 254, 250, 0.8) 50%,
-        var(--brand-white) 100%);
-    animation: progress-bar 30s linear forwards;
-  }
-
-  /* Onboarding form enhancements */
-  .onboarding-card {
-    background: rgba(254, 254, 250, 0.95);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(27, 27, 27, 0.1);
-    box-shadow: 0 4px 30px rgba(27, 27, 27, 0.1);
-  }
-
-  .onboarding-input {
-    border: 2px solid rgba(27, 27, 27, 0.1);
-    background: rgba(254, 254, 250, 0.8);
-    transition: all 0.3s ease;
-  }
-
-  .onboarding-input:focus {
-    border-color: var(--brand-black);
-    background: var(--brand-white);
-    box-shadow: 0 0 0 3px rgba(27, 27, 27, 0.1);
-  }
-
-  /* Link category cards */
-  .link-category-card {
-    background: rgba(254, 254, 250, 0.9);
-    border: 2px solid rgba(27, 27, 27, 0.1);
-    transition: all 0.3s ease;
-  }
-
-  .link-category-card:hover {
-    border-color: var(--brand-black);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(27, 27, 27, 0.15);
-  }
-
-  /* Bio and interests section */
-  .bio-section {
-    background: linear-gradient(135deg,
-        rgba(254, 254, 250, 0.95) 0%,
-        rgba(254, 254, 250, 0.85) 100%);
-    backdrop-filter: blur(10px);
-  }
-
-  /* Completion page styles */
-  .completion-container {
-    background: radial-gradient(circle at center,
-        rgba(254, 254, 250, 0.95) 0%,
-        rgba(254, 254, 250, 0.9) 100%);
-    backdrop-filter: blur(15px);
-  }
-
-  .completion-icon {
-    animation: bounce-in 0.6s ease-out;
-  }
-
   /* Enhanced button styles */
   .brand-button-primary {
     background: var(--brand-black);
@@ -240,6 +172,26 @@
     color: var(--brand-white);
     transform: translateY(-1px);
     box-shadow: 0 4px 15px rgba(27, 27, 27, 0.2);
+  }
+
+  /* Progress bar animations */
+  .progress-bar-animated {
+    background: linear-gradient(90deg,
+        var(--brand-white) 0%,
+        rgba(254, 254, 250, 0.8) 50%,
+        var(--brand-white) 100%);
+    animation: progress-bar 30s linear forwards;
+  }
+
+  /* Welcome GIF specific styles */
+  .welcome-gif {
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(27, 27, 27, 0.3);
+    transition: transform 0.3s ease;
+  }
+
+  .welcome-gif:hover {
+    transform: scale(1.02);
   }
 
   /* Mobile responsiveness for brand fonts */
@@ -301,6 +253,387 @@
   }
 }
 
+/* ===== E3 CIRCLE STANDARDIZED CONTAINER SYSTEM ===== */
+
+/* Base container class - matches Privacy Notice style */
+.e3-container {
+  background: var(--container-bg-primary);
+  color: var(--container-text-primary);
+  border-radius: var(--container-radius);
+  padding: var(--container-padding);
+  border: 1px solid var(--container-border);
+  backdrop-filter: blur(var(--container-backdrop-blur));
+  box-shadow: var(--container-shadow);
+  font-family: var(--brand-font-family);
+  transition: all 0.3s ease;
+}
+
+/* Container variants */
+.e3-container-light {
+  background: var(--container-bg-light);
+  color: var(--brand-black);
+  border: 1px solid var(--container-border-light);
+  box-shadow: 0 4px 30px rgba(27, 27, 27, 0.1);
+}
+
+.e3-container-secondary {
+  background: var(--container-bg-secondary);
+  color: var(--container-text-primary);
+}
+
+.e3-container-transparent {
+  background: rgba(27, 27, 27, 0.7);
+  backdrop-filter: blur(20px);
+}
+
+/* Interactive states */
+.e3-container-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(27, 27, 27, 0.4);
+  border-color: rgba(254, 254, 250, 0.2);
+}
+
+.e3-container-clickable {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.e3-container-clickable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 35px rgba(27, 27, 27, 0.35);
+}
+
+.e3-container-clickable:active {
+  transform: translateY(0);
+}
+
+/* Size variants */
+.e3-container-sm {
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.e3-container-lg {
+  padding: 3rem;
+  border-radius: 2rem;
+}
+
+.e3-container-xl {
+  padding: 4rem;
+  border-radius: 2.5rem;
+}
+
+/* Content spacing within containers */
+.e3-container-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.e3-container-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.e3-container-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: inherit;
+  margin-bottom: 0.5rem;
+  font-family: var(--brand-font-family);
+}
+
+.e3-container-subtitle {
+  font-size: 1rem;
+  opacity: 0.8;
+  font-weight: 400;
+}
+
+.e3-container-divider {
+  width: 3rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.2;
+  margin: 1rem auto;
+}
+
+/* Specific component containers */
+
+/* Privacy Notice container (matches your image exactly) */
+.e3-privacy-notice {
+  background: rgba(27, 27, 27, 0.95);
+  color: var(--brand-white);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  border: 1px solid rgba(254, 254, 250, 0.1);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 30px rgba(27, 27, 27, 0.3);
+  font-family: var(--brand-font-family);
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* Onboarding containers */
+.e3-onboarding-card {
+  background: var(--container-bg-primary);
+  color: var(--container-text-primary);
+  border-radius: var(--container-radius);
+  padding: var(--container-padding);
+  border: 1px solid var(--container-border);
+  backdrop-filter: blur(var(--container-backdrop-blur));
+  box-shadow: var(--container-shadow);
+}
+
+/* Welcome containers */
+.e3-welcome-container {
+  background: var(--container-bg-primary);
+  border-radius: var(--container-radius);
+  padding: var(--container-padding);
+  border: 1px solid var(--container-border);
+  backdrop-filter: blur(var(--container-backdrop-blur));
+}
+
+/* Link category containers */
+.e3-link-category-card {
+  background: var(--container-bg-primary);
+  color: var(--container-text-primary);
+  border: 2px solid var(--container-border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.e3-link-category-card:hover {
+  border-color: rgba(254, 254, 250, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(27, 27, 27, 0.4);
+}
+
+.e3-link-category-card.selected {
+  border-color: var(--brand-white);
+  background: rgba(254, 254, 250, 0.1);
+}
+
+/* Admin dashboard containers */
+.e3-admin-card {
+  background: var(--container-bg-light);
+  color: var(--brand-black);
+  border-radius: var(--container-radius);
+  border: 1px solid var(--container-border-light);
+  box-shadow: 0 4px 30px rgba(27, 27, 27, 0.1);
+}
+
+/* Alert containers */
+.e3-alert {
+  background: var(--container-bg-primary);
+  color: var(--container-text-primary);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--container-border);
+  backdrop-filter: blur(var(--container-backdrop-blur));
+}
+
+.e3-alert-warning {
+  background: rgba(251, 146, 60, 0.1);
+  border-color: rgba(251, 146, 60, 0.2);
+  color: rgb(251, 146, 60);
+}
+
+.e3-alert-success {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.2);
+  color: rgb(34, 197, 94);
+}
+
+.e3-alert-error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.2);
+  color: rgb(239, 68, 68);
+}
+
+/* Form containers */
+.e3-form-container {
+  background: var(--container-bg-primary);
+  color: var(--container-text-primary);
+  border-radius: var(--container-radius);
+  padding: var(--container-padding);
+  border: 1px solid var(--container-border);
+  backdrop-filter: blur(var(--container-backdrop-blur));
+}
+
+.e3-form-section {
+  background: rgba(254, 254, 250, 0.05);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(254, 254, 250, 0.05);
+}
+
+/* Profile containers */
+.e3-profile-container {
+  background: var(--container-bg-primary);
+  color: var(--container-text-primary);
+  border-radius: var(--container-radius);
+  padding: var(--container-padding);
+  border: 1px solid var(--container-border);
+  backdrop-filter: blur(var(--container-backdrop-blur));
+  position: relative;
+  overflow: hidden;
+}
+
+.e3-profile-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mobile responsiveness for containers */
+@media (max-width: 768px) {
+  .e3-container {
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+  }
+
+  .e3-container-lg {
+    padding: 2rem;
+  }
+
+  .e3-container-xl {
+    padding: 2.5rem;
+  }
+
+  .e3-container-title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .e3-container {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  .e3-container-lg,
+  .e3-container-xl {
+    padding: 1.5rem;
+  }
+}
+
+/* Animation classes */
+.e3-container-fade-in {
+  animation: fadeInContainer 0.6s ease-out forwards;
+}
+
+.e3-container-slide-up {
+  animation: slideUpContainer 0.6s ease-out forwards;
+}
+
+@keyframes fadeInContainer {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUpContainer {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utility classes for container layout */
+.e3-container-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.e3-container-flex {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.e3-container-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ===== END E3 CONTAINER SYSTEM ===== */
+
+/* ===== OLD STYLES - TO BE REMOVED AFTER MIGRATION ===== */
+/* Keep these temporarily for backward compatibility during migration */
+/* Remove after all components have been updated to use e3-container classes */
+
+.onboarding-card {
+  background: rgba(254, 254, 250, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(27, 27, 27, 0.1);
+  box-shadow: 0 4px 30px rgba(27, 27, 27, 0.1);
+}
+
+.onboarding-input {
+  border: 2px solid rgba(27, 27, 27, 0.1);
+  background: rgba(254, 254, 250, 0.8);
+  transition: all 0.3s ease;
+}
+
+.onboarding-input:focus {
+  border-color: var(--brand-black);
+  background: var(--brand-white);
+  box-shadow: 0 0 0 3px rgba(27, 27, 27, 0.1);
+}
+
+.link-category-card {
+  background: rgba(254, 254, 250, 0.9);
+  border: 2px solid rgba(27, 27, 27, 0.1);
+  transition: all 0.3s ease;
+}
+
+.link-category-card:hover {
+  border-color: var(--brand-black);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(27, 27, 27, 0.15);
+}
+
+.welcome-container {
+  background: linear-gradient(135deg,
+      rgba(27, 27, 27, 0.1) 0%,
+      rgba(254, 254, 250, 0.1) 100%);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(254, 254, 250, 0.2);
+}
+
+.bio-section {
+  background: linear-gradient(135deg,
+      rgba(254, 254, 250, 0.95) 0%,
+      rgba(254, 254, 250, 0.85) 100%);
+  backdrop-filter: blur(10px);
+}
+
+.completion-container {
+  background: radial-gradient(circle at center,
+      rgba(254, 254, 250, 0.95) 0%,
+      rgba(254, 254, 250, 0.9) 100%);
+  backdrop-filter: blur(15px);
+}
+
+.completion-icon {
+  animation: bounce-in 0.6s ease-out;
+}
+
+/* ===== END OLD STYLES ===== */
+
 /* Additional utility classes for brand consistency */
 @layer utilities {
   .text-brand-heading {
@@ -348,8 +681,6 @@
     border-color: var(--brand-white);
   }
 }
-
-/* Add these styles to your src/index.css file */
 
 /* Enhanced NFC animation */
 @keyframes nfc-pulse {
@@ -433,4 +764,18 @@
 
 .activate-button:hover {
   background: rgba(75, 85, 99, 0.9);
+}
+
+/* Print styles for containers */
+@media print {
+
+  .e3-container,
+  .e3-container-light,
+  .e3-privacy-notice {
+    background: white !important;
+    color: black !important;
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
 }

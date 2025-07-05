@@ -284,8 +284,8 @@ const AdminDashboard: React.FC = () => {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <Card>
-                    <CardContent className="p-6">
+                <div className="e3-admin-card">
+                    <div className="e3-container-content">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm font-medium text-gray-600">Total Users</p>
@@ -293,11 +293,11 @@ const AdminDashboard: React.FC = () => {
                             </div>
                             <Users className="h-8 w-8 text-blue-600" />
                         </div>
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
 
-                <Card>
-                    <CardContent className="p-6">
+                <div className="e3-admin-card">
+                    <div className="e3-container-content">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm font-medium text-gray-600">Completed Profiles</p>
@@ -305,11 +305,11 @@ const AdminDashboard: React.FC = () => {
                             </div>
                             <UserCheck className="h-8 w-8 text-green-600" />
                         </div>
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
 
-                <Card>
-                    <CardContent className="p-6">
+                <div className="e3-admin-card">
+                    <div className="e3-container-content">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm font-medium text-gray-600">Pending Onboarding</p>
@@ -317,11 +317,11 @@ const AdminDashboard: React.FC = () => {
                             </div>
                             <UserX className="h-8 w-8 text-orange-600" />
                         </div>
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
 
-                <Card>
-                    <CardContent className="p-6">
+                <div className="e3-admin-card">
+                    <div className="e3-container-content">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm font-medium text-gray-600">Completion Rate</p>
@@ -329,8 +329,8 @@ const AdminDashboard: React.FC = () => {
                             </div>
                             <TrendingUp className="h-8 w-8 text-purple-600" />
                         </div>
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
             </div>
 
             {/* Users Table */}
