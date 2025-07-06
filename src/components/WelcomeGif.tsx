@@ -16,7 +16,7 @@ const WelcomeGif: React.FC<WelcomeGifProps> = ({ onComplete, userCode }) => {
     const [logoError, setLogoError] = useState(false);
     const [gifLoopCount, setGifLoopCount] = useState(0);
 
-    // Track GIF loops and activate button after 25 seconds
+    // Track video loops and activate button after 25 seconds
     useEffect(() => {
         if (timeLeft <= 0) {
             setIsActivated(true);
@@ -41,88 +41,101 @@ const WelcomeGif: React.FC<WelcomeGifProps> = ({ onComplete, userCode }) => {
     };
 
     return (
-        <div className="min-h-screen bg-black flex flex-col items-center justify-between p-8">
-            {/* White E3 Logo at top */}
-            <div className="flex-shrink-0 pt-16">
-                <div className="w-24 h-24 flex items-center justify-center">
-                    {!logoError ? (
-                        <img
-                            src="/whitelogo.png"
-                            alt="E3 Circle Logo"
-                            className="w-full h-full object-contain"
-                            onLoad={() => setLogoLoaded(true)}
-                            onError={() => {
-                                console.warn('Logo failed to load, using fallback');
-                                setLogoError(true);
-                            }}
-                        />
-                    ) : (
-                        /* Fallback text logo */
-                        <div className="w-24 h-24 bg-transparent border-4 border-white rounded-full flex items-center justify-center">
-                            <span className="text-white text-3xl font-bold tracking-wider">E3</span>
-                        </div>
-                    )}
-                </div>
-            </div>
-
-            {/* Center content - GIF section */}
-            <div className="flex-1 flex flex-col items-center justify-center space-y-8 max-w-sm mx-auto">
+        <div className="min-h-screen bg-white flex flex-col">
+            {/* Video section with overlay - starts from top */}
+            <div className="flex-1 w-full relative">
                 {!gifError ? (
                     <>
-                        {/* Hide text when GIF is loaded and visible */}
+                        {/* Hide text when video is loaded and visible */}
                         {!gifLoaded && (
-                            <h1 className="welcome-text text-white text-3xl font-medium text-center leading-tight">
-                                Tap a compatible phone
-                            </h1>
+                            <div className="absolute inset-0 flex items-center justify-center z-20">
+                                <h1 className="welcome-text text-black text-3xl font-medium text-center leading-tight px-8">
+                                    Tap a compatible phone
+                                </h1>
+                            </div>
                         )}
 
-                        {/* Actual GIF Display */}
-                        <div className="w-64 h-64 flex items-center justify-center">
-                            <img
-                                src="/welcome.gif"
-                                alt="Welcome animation"
-                                className={`w-full h-full object-contain rounded-lg transition-opacity duration-500 ${gifLoaded ? 'opacity-100' : 'opacity-0'
+                        {/* Full width video container with overlay */}
+                        <div className="w-full h-full flex items-center justify-center relative">
+                            <video
+                                src="/StartingGif.mov"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                className={`w-full h-full object-cover transition-opacity duration-500 ${gifLoaded ? 'opacity-100' : 'opacity-0'
                                     }`}
-                                onLoad={() => {
+                                onLoadedData={() => {
                                     setGifLoaded(true);
-                                    console.log('Welcome GIF loaded successfully');
+                                    console.log('Welcome video loaded successfully');
+                                }}
+                                onCanPlay={() => {
+                                    setGifLoaded(true);
+                                    console.log('Welcome video ready to play');
                                 }}
                                 onError={(e) => {
                                     setGifError(true);
-                                    console.warn('Welcome GIF failed to load from /welcome.gif');
-                                    // If GIF fails, activate button after 5 seconds instead
+                                    console.warn('Welcome video failed to load from /StartingGif.mov');
+                                    // If video fails, activate button after 5 seconds instead
                                     setTimeout(() => setIsActivated(true), 5000);
                                 }}
                             />
 
+                            {/* Logo overlay */}
+                            {gifLoaded && (
+                                <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-10">
+                                    <div className="w-16 h-16 flex items-center justify-center">
+                                        {!logoError ? (
+                                            <img
+                                                src="/whitelogo.png"
+                                                alt="E3 Circle Logo"
+                                                className="w-full h-full object-contain filter drop-shadow-lg"
+                                                onLoad={() => setLogoLoaded(true)}
+                                                onError={() => {
+                                                    console.warn('Logo failed to load, using fallback');
+                                                    setLogoError(true);
+                                                }}
+                                            />
+                                        ) : (
+                                            /* Fallback text logo */
+                                            <div className="w-16 h-16 bg-white bg-opacity-20 backdrop-blur-sm border-2 border-white rounded-full flex items-center justify-center shadow-lg">
+                                                <span className="text-white text-xl font-bold tracking-wider">E3</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
                             {/* Loading placeholder */}
                             {!gifLoaded && (
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                                <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                                    <div className="w-16 h-16 border-4 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
                                 </div>
                             )}
                         </div>
                     </>
                 ) : (
-                    /* Fallback content if GIF fails */
-                    <>
-                        <h1 className="welcome-text text-white text-3xl font-medium text-center leading-tight">
-                            Tap a compatible phone
-                        </h1>
-                        <div className="nfc-icon w-32 h-32 border-4 border-white rounded-full flex items-center justify-center bg-transparent">
-                            <div className="w-16 h-16 relative">
-                                <div className="absolute inset-0 border-4 border-white rounded-full nfc-wave-1"></div>
-                                <div className="absolute inset-2 border-4 border-white rounded-full nfc-wave-2"></div>
-                                <div className="absolute inset-4 border-4 border-white rounded-full nfc-wave-3"></div>
-                                <div className="absolute inset-6 bg-white rounded-full"></div>
+                    /* Fallback content if video fails */
+                    <div className="flex items-center justify-center h-full">
+                        <div className="px-8 text-center">
+                            <h1 className="welcome-text text-black text-3xl font-medium leading-tight">
+                                Tap a compatible phone
+                            </h1>
+                            <div className="nfc-icon w-32 h-32 border-4 border-black rounded-full flex items-center justify-center bg-transparent mt-8 mx-auto">
+                                <div className="w-16 h-16 relative">
+                                    <div className="absolute inset-0 border-4 border-black rounded-full nfc-wave-1"></div>
+                                    <div className="absolute inset-2 border-4 border-black rounded-full nfc-wave-2"></div>
+                                    <div className="absolute inset-4 border-4 border-black rounded-full nfc-wave-3"></div>
+                                    <div className="absolute inset-6 bg-black rounded-full"></div>
+                                </div>
                             </div>
                         </div>
-                    </>
+                    </div>
                 )}
             </div>
 
             {/* Bottom section - Activate button */}
-            <div className="flex-shrink-0 w-full max-w-sm mx-auto pb-16">
+            <div className="flex-shrink-0 w-full max-w-sm mx-auto pb-16 px-8">
                 <Button
                     onClick={handleActivate}
                     disabled={!isActivated}
