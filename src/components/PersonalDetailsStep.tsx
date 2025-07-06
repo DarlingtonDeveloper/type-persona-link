@@ -43,6 +43,7 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
         { value: 'central_london', label: 'Central London' },
         { value: 'other', label: 'Other' }
     ];
+
     const isValid = () => {
         // Core required fields that exist in the database
         const requiredFields = {
@@ -52,7 +53,7 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
             eye_color: formData.eye_color,
             email: formData.email,
             mobile: formData.mobile,
-            location: formData.location,  // New location field
+            location: formData.location,
             relationship_status: formData.relationship_status,
             job_title: formData.job_title
         };
@@ -74,20 +75,20 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
     ).length;
 
     return (
-        <div className="min-h-screen bg-black p-8">
+        <div className="min-h-screen bg-brand-white p-8">
             <div className="max-w-7xl mx-auto">
 
                 {/* FLOATING HEADER */}
                 <div className="text-center mb-16 relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent h-px top-1/2"></div>
-                    <div className="relative bg-black px-12 inline-block">
-                        <h1 className="text-6xl font-light text-white tracking-wide mb-4">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-black/10 to-transparent h-px top-1/2"></div>
+                    <div className="relative bg-brand-white px-12 inline-block">
+                        <h1 className="text-6xl font-light text-brand-black tracking-wide mb-4">
                             Personal <span className="font-semibold">Details</span>
                         </h1>
-                        <div className="flex items-center justify-center gap-2 text-white/60">
-                            <div className="w-8 h-px bg-white/20"></div>
+                        <div className="flex items-center justify-center gap-2 text-brand-black/60">
+                            <div className="w-8 h-px bg-brand-black/20"></div>
                             <span className="text-lg tracking-widest uppercase">Complete Your Profile</span>
-                            <div className="w-8 h-px bg-white/20"></div>
+                            <div className="w-8 h-px bg-brand-black/20"></div>
                         </div>
                     </div>
                 </div>
@@ -98,14 +99,14 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                         <svg className="w-full h-full" viewBox="0 0 100 50">
                             <path
                                 d="M 10 40 Q 50 10 90 40"
-                                stroke="#ffffff"
+                                stroke="var(--brand-black)"
                                 strokeWidth="1"
                                 fill="none"
                                 opacity="0.2"
                             />
                             <path
                                 d="M 10 40 Q 50 10 90 40"
-                                stroke="#ffffff"
+                                stroke="var(--brand-black)"
                                 strokeWidth="2"
                                 fill="none"
                                 strokeDasharray="100"
@@ -114,7 +115,7 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                             />
                         </svg>
                         <div className="absolute inset-0 flex items-end justify-center">
-                            <span className="text-xs font-medium text-white/60 tracking-wider">
+                            <span className="text-xs font-medium text-brand-black/60 tracking-wider">
                                 {filledFields}/9
                             </span>
                         </div>
@@ -125,30 +126,30 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
 
                     {/* Container 1: Identity */}
-                    <div className="e3-container e3-container-hover">
+                    <div className="bg-brand-black rounded-2xl p-8 backdrop-blur-sm shadow-lg border border-brand-black/20 hover:transform hover:translateY(-2px) transition-all duration-300">
                         <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
-                                <User className="h-8 w-8 text-black" />
+                            <div className="w-16 h-16 bg-gradient-to-br from-brand-white to-brand-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                                <User className="h-8 w-8 text-brand-black" />
                             </div>
-                            <h3 className="text-2xl font-light text-white tracking-wide">Identity</h3>
-                            <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                            <h3 className="text-2xl font-light text-brand-white tracking-wide">Identity</h3>
+                            <div className="w-12 h-px bg-brand-white/20 mx-auto mt-2"></div>
                         </div>
 
                         <div className="space-y-6">
                             <div className="relative">
-                                <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                <Label className="absolute -top-2 left-4 bg-brand-black px-2 text-sm font-medium text-brand-white/70 z-10">
                                     Full Name
                                 </Label>
                                 <Input
                                     value={formData.name || ''}
                                     onChange={(e) => onFormDataChange('name', e.target.value)}
-                                    className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30"
+                                    className="h-14 bg-transparent border-2 border-brand-white/10 rounded-2xl text-lg text-brand-white focus:border-brand-white focus:ring-0 transition-all duration-300 hover:border-brand-white/30"
                                     maxLength={VALIDATION_RULES.NAME.MAX_LENGTH}
                                 />
                             </div>
 
                             <div className="relative">
-                                <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                <Label className="absolute -top-2 left-4 bg-brand-black px-2 text-sm font-medium text-brand-white/70 z-10">
                                     Date of Birth
                                 </Label>
                                 <div className="relative">
@@ -157,14 +158,14 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                         value={formData.date_of_birth || ''}
                                         onChange={(e) => onFormDataChange('date_of_birth', e.target.value)}
                                         max={new Date().toISOString().split('T')[0]}
-                                        className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
+                                        className="h-14 bg-transparent border-2 border-brand-white/10 rounded-2xl text-lg text-brand-white focus:border-brand-white focus:ring-0 transition-all duration-300 hover:border-brand-white/30 pl-12"
                                     />
-                                    <Calendar className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    <Calendar className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-brand-white/40" />
                                 </div>
                             </div>
 
                             <div className="relative">
-                                <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-brand-black px-2 text-sm font-medium text-brand-white/70 z-10">
                                     Eye Color
                                 </Label>
                                 <div className="pt-4">
@@ -173,9 +174,9 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                         <Button
                                             onClick={() => onFormDataChange('eye_color', 'blue')}
                                             variant="ghost"
-                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.eye_color === 'blue'
-                                                ? 'bg-white/25 border-white/50 shadow-lg'
-                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-brand-white hover:text-brand-white hover:scale-105 ${formData.eye_color === 'blue'
+                                                ? 'bg-brand-white/25 border-brand-white/50 shadow-lg'
+                                                : 'bg-brand-white/15 border-brand-white/30 hover:bg-brand-white/25 hover:border-brand-white/50'
                                                 }`}
                                         >
                                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -190,9 +191,9 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                         <Button
                                             onClick={() => onFormDataChange('eye_color', 'brown')}
                                             variant="ghost"
-                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.eye_color === 'brown'
-                                                ? 'bg-white/25 border-white/50 shadow-lg'
-                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-brand-white hover:text-brand-white hover:scale-105 ${formData.eye_color === 'brown'
+                                                ? 'bg-brand-white/25 border-brand-white/50 shadow-lg'
+                                                : 'bg-brand-white/15 border-brand-white/30 hover:bg-brand-white/25 hover:border-brand-white/50'
                                                 }`}
                                         >
                                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -210,9 +211,9 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                         <Button
                                             onClick={() => onFormDataChange('eye_color', 'green')}
                                             variant="ghost"
-                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.eye_color === 'green'
-                                                ? 'bg-white/25 border-white/50 shadow-lg'
-                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-brand-white hover:text-brand-white hover:scale-105 ${formData.eye_color === 'green'
+                                                ? 'bg-brand-white/25 border-brand-white/50 shadow-lg'
+                                                : 'bg-brand-white/15 border-brand-white/30 hover:bg-brand-white/25 hover:border-brand-white/50'
                                                 }`}
                                         >
                                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -229,18 +230,18 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                     </div>
 
                     {/* Container 2: Contact */}
-                    <div className="e3-container e3-container-hover">
+                    <div className="bg-brand-black rounded-2xl p-8 backdrop-blur-sm shadow-lg border border-brand-black/20 hover:transform hover:translateY(-2px) transition-all duration-300">
                         <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
-                                <Mail className="h-8 w-8 text-black" />
+                            <div className="w-16 h-16 bg-gradient-to-br from-brand-white to-brand-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                                <Mail className="h-8 w-8 text-brand-black" />
                             </div>
-                            <h3 className="text-2xl font-light text-white tracking-wide">Contact</h3>
-                            <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                            <h3 className="text-2xl font-light text-brand-white tracking-wide">Contact</h3>
+                            <div className="w-12 h-px bg-brand-white/20 mx-auto mt-2"></div>
                         </div>
 
                         <div className="space-y-6">
                             <div className="relative">
-                                <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                <Label className="absolute -top-2 left-4 bg-brand-black px-2 text-sm font-medium text-brand-white/70 z-10">
                                     Email Address
                                 </Label>
                                 <div className="relative">
@@ -248,14 +249,14 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                         type="email"
                                         value={formData.email || ''}
                                         onChange={(e) => onFormDataChange('email', e.target.value)}
-                                        className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
+                                        className="h-14 bg-transparent border-2 border-brand-white/10 rounded-2xl text-lg text-brand-white focus:border-brand-white focus:ring-0 transition-all duration-300 hover:border-brand-white/30 pl-12"
                                     />
-                                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-brand-white/40" />
                                 </div>
                             </div>
 
                             <div className="relative">
-                                <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                <Label className="absolute -top-2 left-4 bg-brand-black px-2 text-sm font-medium text-brand-white/70 z-10">
                                     Phone Number
                                 </Label>
                                 <div className="relative">
@@ -263,21 +264,21 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                         type="tel"
                                         value={formData.mobile || ''}
                                         onChange={(e) => onFormDataChange('mobile', e.target.value)}
-                                        className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12"
+                                        className="h-14 bg-transparent border-2 border-brand-white/10 rounded-2xl text-lg text-brand-white focus:border-brand-white focus:ring-0 transition-all duration-300 hover:border-brand-white/30 pl-12"
                                         minLength={VALIDATION_RULES.MOBILE.MIN_LENGTH}
                                         maxLength={VALIDATION_RULES.MOBILE.MAX_LENGTH}
                                     />
-                                    <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-brand-white/40" />
                                 </div>
                             </div>
 
                             <div className="relative">
-                                <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                <Label className="absolute -top-2 left-4 bg-brand-black px-2 text-sm font-medium text-brand-white/70 z-10">
                                     Location
                                 </Label>
                                 <div className="relative">
                                     <Select value={formData.location || ''} onValueChange={(value) => onFormDataChange('location', value)}>
-                                        <SelectTrigger className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12">
+                                        <SelectTrigger className="h-14 bg-transparent border-2 border-brand-white/10 rounded-2xl text-lg text-brand-white focus:border-brand-white focus:ring-0 transition-all duration-300 hover:border-brand-white/30 pl-12">
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -288,25 +289,25 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                             ))}
                                         </SelectContent>
                                     </Select>
-                                    <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-brand-white/40" />
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Container 3: Personal */}
-                    <div className="e3-container e3-container-hover">
+                    <div className="bg-brand-black rounded-2xl p-8 backdrop-blur-sm shadow-lg border border-brand-black/20 hover:transform hover:translateY(-2px) transition-all duration-300">
                         <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-gradient-to-br from-white to-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
-                                <Heart className="h-8 w-8 text-black" />
+                            <div className="w-16 h-16 bg-gradient-to-br from-brand-white to-brand-white/80 rounded-2xl mx-auto mb-4 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                                <Heart className="h-8 w-8 text-brand-black" />
                             </div>
-                            <h3 className="text-2xl font-light text-white tracking-wide">Personal</h3>
-                            <div className="w-12 h-px bg-white/20 mx-auto mt-2"></div>
+                            <h3 className="text-2xl font-light text-brand-white tracking-wide">Personal</h3>
+                            <div className="w-12 h-px bg-brand-white/20 mx-auto mt-2"></div>
                         </div>
 
                         <div className="space-y-6">
                             <div className="relative">
-                                <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-brand-black px-2 text-sm font-medium text-brand-white/70 z-10">
                                     Gender
                                 </Label>
                                 <div className="pt-4">
@@ -315,9 +316,9 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                         <Button
                                             onClick={() => onFormDataChange('gender', 'male')}
                                             variant="ghost"
-                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.gender === 'male'
-                                                ? 'bg-white/25 border-white/50 shadow-lg'
-                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-brand-white hover:text-brand-white hover:scale-105 ${formData.gender === 'male'
+                                                ? 'bg-brand-white/25 border-brand-white/50 shadow-lg'
+                                                : 'bg-brand-white/15 border-brand-white/30 hover:bg-brand-white/25 hover:border-brand-white/50'
                                                 }`}
                                         >
                                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -333,9 +334,9 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                         <Button
                                             onClick={() => onFormDataChange('gender', 'female')}
                                             variant="ghost"
-                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.gender === 'female'
-                                                ? 'bg-white/25 border-white/50 shadow-lg'
-                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-brand-white hover:text-brand-white hover:scale-105 ${formData.gender === 'female'
+                                                ? 'bg-brand-white/25 border-brand-white/50 shadow-lg'
+                                                : 'bg-brand-white/15 border-brand-white/30 hover:bg-brand-white/25 hover:border-brand-white/50'
                                                 }`}
                                         >
                                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -350,9 +351,9 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                         <Button
                                             onClick={() => onFormDataChange('gender', 'other')}
                                             variant="ghost"
-                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.gender === 'other'
-                                                ? 'bg-white/25 border-white/50 shadow-lg'
-                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-brand-white hover:text-brand-white hover:scale-105 ${formData.gender === 'other'
+                                                ? 'bg-brand-white/25 border-brand-white/50 shadow-lg'
+                                                : 'bg-brand-white/15 border-brand-white/30 hover:bg-brand-white/25 hover:border-brand-white/50'
                                                 }`}
                                         >
                                             <Users size={20} />
@@ -363,7 +364,7 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                             </div>
 
                             <div className="relative">
-                                <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-brand-black px-2 text-sm font-medium text-brand-white/70 z-10">
                                     Relationship
                                 </Label>
                                 <div className="pt-4">
@@ -372,9 +373,9 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                         <Button
                                             onClick={() => onFormDataChange('relationship_status', 'single')}
                                             variant="ghost"
-                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.relationship_status === 'single'
-                                                ? 'bg-white/25 border-white/50 shadow-lg'
-                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-brand-white hover:text-brand-white hover:scale-105 ${formData.relationship_status === 'single'
+                                                ? 'bg-brand-white/25 border-brand-white/50 shadow-lg'
+                                                : 'bg-brand-white/15 border-brand-white/30 hover:bg-brand-white/25 hover:border-brand-white/50'
                                                 }`}
                                         >
                                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -387,9 +388,9 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                         <Button
                                             onClick={() => onFormDataChange('relationship_status', 'complicated')}
                                             variant="ghost"
-                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.relationship_status === 'complicated'
-                                                ? 'bg-white/25 border-white/50 shadow-lg'
-                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-brand-white hover:text-brand-white hover:scale-105 ${formData.relationship_status === 'complicated'
+                                                ? 'bg-brand-white/25 border-brand-white/50 shadow-lg'
+                                                : 'bg-brand-white/15 border-brand-white/30 hover:bg-brand-white/25 hover:border-brand-white/50'
                                                 }`}
                                         >
                                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -404,9 +405,9 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                         <Button
                                             onClick={() => onFormDataChange('relationship_status', 'in-relationship')}
                                             variant="ghost"
-                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-white hover:text-white hover:scale-105 ${formData.relationship_status === 'in-relationship'
-                                                ? 'bg-white/25 border-white/50 shadow-lg'
-                                                : 'bg-white/15 border-white/30 hover:bg-white/25 hover:border-white/50'
+                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-brand-white hover:text-brand-white hover:scale-105 ${formData.relationship_status === 'in-relationship'
+                                                ? 'bg-brand-white/25 border-brand-white/50 shadow-lg'
+                                                : 'bg-brand-white/15 border-brand-white/30 hover:bg-brand-white/25 hover:border-brand-white/50'
                                                 }`}
                                         >
                                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -420,12 +421,12 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                             </div>
 
                             <div className="relative">
-                                <Label className="absolute -top-2 left-4 bg-black px-2 text-sm font-medium text-white/70 z-10">
+                                <Label className="absolute -top-2 left-4 bg-brand-black px-2 text-sm font-medium text-brand-white/70 z-10">
                                     Job Title
                                 </Label>
                                 <div className="relative">
                                     <Select value={formData.job_title || ''} onValueChange={(value) => onFormDataChange('job_title', value)}>
-                                        <SelectTrigger className="h-14 bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 pl-12">
+                                        <SelectTrigger className="h-14 bg-transparent border-2 border-brand-white/10 rounded-2xl text-lg text-brand-white focus:border-brand-white focus:ring-0 transition-all duration-300 hover:border-brand-white/30 pl-12">
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -436,26 +437,26 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                                             ))}
                                         </SelectContent>
                                     </Select>
-                                    <Briefcase className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
+                                    <Briefcase className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-brand-white/40" />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Single Continue Button - Welcome Gif Style */}
+                {/* Single Continue Button */}
                 <div className="flex justify-center">
                     <Button
                         onClick={onNext}
                         disabled={loading || !isValid()}
                         className={`h-12 px-8 rounded-full transition-all duration-300 ${isValid() && !loading
-                            ? 'bg-gray-600 hover:bg-gray-500 animate-pulse cursor-pointer text-white'
-                            : 'bg-gray-800 cursor-not-allowed opacity-50 text-white'
+                            ? 'bg-brand-black hover:bg-brand-black/90 animate-pulse cursor-pointer text-brand-white'
+                            : 'bg-brand-black/50 cursor-not-allowed opacity-50 text-brand-white'
                             }`}
                     >
                         {loading ? (
                             <div className="flex items-center gap-2">
-                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                <div className="w-4 h-4 border-2 border-brand-white/30 border-t-brand-white rounded-full animate-spin"></div>
                                 Saving
                             </div>
                         ) : (
