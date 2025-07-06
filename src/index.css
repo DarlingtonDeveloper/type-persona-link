@@ -7,46 +7,72 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* ✅ UPDATED: Off-white background and off-black text */
+    --background: 254 254 250;
+    /* #FEFEFA - Off-white */
+    --foreground: 27 27 27;
+    /* #1B1B1B - Off-black */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* ✅ UPDATED: Card components use off-white */
+    --card: 254 254 250;
+    /* #FEFEFA - Off-white */
+    --card-foreground: 27 27 27;
+    /* #1B1B1B - Off-black */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* ✅ UPDATED: Popover components use off-white */
+    --popover: 254 254 250;
+    /* #FEFEFA - Off-white */
+    --popover-foreground: 27 27 27;
+    /* #1B1B1B - Off-black */
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* ✅ UPDATED: Primary uses off-black */
+    --primary: 27 27 27;
+    /* #1B1B1B - Off-black */
+    --primary-foreground: 254 254 250;
+    /* #FEFEFA - Off-white */
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* ✅ UPDATED: Secondary uses off-white */
+    --secondary: 254 254 250;
+    /* #FEFEFA - Off-white */
+    --secondary-foreground: 27 27 27;
+    /* #1B1B1B - Off-black */
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* ✅ UPDATED: Muted uses off-white */
+    --muted: 254 254 250;
+    /* #FEFEFA - Off-white */
+    --muted-foreground: 27 27 27;
+    /* #1B1B1B - Off-black */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* ✅ UPDATED: Accent uses off-white */
+    --accent: 254 254 250;
+    /* #FEFEFA - Off-white */
+    --accent-foreground: 27 27 27;
+    /* #1B1B1B - Off-black */
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* ✅ UPDATED: Borders and inputs use off-black */
+    --border: 27 27 27;
+    /* #1B1B1B - Off-black */
+    --input: 254 254 250;
+    /* #FEFEFA - Off-white */
+    --ring: 27 27 27;
+    /* #1B1B1B - Off-black */
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* ✅ UPDATED: Sidebar components use off-white */
+    --sidebar-background: 254 254 250;
+    --sidebar-foreground: 27 27 27;
+    --sidebar-primary: 27 27 27;
+    --sidebar-primary-foreground: 254 254 250;
+    --sidebar-accent: 254 254 250;
+    --sidebar-accent-foreground: 27 27 27;
+    --sidebar-border: 27 27 27;
+    --sidebar-ring: 27 27 27;
 
-    /* Brand-specific CSS variables */
+    /* ✅ PERFECT: Brand-specific CSS variables (unchanged) */
     --brand-black: #1b1b1b;
     --brand-white: #FEFEFA;
     --brand-font-family: 'Montserrat', sans-serif;
@@ -54,48 +80,61 @@
     --brand-font-size-heading: 50px;
     --brand-font-size-body: 30px;
 
-    /* E3 Container System Variables */
-    --container-bg-primary: rgba(27, 27, 27, 0.95);
-    --container-bg-secondary: rgba(27, 27, 27, 0.85);
-    --container-bg-light: rgba(254, 254, 250, 0.95);
-    --container-border: rgba(254, 254, 250, 0.1);
-    --container-border-light: rgba(27, 27, 27, 0.1);
-    --container-text-primary: var(--brand-white);
-    --container-text-secondary: rgba(254, 254, 250, 0.8);
+    /* ✅ UPDATED: E3 Container System Variables - Light theme */
+    --container-bg-primary: rgba(254, 254, 250, 0.95);
+    /* Off-white primary */
+    --container-bg-secondary: rgba(254, 254, 250, 0.85);
+    /* Off-white secondary */
+    --container-bg-light: rgba(254, 254, 250, 0.98);
+    /* Off-white light */
+    --container-border: rgba(27, 27, 27, 0.1);
+    /* Off-black border */
+    --container-border-light: rgba(27, 27, 27, 0.05);
+    /* Off-black light border */
+    --container-text-primary: var(--brand-black);
+    /* Off-black text */
+    --container-text-secondary: rgba(27, 27, 27, 0.8);
+    /* Off-black secondary text */
     --container-radius: 1.5rem;
     --container-padding: 2rem;
-    --container-shadow: 0 4px 30px rgba(27, 27, 27, 0.3);
+    --container-shadow: 0 4px 30px rgba(27, 27, 27, 0.1);
     --container-backdrop-blur: 12px;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark mode - reverse the colors */
+    --background: 27 27 27;
+    /* Dark mode: off-black background */
+    --foreground: 254 254 250;
+    /* Dark mode: off-white text */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 27 27 27;
+    --card-foreground: 254 254 250;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 27 27 27;
+    --popover-foreground: 254 254 250;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 254 254 250;
+    --primary-foreground: 27 27 27;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 35 35 35;
+    /* Slightly lighter than off-black */
+    --secondary-foreground: 254 254 250;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 35 35 35;
+    --muted-foreground: 200 200 195;
+    /* Muted off-white */
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 35 35 35;
+    --accent-foreground: 254 254 250;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 35 35 35;
+    --input: 35 35 35;
+    --ring: 254 254 250;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -112,18 +151,35 @@
     @apply border-border;
   }
 
+  /* ✅ UPDATED: Body uses brand colors */
   body {
     @apply bg-background text-foreground;
     font-family: var(--brand-font-family);
+    background-color: var(--brand-white) !important;
+    /* Force off-white background */
+    color: var(--brand-black) !important;
+    /* Force off-black text */
   }
 
-  /* Brand-specific typography classes */
+  /* ✅ UPDATED: All headings use off-black */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--brand-black) !important;
+    font-family: var(--brand-font-family);
+  }
+
+  /* ✅ UPDATED: Brand-specific typography classes */
   .brand-heading {
     font-family: var(--brand-font-family);
     font-size: var(--brand-font-size-heading);
     font-weight: 600;
     line-height: 1.1;
-    color: var(--brand-black);
+    color: var(--brand-black) !important;
+    /* Ensure off-black */
   }
 
   .brand-body {
@@ -131,7 +187,8 @@
     font-size: var(--brand-font-size-body);
     font-weight: 400;
     line-height: 1.4;
-    color: var(--brand-black);
+    color: var(--brand-black) !important;
+    /* Ensure off-black */
   }
 
   .brand-gif-text {
@@ -139,12 +196,14 @@
     font-size: var(--brand-font-size-gif);
     font-weight: 500;
     line-height: 1.2;
+    color: var(--brand-black) !important;
+    /* Ensure off-black */
   }
 
-  /* Enhanced button styles */
+  /* ✅ UPDATED: Enhanced button styles */
   .brand-button-primary {
-    background: var(--brand-black);
-    color: var(--brand-white);
+    background: var(--brand-black) !important;
+    color: var(--brand-white) !important;
     border: 2px solid var(--brand-black);
     font-family: var(--brand-font-family);
     font-weight: 500;
@@ -152,15 +211,19 @@
   }
 
   .brand-button-primary:hover {
-    background: transparent;
-    color: var(--brand-black);
+    background: var(--brand-white) !important;
+    /* Off-white on hover */
+    color: var(--brand-black) !important;
+    /* Off-black text on hover */
     transform: translateY(-1px);
     box-shadow: 0 4px 15px rgba(27, 27, 27, 0.2);
   }
 
   .brand-button-secondary {
-    background: transparent;
-    color: var(--brand-black);
+    background: var(--brand-white) !important;
+    /* Off-white background */
+    color: var(--brand-black) !important;
+    /* Off-black text */
     border: 2px solid var(--brand-black);
     font-family: var(--brand-font-family);
     font-weight: 500;
@@ -168,8 +231,10 @@
   }
 
   .brand-button-secondary:hover {
-    background: var(--brand-black);
-    color: var(--brand-white);
+    background: var(--brand-black) !important;
+    /* Off-black on hover */
+    color: var(--brand-white) !important;
+    /* Off-white text on hover */
     transform: translateY(-1px);
     box-shadow: 0 4px 15px rgba(27, 27, 27, 0.2);
   }
@@ -223,22 +288,25 @@
     }
   }
 
-  /* Custom scrollbar styling */
+  /* ✅ UPDATED: Custom scrollbar styling */
   ::-webkit-scrollbar {
     width: 8px;
   }
 
   ::-webkit-scrollbar-track {
     background: rgba(254, 254, 250, 0.1);
+    /* Off-white track */
   }
 
   ::-webkit-scrollbar-thumb {
     background: rgba(27, 27, 27, 0.3);
+    /* Off-black thumb */
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(27, 27, 27, 0.5);
+    /* Darker off-black on hover */
   }
 
   /* Print styles */
@@ -255,42 +323,53 @@
 
 /* ===== E3 CIRCLE STANDARDIZED CONTAINER SYSTEM ===== */
 
-/* Base container class - matches Privacy Notice style */
+/* ✅ UPDATED: Base container class - Light theme */
 .e3-container {
-  background: var(--container-bg-primary);
-  color: var(--container-text-primary);
+  background: var(--brand-white);
+  /* Off-white background */
+  color: var(--brand-black);
+  /* Off-black text */
   border-radius: var(--container-radius);
   padding: var(--container-padding);
-  border: 1px solid var(--container-border);
+  border: 1px solid rgba(27, 27, 27, 0.1);
+  /* Off-black border */
   backdrop-filter: blur(var(--container-backdrop-blur));
-  box-shadow: var(--container-shadow);
+  box-shadow: 0 4px 30px rgba(27, 27, 27, 0.1);
   font-family: var(--brand-font-family);
   transition: all 0.3s ease;
 }
 
-/* Container variants */
+/* ✅ UPDATED: Container variants */
 .e3-container-light {
-  background: var(--container-bg-light);
+  background: var(--brand-white);
+  /* Off-white background */
   color: var(--brand-black);
-  border: 1px solid var(--container-border-light);
+  /* Off-black text */
+  border: 1px solid rgba(27, 27, 27, 0.05);
+  /* Light off-black border */
   box-shadow: 0 4px 30px rgba(27, 27, 27, 0.1);
 }
 
 .e3-container-secondary {
-  background: var(--container-bg-secondary);
-  color: var(--container-text-primary);
+  background: rgba(254, 254, 250, 0.9);
+  /* Semi-transparent off-white */
+  color: var(--brand-black);
+  /* Off-black text */
 }
 
 .e3-container-transparent {
-  background: rgba(27, 27, 27, 0.7);
+  background: rgba(254, 254, 250, 0.1);
+  /* Very transparent off-white */
   backdrop-filter: blur(20px);
+  color: var(--brand-black);
+  /* Off-black text */
 }
 
 /* Interactive states */
 .e3-container-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 40px rgba(27, 27, 27, 0.4);
-  border-color: rgba(254, 254, 250, 0.2);
+  box-shadow: 0 8px 40px rgba(27, 27, 27, 0.2);
+  border-color: rgba(27, 27, 27, 0.15);
 }
 
 .e3-container-clickable {
@@ -300,7 +379,7 @@
 
 .e3-container-clickable:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 35px rgba(27, 27, 27, 0.35);
+  box-shadow: 0 6px 35px rgba(27, 27, 27, 0.15);
 }
 
 .e3-container-clickable:active {
@@ -338,7 +417,8 @@
 .e3-container-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: inherit;
+  color: var(--brand-black) !important;
+  /* Ensure off-black titles */
   margin-bottom: 0.5rem;
   font-family: var(--brand-font-family);
 }
@@ -347,22 +427,27 @@
   font-size: 1rem;
   opacity: 0.8;
   font-weight: 400;
+  color: var(--brand-black);
+  /* Off-black subtitle */
 }
 
 .e3-container-divider {
   width: 3rem;
   height: 1px;
-  background: currentColor;
+  background: var(--brand-black);
+  /* Off-black divider */
   opacity: 0.2;
   margin: 1rem auto;
 }
 
 /* Specific component containers */
 
-/* Privacy Notice container (matches your image exactly) */
+/* Privacy Notice container - Dark overlay on light background */
 .e3-privacy-notice {
   background: rgba(27, 27, 27, 0.95);
+  /* Dark overlay for contrast */
   color: var(--brand-white);
+  /* White text for readability */
   border-radius: 1.5rem;
   padding: 2rem;
   border: 1px solid rgba(254, 254, 250, 0.1);
@@ -373,31 +458,41 @@
   line-height: 1.6;
 }
 
-/* Onboarding containers */
+/* ✅ UPDATED: Onboarding containers */
 .e3-onboarding-card {
-  background: var(--container-bg-primary);
-  color: var(--container-text-primary);
+  background: var(--brand-white);
+  /* Off-white background */
+  color: var(--brand-black);
+  /* Off-black text */
   border-radius: var(--container-radius);
   padding: var(--container-padding);
-  border: 1px solid var(--container-border);
+  border: 1px solid rgba(27, 27, 27, 0.1);
+  /* Off-black border */
   backdrop-filter: blur(var(--container-backdrop-blur));
-  box-shadow: var(--container-shadow);
+  box-shadow: 0 4px 30px rgba(27, 27, 27, 0.1);
 }
 
-/* Welcome containers */
+/* ✅ UPDATED: Welcome containers */
 .e3-welcome-container {
-  background: var(--container-bg-primary);
+  background: var(--brand-white);
+  /* Off-white background */
+  color: var(--brand-black);
+  /* Off-black text */
   border-radius: var(--container-radius);
   padding: var(--container-padding);
-  border: 1px solid var(--container-border);
+  border: 1px solid rgba(27, 27, 27, 0.1);
+  /* Off-black border */
   backdrop-filter: blur(var(--container-backdrop-blur));
 }
 
-/* Link category containers */
+/* ✅ UPDATED: Link category containers */
 .e3-link-category-card {
-  background: var(--container-bg-primary);
-  color: var(--container-text-primary);
-  border: 2px solid var(--container-border);
+  background: var(--brand-white);
+  /* Off-white background */
+  color: var(--brand-black);
+  /* Off-black text */
+  border: 2px solid rgba(27, 27, 27, 0.1);
+  /* Off-black border */
   border-radius: 1rem;
   padding: 1.5rem;
   transition: all 0.3s ease;
@@ -405,32 +500,41 @@
 }
 
 .e3-link-category-card:hover {
-  border-color: rgba(254, 254, 250, 0.3);
+  border-color: var(--brand-black);
+  /* Off-black hover border */
   transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(27, 27, 27, 0.4);
+  box-shadow: 0 6px 25px rgba(27, 27, 27, 0.15);
 }
 
 .e3-link-category-card.selected {
-  border-color: var(--brand-white);
-  background: rgba(254, 254, 250, 0.1);
+  border-color: var(--brand-black);
+  /* Off-black selected border */
+  background: rgba(27, 27, 27, 0.05);
+  /* Slight off-black tint */
 }
 
 /* Admin dashboard containers */
 .e3-admin-card {
-  background: var(--container-bg-light);
+  background: var(--brand-white);
+  /* Off-white background */
   color: var(--brand-black);
+  /* Off-black text */
   border-radius: var(--container-radius);
-  border: 1px solid var(--container-border-light);
+  border: 1px solid rgba(27, 27, 27, 0.1);
+  /* Off-black border */
   box-shadow: 0 4px 30px rgba(27, 27, 27, 0.1);
 }
 
 /* Alert containers */
 .e3-alert {
-  background: var(--container-bg-primary);
-  color: var(--container-text-primary);
+  background: var(--brand-white);
+  /* Off-white background */
+  color: var(--brand-black);
+  /* Off-black text */
   border-radius: 1rem;
   padding: 1.5rem;
-  border: 1px solid var(--container-border);
+  border: 1px solid rgba(27, 27, 27, 0.1);
+  /* Off-black border */
   backdrop-filter: blur(var(--container-backdrop-blur));
 }
 
@@ -452,30 +556,37 @@
   color: rgb(239, 68, 68);
 }
 
-/* Form containers */
+/* ✅ UPDATED: Form containers */
 .e3-form-container {
-  background: var(--container-bg-primary);
-  color: var(--container-text-primary);
+  background: var(--brand-white);
+  /* Off-white background */
+  color: var(--brand-black);
+  /* Off-black text */
   border-radius: var(--container-radius);
   padding: var(--container-padding);
-  border: 1px solid var(--container-border);
+  border: 1px solid rgba(27, 27, 27, 0.1);
+  /* Off-black border */
   backdrop-filter: blur(var(--container-backdrop-blur));
 }
 
 .e3-form-section {
-  background: rgba(254, 254, 250, 0.05);
+  background: rgba(27, 27, 27, 0.02);
+  /* Very light off-black tint */
   border-radius: 1rem;
   padding: 1.5rem;
-  border: 1px solid rgba(254, 254, 250, 0.05);
+  border: 1px solid rgba(27, 27, 27, 0.05);
 }
 
-/* Profile containers */
+/* ✅ UPDATED: Profile containers */
 .e3-profile-container {
-  background: var(--container-bg-primary);
-  color: var(--container-text-primary);
+  background: var(--brand-white);
+  /* Off-white background */
+  color: var(--brand-black);
+  /* Off-black text */
   border-radius: var(--container-radius);
   padding: var(--container-padding);
-  border: 1px solid var(--container-border);
+  border: 1px solid rgba(27, 27, 27, 0.1);
+  /* Off-black border */
   backdrop-filter: blur(var(--container-backdrop-blur));
   position: relative;
   overflow: hidden;
@@ -571,76 +682,101 @@
 
 /* ===== END E3 CONTAINER SYSTEM ===== */
 
-/* ===== OLD STYLES - TO BE REMOVED AFTER MIGRATION ===== */
-/* Keep these temporarily for backward compatibility during migration */
-/* Remove after all components have been updated to use e3-container classes */
+/* ===== UPDATED ONBOARDING STYLES ===== */
 
+/* ✅ UPDATED: Onboarding card - Light theme */
 .onboarding-card {
-  background: rgba(254, 254, 250, 0.95);
+  background: var(--brand-white) !important;
+  /* Off-white background */
   backdrop-filter: blur(12px);
   border: 1px solid rgba(27, 27, 27, 0.1);
+  /* Off-black border */
   box-shadow: 0 4px 30px rgba(27, 27, 27, 0.1);
+  color: var(--brand-black);
+  /* Off-black text */
 }
 
+/* ✅ UPDATED: Onboarding input - Light theme */
 .onboarding-input {
   border: 2px solid rgba(27, 27, 27, 0.1);
-  background: rgba(254, 254, 250, 0.8);
+  /* Off-black border */
+  background: var(--brand-white) !important;
+  /* Off-white background */
+  color: var(--brand-black);
+  /* Off-black text */
   transition: all 0.3s ease;
 }
 
 .onboarding-input:focus {
   border-color: var(--brand-black);
+  /* Off-black focus */
   background: var(--brand-white);
+  /* Maintain off-white */
   box-shadow: 0 0 0 3px rgba(27, 27, 27, 0.1);
 }
 
+/* ✅ UPDATED: Link category card - Light theme */
 .link-category-card {
-  background: rgba(254, 254, 250, 0.9);
+  background: var(--brand-white) !important;
+  /* Off-white background */
   border: 2px solid rgba(27, 27, 27, 0.1);
+  /* Off-black border */
+  color: var(--brand-black);
+  /* Off-black text */
   transition: all 0.3s ease;
 }
 
 .link-category-card:hover {
   border-color: var(--brand-black);
+  /* Off-black hover border */
   transform: translateY(-2px);
   box-shadow: 0 6px 25px rgba(27, 27, 27, 0.15);
 }
 
+/* ✅ UPDATED: Welcome container - Light theme */
 .welcome-container {
-  background: linear-gradient(135deg,
-      rgba(27, 27, 27, 0.1) 0%,
-      rgba(254, 254, 250, 0.1) 100%);
+  background: var(--brand-white);
+  /* Off-white background */
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(254, 254, 250, 0.2);
+  border: 1px solid rgba(27, 27, 27, 0.1);
+  /* Off-black border */
+  color: var(--brand-black);
+  /* Off-black text */
 }
 
+/* ✅ UPDATED: Bio section - Light theme */
 .bio-section {
-  background: linear-gradient(135deg,
-      rgba(254, 254, 250, 0.95) 0%,
-      rgba(254, 254, 250, 0.85) 100%);
+  background: var(--brand-white);
+  /* Off-white background */
   backdrop-filter: blur(10px);
+  color: var(--brand-black);
+  /* Off-black text */
 }
 
+/* ✅ UPDATED: Completion container - Light theme */
 .completion-container {
-  background: radial-gradient(circle at center,
-      rgba(254, 254, 250, 0.95) 0%,
-      rgba(254, 254, 250, 0.9) 100%);
+  background: var(--brand-white);
+  /* Off-white background */
   backdrop-filter: blur(15px);
+  color: var(--brand-black);
+  /* Off-black text */
 }
 
 .completion-icon {
   animation: bounce-in 0.6s ease-out;
 }
 
-/* ===== END OLD STYLES ===== */
+/* ===== END UPDATED ONBOARDING STYLES ===== */
 
-/* Additional utility classes for brand consistency */
+/* ✅ UPDATED: Additional utility classes for brand consistency */
 @layer utilities {
   .text-brand-heading {
     font-family: var(--brand-font-family);
     font-size: var(--brand-font-size-heading);
     font-weight: 600;
     line-height: 1.1;
+    color: var(--brand-black) !important;
+    /* Ensure off-black */
   }
 
   .text-brand-body {
@@ -648,6 +784,8 @@
     font-size: var(--brand-font-size-body);
     font-weight: 400;
     line-height: 1.4;
+    color: var(--brand-black) !important;
+    /* Ensure off-black */
   }
 
   .text-brand-gif {
@@ -655,30 +793,42 @@
     font-size: var(--brand-font-size-gif);
     font-weight: 500;
     line-height: 1.2;
+    color: var(--brand-black) !important;
+    /* Ensure off-black */
   }
 
   .bg-brand-black {
-    background-color: var(--brand-black);
+    background-color: var(--brand-black) !important;
   }
 
   .bg-brand-white {
-    background-color: var(--brand-white);
+    background-color: var(--brand-white) !important;
   }
 
   .text-brand-black {
-    color: var(--brand-black);
+    color: var(--brand-black) !important;
   }
 
   .text-brand-white {
-    color: var(--brand-white);
+    color: var(--brand-white) !important;
   }
 
   .border-brand-black {
-    border-color: var(--brand-black);
+    border-color: var(--brand-black) !important;
   }
 
   .border-brand-white {
-    border-color: var(--brand-white);
+    border-color: var(--brand-white) !important;
+  }
+
+  /* ✅ NEW: Force brand colors utility classes */
+  .force-brand-bg {
+    background-color: var(--brand-white) !important;
+    color: var(--brand-black) !important;
+  }
+
+  .force-brand-title {
+    color: var(--brand-black) !important;
   }
 }
 
@@ -754,26 +904,46 @@
   box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
 }
 
-/* Improved button styling */
+/* ✅ UPDATED: Improved button styling */
 .activate-button {
-  background: rgba(107, 114, 128, 0.8);
+  background: rgba(27, 27, 27, 0.8);
+  /* Off-black background */
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(254, 254, 250, 0.1);
+  /* Off-white border */
+  color: var(--brand-white);
+  /* Off-white text */
   transition: all 0.3s ease;
 }
 
 .activate-button:hover {
-  background: rgba(75, 85, 99, 0.9);
+  background: rgba(27, 27, 27, 0.9);
+  /* Darker off-black on hover */
 }
 
-/* Print styles for containers */
+/* ✅ UPDATED: Global page styles */
+html,
+body,
+#root,
+.app,
+main,
+.main-content {
+  background-color: var(--brand-white) !important;
+  /* Force off-white */
+  color: var(--brand-black) !important;
+  /* Force off-black */
+}
+
+/* ✅ UPDATED: Print styles for containers */
 @media print {
 
   .e3-container,
   .e3-container-light,
   .e3-privacy-notice {
-    background: white !important;
-    color: black !important;
+    background: var(--brand-white) !important;
+    /* Off-white in print */
+    color: var(--brand-black) !important;
+    /* Off-black text in print */
     border: 1px solid #ddd !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
