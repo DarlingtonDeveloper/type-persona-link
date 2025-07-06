@@ -1,79 +1,131 @@
 import React, { useState } from 'react';
+import { Camera, User, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Upload, User, Camera } from 'lucide-react';
+import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { VALIDATION_RULES, FILE_UPLOAD } from '@/constants';
-import { OnboardingFormData } from '@/types';
+import { StepComponentProps } from '@/types';
 
-interface PhotoBioStepProps {
-    formData: Partial<OnboardingFormData>;
-    onFormDataChange: (field: string, value: any) => void;
-    onNext: () => void;
-    onBack: () => void;
-    loading: boolean;
-}
-
-const PhotoBioStep: React.FC<PhotoBioStepProps> = ({
+const PhotoBioStep: React.FC<StepComponentProps> = ({
     formData,
     onFormDataChange,
     onNext,
     onBack,
     loading
 }) => {
+    const [uploading, setUploading] = useState(false);
     const [photoPreview, setPhotoPreview] = useState<string | null>(
         formData.profile_photo_url || null
     );
-    const [uploading, setUploading] = useState(false);
 
-    const handlePhotoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
+    const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
         if (!file) return;
 
-        // Validate file
-        if (!FILE_UPLOAD.ALLOWED_TYPES.includes(file.type)) {
+        // Validate file type
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) {
             alert('Please upload a JPEG, PNG, or WebP image.');
             return;
         }
 
-        if (file.size > FILE_UPLOAD.MAX_SIZE) {
-            alert('File size must be less than 5MB.');
+        // Validate file size (5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('Please upload an image smaller than 5MB.');
             return;
         }
 
         setUploading(true);
-
         try {
             // Create preview
             const reader = new FileReader();
-            reader.onload = (e) => {
-                const result = e.target?.result as string;
-                setPhotoPreview(result);
-                onFormDataChange('profile_photo_url', result);
+            reader.onload = () => {
+                setPhotoPreview(reader.result as string);
             };
             reader.readAsDataURL(file);
 
-            // In a real app, you'd upload to your storage service here
-            // For now, we'll just use the preview
+            // TODO: Upload to your backend and get URL
+            // For now, we'll use the preview URL
+            onFormDataChange('profile_photo_url', URL.createObjectURL(file));
         } catch (error) {
-            console.error('Error uploading photo:', error);
-            alert('Failed to upload photo. Please try again.');
+            console.error('Upload failed:', error);
+            alert('Upload failed. Please try again.');
         } finally {
             setUploading(false);
         }
     };
 
-    const isValid = () => {
-        return formData.bio_description && formData.bio_description.trim().length > 0;
-    };
-
-    const countWords = (text) => {
+    const countWords = (text: string): number => {
         if (!text || text.trim() === '') return 0;
         return text.trim().split(/\s+/).length;
     };
 
-    const MAX_WORDS = 100;
+    // Updated validation constants
+    const MIN_WORDS = 5;
+    const MAX_WORDS = 50;
+
+    // Get current word count
+    const currentWordCount = countWords(formData.bio_description || '');
+
+    // Bio validation function
+    const getBioValidation = () => {
+        const bio = formData.bio_description || '';
+        const wordCount = countWords(bio);
+
+        if (bio.trim().length === 0) {
+            return {
+                isValid: false,
+                message: 'Bio is required',
+                type: 'error' as const
+            };
+        }
+
+        if (wordCount < MIN_WORDS) {
+            return {
+                isValid: false,
+                message: `Bio must be at least ${MIN_WORDS} words. Currently ${wordCount} word${wordCount !== 1 ? 's' : ''}.`,
+                type: 'error' as const
+            };
+        }
+
+        if (wordCount > MAX_WORDS) {
+            return {
+                isValid: false,
+                message: `Bio must be no more than ${MAX_WORDS} words. Currently ${wordCount} words.`,
+                type: 'error' as const
+            };
+        }
+
+        // Warning when approaching limit
+        if (wordCount >= MAX_WORDS - 5) {
+            return {
+                isValid: true,
+                message: `Approaching word limit: ${wordCount}/${MAX_WORDS} words`,
+                type: 'warning' as const
+            };
+        }
+
+        return {
+            isValid: true,
+            message: '',
+            type: 'success' as const
+        };
+    };
+
+    const bioValidation = getBioValidation();
+
+    const isValid = () => {
+        return formData.bio_description &&
+            formData.bio_description.trim().length > 0 &&
+            bioValidation.isValid;
+    };
+
+    // Get counter color based on validation state
+    const getCounterColor = () => {
+        if (bioValidation.type === 'error') return 'text-red-400';
+        if (bioValidation.type === 'warning') return 'text-yellow-400';
+        return 'text-white/60';
+    };
 
     return (
         <div className="min-h-screen bg-black p-8">
@@ -118,26 +170,14 @@ const PhotoBioStep: React.FC<PhotoBioStepProps> = ({
                                             className="w-full h-full object-cover"
                                         />
                                     ) : (
-                                        <User className="w-20 h-20 text-white/40" />
+                                        <Camera className="h-16 w-16 text-white/40" />
                                     )}
                                 </div>
-
-                                {/* Upload overlay on hover */}
-                                <div className="absolute inset-0 rounded-full bg-black/60 opacity-0 group-hover/photo:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                    <div className="text-center">
-                                        <Upload className="w-8 h-8 text-white mx-auto mb-2" />
-                                        <p className="text-white text-sm font-medium">
-                                            {photoPreview ? 'Change Photo' : 'Upload Photo'}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Upload Button */}
-                            <div className="text-center w-full">
-                                <Label htmlFor="photo-upload" className="cursor-pointer">
-                                    <div className="inline-flex items-center px-8 py-4 border-2 border-white/20 rounded-2xl text-base font-medium text-white bg-white/5 hover:bg-white/10 hover:border-white/40 transition-all duration-300 transform hover:-translate-y-1">
-                                        <Upload className="w-5 h-5 mr-3" />
+                                <Label
+                                    htmlFor="photo-upload"
+                                    className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 cursor-pointer"
+                                >
+                                    <div className="bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-white/90 transition-all duration-300 transform hover:-translate-y-1 shadow-lg">
                                         {uploading ? 'Uploading...' : photoPreview ? 'Change Photo' : 'Upload Photo'}
                                     </div>
                                 </Label>
@@ -171,13 +211,23 @@ const PhotoBioStep: React.FC<PhotoBioStepProps> = ({
                                 <Textarea
                                     value={formData.bio_description || ''}
                                     onChange={(e) => onFormDataChange('bio_description', e.target.value)}
-                                    placeholder="Write something about you in less than 100 words."
+                                    placeholder={`Tell us about yourself.`}
                                     rows={8}
-                                    className="bg-transparent border-2 border-white/10 rounded-2xl text-lg text-white placeholder:text-white/40 focus:border-white focus:ring-0 transition-all duration-300 hover:border-white/30 resize-none pt-6"
+                                    className={`bg-transparent border-2 rounded-2xl text-lg text-white placeholder:text-white/40 focus:ring-0 transition-all duration-300 resize-none pt-6 ${bioValidation.type === 'error'
+                                        ? 'border-red-400 focus:border-red-400 hover:border-red-400'
+                                        : bioValidation.type === 'warning'
+                                            ? 'border-yellow-400 focus:border-yellow-400 hover:border-yellow-400'
+                                            : 'border-white/10 focus:border-white hover:border-white/30'
+                                        }`}
                                 />
                                 <div className="flex justify-between items-center mt-3">
-                                    <p className="text-white/60 text-sm font-medium">
-                                        {countWords(formData.bio_description || '')} / {MAX_WORDS} words
+                                    <p className={`text-sm font-medium ${getCounterColor()}`}>
+                                        {currentWordCount} / {MAX_WORDS} words
+                                        {currentWordCount < MIN_WORDS && (
+                                            <span className="text-red-400 ml-2">
+                                                (minimum {MIN_WORDS})
+                                            </span>
+                                        )}
                                     </p>
                                 </div>
                             </div>
@@ -211,6 +261,7 @@ const PhotoBioStep: React.FC<PhotoBioStepProps> = ({
                             ? 'bg-white text-black hover:bg-white/90 transform hover:-translate-y-1 shadow-lg'
                             : 'bg-white/20 text-white/50 cursor-not-allowed'
                             }`}
+                        title={!isValid() ? 'Please complete your bio with 5-50 words to continue' : ''}
                     >
                         {loading ? "Saving..." : "Continue"}
                     </Button>
