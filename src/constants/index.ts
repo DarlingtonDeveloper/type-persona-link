@@ -261,3 +261,50 @@ export const JOB_CATEGORY_OPTIONS = [
     { value: 'retired', label: 'Retired' },
     { value: 'other', label: 'Other' }
 ] as const;
+
+export const LINK_DESCRIPTION_VALIDATION = {
+    MIN_LENGTH: 3,
+    MAX_LENGTH: 100,
+    REQUIRED: false, // Description is optional
+} as const;
+
+export const LINK_DESCRIPTION_MESSAGES = {
+    TOO_SHORT: `Description must be at least ${LINK_DESCRIPTION_VALIDATION.MIN_LENGTH} characters long`,
+    TOO_LONG: `Description must be ${LINK_DESCRIPTION_VALIDATION.MAX_LENGTH} characters or less`,
+    INVALID_CHARACTERS: 'Description contains invalid characters',
+} as const;
+
+// Validation patterns for link descriptions
+export const LINK_DESCRIPTION_PATTERNS = {
+    // Allow letters, numbers, spaces, and common punctuation
+    ALLOWED_CHARACTERS: /^[a-zA-Z0-9\s\.,!?'"@#$%&*()_+\-=\[\]{}|;:"`~]*$/,
+    // Prevent excessive whitespace
+    NO_EXCESSIVE_WHITESPACE: /^(?!\s+$).*$/,
+} as const;
+
+// Helper function for validation (can be imported where needed)
+export const validateLinkDescription = (description: string): { isValid: boolean; error?: string } => {
+    if (!description || description.trim().length === 0) {
+        return { isValid: true }; // Optional field
+    }
+
+    const trimmed = description.trim();
+
+    if (trimmed.length < LINK_DESCRIPTION_VALIDATION.MIN_LENGTH) {
+        return { isValid: false, error: LINK_DESCRIPTION_MESSAGES.TOO_SHORT };
+    }
+
+    if (trimmed.length > LINK_DESCRIPTION_VALIDATION.MAX_LENGTH) {
+        return { isValid: false, error: LINK_DESCRIPTION_MESSAGES.TOO_LONG };
+    }
+
+    if (!LINK_DESCRIPTION_PATTERNS.ALLOWED_CHARACTERS.test(trimmed)) {
+        return { isValid: false, error: LINK_DESCRIPTION_MESSAGES.INVALID_CHARACTERS };
+    }
+
+    if (!LINK_DESCRIPTION_PATTERNS.NO_EXCESSIVE_WHITESPACE.test(trimmed)) {
+        return { isValid: false, error: 'Description cannot be only whitespace' };
+    }
+
+    return { isValid: true };
+};

@@ -101,6 +101,7 @@ export interface Database {
           category_id: string
           label: string
           url: string
+          description: string | null
           is_primary: boolean
           display_order: number
           created_at: string
@@ -112,6 +113,7 @@ export interface Database {
           category_id: string
           label: string
           url: string
+          description: string | null
           is_primary?: boolean
           display_order?: number
           created_at?: string
@@ -123,6 +125,7 @@ export interface Database {
           category_id?: string
           label?: string
           url?: string
+          description: string | null
           is_primary?: boolean
           display_order?: number
           created_at?: string

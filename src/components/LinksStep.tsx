@@ -15,7 +15,8 @@ import {
     DollarSign,
     Link,
     Share2,
-    User
+    User,
+    MessageSquare
 } from 'lucide-react';
 
 const LINK_CATEGORIES = [
@@ -42,6 +43,7 @@ interface UserLink {
     email?: string;
     phone?: string;
     url?: string;
+    description?: string;  // Added description field
 }
 
 interface Props {
@@ -71,7 +73,8 @@ const LinksStep: React.FC<Props> = ({ formData, onFormDataChange, onNext, onBack
             username: '',
             email: '',
             phone: '',
-            url: ''
+            url: '',
+            description: ''  // Reset description when changing category
         });
     };
 
@@ -114,6 +117,25 @@ const LinksStep: React.FC<Props> = ({ formData, onFormDataChange, onNext, onBack
         }
     };
 
+    const getDescriptionPlaceholder = (link: UserLink) => {
+        switch (link.type) {
+            case 'social-media':
+                return `e.g., "Check out my ${link.platform || 'social media'}"`;
+            case 'email':
+                return 'e.g., "Send me an email"';
+            case 'mobile':
+                return 'e.g., "Call or text me"';
+            case 'website':
+                return 'e.g., "Visit my website"';
+            case 'business':
+                return 'e.g., "Check out my business"';
+            case 'affiliate':
+                return 'e.g., "Get my recommended products"';
+            default:
+                return 'e.g., "Click to see more"';
+        }
+    };
+
     const getInputValue = (link: UserLink) => {
         switch (link.type) {
             case 'social-media': return link.username || '';
@@ -140,9 +162,21 @@ const LinksStep: React.FC<Props> = ({ formData, onFormDataChange, onNext, onBack
         }
     };
 
+    const handleDescriptionChange = (index: number, value: string) => {
+        updateLink(index, { description: value });
+    };
+
+    const validateDescription = (description: string): boolean => {
+        if (!description) return true; // Description is optional
+        return description.length >= 3 && description.length <= 100;
+    };
+
     const renderLinkContainer = (index: number, title: string, iconComponent: any) => {
         const link = links[index] || {};
         const IconComponent = iconComponent;
+        const hasValidMainInput = isLinkValid(link);
+        const hasDescription = !!link.description && link.description.trim().length > 0;
+        const isDescriptionValid = validateDescription(link.description || '');
 
         return (
             <div className="bg-brand-black rounded-2xl p-8 backdrop-blur-sm shadow-lg border border-brand-black/20 hover:transform hover:translateY(-2px) transition-all duration-300">
@@ -201,25 +235,58 @@ const LinksStep: React.FC<Props> = ({ formData, onFormDataChange, onNext, onBack
                                 </div>
                             )}
 
-                            {/* Input Field */}
+                            {/* Main Input Field */}
                             {(link.type !== 'social-media' || (link.platform && link.platform !== '')) && (
-                                <div className="relative">
-                                    <Label className="absolute -top-2 left-4 bg-brand-black px-2 text-sm font-medium text-brand-white/70 z-10">
-                                        {link.type === 'social-media' ? 'Username' :
-                                            link.type === 'email' ? 'Email Address' :
-                                                link.type === 'mobile' ? 'Phone Number' : 'URL'}
-                                    </Label>
+                                <>
                                     <div className="relative">
-                                        <Input
-                                            type={link.type === 'email' ? 'email' : link.type === 'mobile' ? 'tel' : 'text'}
-                                            value={getInputValue(link)}
-                                            onChange={(e) => handleInputChange(index, e.target.value, link)}
-                                            placeholder={getInputPlaceholder(link)}
-                                            className="h-14 bg-transparent border-2 border-brand-white/10 rounded-2xl text-lg text-brand-white focus:border-brand-white focus:ring-0 transition-all duration-300 hover:border-brand-white/30 pl-12"
-                                        />
-                                        <User className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-brand-white/40" />
+                                        <Label className="absolute -top-2 left-4 bg-brand-black px-2 text-sm font-medium text-brand-white/70 z-10">
+                                            {link.type === 'social-media' ? 'Username' :
+                                                link.type === 'email' ? 'Email Address' :
+                                                    link.type === 'mobile' ? 'Phone Number' : 'URL'}
+                                        </Label>
+                                        <div className="relative">
+                                            <Input
+                                                type={link.type === 'email' ? 'email' : link.type === 'mobile' ? 'tel' : 'text'}
+                                                value={getInputValue(link)}
+                                                onChange={(e) => handleInputChange(index, e.target.value, link)}
+                                                placeholder={getInputPlaceholder(link)}
+                                                className="h-14 bg-transparent border-2 border-brand-white/10 rounded-2xl text-lg text-brand-white focus:border-brand-white focus:ring-0 transition-all duration-300 hover:border-brand-white/30 pl-12"
+                                            />
+                                            <User className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-brand-white/40" />
+                                        </div>
                                     </div>
-                                </div>
+
+                                    {/* Description Field - Show only after main input has value */}
+                                    {hasValidMainInput && (
+                                        <div className="relative">
+                                            <Label className="absolute -top-2 left-4 bg-brand-black px-2 text-sm font-medium text-brand-white/70 z-10">
+                                                Description <span className="text-brand-white/40">(optional)</span>
+                                            </Label>
+                                            <div className="relative">
+                                                <Input
+                                                    type="text"
+                                                    value={link.description || ''}
+                                                    onChange={(e) => handleDescriptionChange(index, e.target.value)}
+                                                    placeholder={getDescriptionPlaceholder(link)}
+                                                    maxLength={100}
+                                                    className={`h-14 bg-transparent border-2 rounded-2xl text-lg text-brand-white focus:ring-0 transition-all duration-300 pl-12 pr-16 ${!isDescriptionValid
+                                                        ? 'border-red-400 focus:border-red-400'
+                                                        : 'border-brand-white/10 focus:border-brand-white hover:border-brand-white/30'
+                                                        }`}
+                                                />
+                                                <MessageSquare className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-brand-white/40" />
+                                                <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-xs text-brand-white/40">
+                                                    {(link.description || '').length}/100
+                                                </span>
+                                            </div>
+                                            {!isDescriptionValid && link.description && (
+                                                <p className="text-red-400 text-xs mt-2 px-4">
+                                                    Description must be between 3-100 characters
+                                                </p>
+                                            )}
+                                        </div>
+                                    )}
+                                </>
                             )}
 
                             {/* Reset button for selected category */}
@@ -246,32 +313,26 @@ const LinksStep: React.FC<Props> = ({ formData, onFormDataChange, onNext, onBack
     };
 
     return (
-        <div className="min-h-screen bg-brand-white p-8">
-            <div className="max-w-7xl mx-auto">
-
-                {/* FLOATING HEADER */}
-                <div className="text-center mb-16 relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-black/10 to-transparent h-px top-1/2"></div>
-                    <div className="relative bg-brand-white px-12 inline-block">
-                        <h1 className="text-6xl font-light text-brand-black tracking-wide mb-4">
-                            Your <span className="font-semibold">Links</span>
-                        </h1>
-                        <div className="flex items-center justify-center gap-2 text-brand-black/60">
-                            <div className="w-8 h-px bg-brand-black/20"></div>
-                            <span className="text-lg tracking-widest uppercase">Connect Your World</span>
-                            <div className="w-8 h-px bg-brand-black/20"></div>
-                        </div>
-                    </div>
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12">
+            <div className="w-full max-w-6xl mx-auto">
+                {/* Header */}
+                <div className="text-center mb-16">
+                    <h1 className="text-4xl md:text-6xl font-light text-brand-white mb-6 tracking-wide">
+                        Add Your Links
+                    </h1>
+                    <p className="text-xl text-brand-white/60 font-light leading-relaxed max-w-2xl mx-auto">
+                        Share your social media, website, contact info, and more. Add descriptions to tell people what to expect.
+                    </p>
                 </div>
 
-                {/* Progress Arc */}
-                <div className="flex justify-center mb-16">
-                    <div className="relative w-32 h-16">
+                {/* Progress Indicator */}
+                <div className="flex justify-center mb-12">
+                    <div className="relative w-24 h-12">
                         <svg className="w-full h-full" viewBox="0 0 100 50">
                             <path
                                 d="M 10 40 Q 50 10 90 40"
-                                stroke="var(--brand-black)"
-                                strokeWidth="1"
+                                stroke="var(--brand-white)"
+                                strokeWidth="2"
                                 fill="none"
                                 opacity="0.2"
                             />
