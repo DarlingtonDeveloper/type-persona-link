@@ -75,27 +75,27 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
     ).length;
 
     return (
-        <div className="min-h-screen bg-brand-white p-8">
-            <div className="max-w-7xl mx-auto">
+        <div className="min-h-screen bg-brand-white px-4 sm:px-6 md:px-8 pb-16">
+            <div className="max-w-6xl mx-auto">
 
                 {/* FLOATING HEADER */}
-                <div className="text-center mb-16 relative">
+                <div className="text-center mb-12 md:mb-16 relative">
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-black/10 to-transparent h-px top-1/2"></div>
-                    <div className="relative bg-brand-white px-12 inline-block">
-                        <h1 className="text-6xl font-light text-brand-black tracking-wide mb-4">
+                    <div className="relative bg-brand-white px-6 sm:px-12 inline-block">
+                        <h1 className="text-4xl md:text-6xl font-light text-brand-black tracking-wide mb-3 md:mb-4">
                             Personal <span className="font-semibold">Details</span>
                         </h1>
                         <div className="flex items-center justify-center gap-2 text-brand-black/60">
-                            <div className="w-8 h-px bg-brand-black/20"></div>
-                            <span className="text-lg tracking-widest uppercase">Complete Your Profile</span>
-                            <div className="w-8 h-px bg-brand-black/20"></div>
+                            <div className="w-6 md:w-8 h-px bg-brand-black/20"></div>
+                            <span className="text-sm md:text-lg tracking-widest uppercase">Complete Your Profile</span>
+                            <div className="w-6 md:w-8 h-px bg-brand-black/20"></div>
                         </div>
                     </div>
                 </div>
 
                 {/* Progress Arc */}
-                <div className="flex justify-center mb-16">
-                    <div className="relative w-32 h-16">
+                <div className="flex justify-center mb-12 md:mb-16">
+                    <div className="relative w-24 md:w-32 h-12 md:h-16">
                         <svg className="w-full h-full" viewBox="0 0 100 50">
                             <path
                                 d="M 10 40 Q 50 10 90 40"
@@ -123,7 +123,7 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                 </div>
 
                 {/* THREE HORIZONTAL CONTAINERS */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
 
                     {/* Container 1: Identity */}
                     <div className="bg-brand-black rounded-2xl p-8 backdrop-blur-sm shadow-lg border border-brand-black/20 hover:transform hover:translateY(-2px) transition-all duration-300">
@@ -364,61 +364,28 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                             </div>
 
                             <div className="relative">
-                                <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-brand-black px-2 text-sm font-medium text-brand-white/70 z-10">
-                                    Relationship
-                                </Label>
+                                <Label className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-brand-black px-2 text-sm text-brand-white/70 z-10">Relationship</Label>
                                 <div className="pt-4">
                                     <div className="grid grid-cols-3 gap-3">
-                                        {/* Single */}
-                                        <Button
-                                            onClick={() => onFormDataChange('relationship_status', 'single')}
-                                            variant="ghost"
-                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-brand-white hover:text-brand-white hover:scale-105 ${formData.relationship_status === 'single'
-                                                ? 'bg-brand-white/25 border-brand-white/50 shadow-lg'
-                                                : 'bg-brand-white/15 border-brand-white/30 hover:bg-brand-white/25 hover:border-brand-white/50'
-                                                }`}
-                                        >
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                                            </svg>
-                                            <span className="text-xs text-center">Single</span>
-                                        </Button>
-
-                                        {/* It's Complicated */}
-                                        <Button
-                                            onClick={() => onFormDataChange('relationship_status', 'complicated')}
-                                            variant="ghost"
-                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-brand-white hover:text-brand-white hover:scale-105 ${formData.relationship_status === 'complicated'
-                                                ? 'bg-brand-white/25 border-brand-white/50 shadow-lg'
-                                                : 'bg-brand-white/15 border-brand-white/30 hover:bg-brand-white/25 hover:border-brand-white/50'
-                                                }`}
-                                        >
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <circle cx="12" cy="12" r="10" />
-                                                <path d="M9 9h6v6" />
-                                                <path d="m9 15 6-6" />
-                                            </svg>
-                                            <span className="text-xs text-center">It's Complicated</span>
-                                        </Button>
-
-                                        {/* In a Relationship */}
-                                        <Button
-                                            onClick={() => onFormDataChange('relationship_status', 'in-relationship')}
-                                            variant="ghost"
-                                            className={`h-16 flex-col gap-2 border-2 rounded-xl transition-all duration-300 text-brand-white hover:text-brand-white hover:scale-105 ${formData.relationship_status === 'in-relationship'
-                                                ? 'bg-brand-white/25 border-brand-white/50 shadow-lg'
-                                                : 'bg-brand-white/15 border-brand-white/30 hover:bg-brand-white/25 hover:border-brand-white/50'
-                                                }`}
-                                        >
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                                                <path d="M16.84 8.61a3.5 3.5 0 0 0-4.78 0L12 8.67l-0.06-0.06a3.5 3.5 0 0 0-4.78 4.78l0.06 0.06L12 18.23l4.78-4.78 0.06-0.06a3.5 3.5 0 0 0 0-4.78z" />
-                                            </svg>
-                                            <span className="text-xs text-center">In a Relationship</span>
-                                        </Button>
+                                        {[
+                                            { value: 'single', label: 'Single' },
+                                            { value: 'complicated', label: "It's\nComplicated" },
+                                            { value: 'in-relationship', label: 'In a\nRelationship' }
+                                        ].map(({ value, label }) => (
+                                            <Button
+                                                key={value}
+                                                onClick={() => onFormDataChange('relationship_status', value)}
+                                                variant="ghost"
+                                                className={`h-20 flex-col gap-1 border-2 rounded-xl transition-all duration-300 text-brand-white hover:text-brand-white hover:scale-105 text-xs text-center leading-snug ${formData.relationship_status === value ? 'bg-brand-white/25 border-brand-white/50 shadow-lg' : 'bg-brand-white/15 border-brand-white/30 hover:bg-brand-white/25 hover:border-brand-white/50'}`}
+                                            >
+                                                <Users size={20} />
+                                                <span className="whitespace-pre-line">{label}</span>
+                                            </Button>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
+
 
                             <div className="relative">
                                 <Label className="absolute -top-2 left-4 bg-brand-black px-2 text-sm font-medium text-brand-white/70 z-10">
@@ -449,10 +416,10 @@ const PersonalDetailsStep: React.FC<PersonalDetailsStepProps> = ({
                     <Button
                         onClick={onNext}
                         disabled={loading || !isValid()}
-                        className={`h-12 px-8 rounded-full transition-all duration-300 ${isValid() && !loading
-                            ? 'bg-brand-black hover:bg-brand-black/90 animate-pulse cursor-pointer text-brand-white'
-                            : 'bg-brand-black/50 cursor-not-allowed opacity-50 text-brand-white'
-                            }`}
+                        className={`h-12 px-6 sm:px-8 rounded-full transition-all duration-300 w-full max-w-xs sm:max-w-sm md:max-w-md
+          ${isValid() && !loading
+                                ? 'bg-brand-black hover:bg-brand-black/90 animate-pulse cursor-pointer text-brand-white'
+                                : 'bg-brand-black/50 cursor-not-allowed opacity-50 text-brand-white'}`}
                     >
                         {loading ? (
                             <div className="flex items-center gap-2">
