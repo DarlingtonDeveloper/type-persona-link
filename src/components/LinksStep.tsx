@@ -313,26 +313,31 @@ const LinksStep: React.FC<Props> = ({ formData, onFormDataChange, onNext, onBack
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12">
+        <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12">
             <div className="w-full max-w-6xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-16">
-                    <h1 className="text-4xl md:text-6xl font-light text-brand-white mb-6 tracking-wide">
-                        Add Your Links
-                    </h1>
-                    <p className="text-xl text-brand-white/60 font-light leading-relaxed max-w-2xl mx-auto">
-                        Share your social media, website, contact info, and more. Add descriptions to tell people what to expect.
-                    </p>
+                <div className="text-center mb-12 md:mb-16 relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-black/10 to-transparent h-px top-1/2"></div>
+                    <div className="relative bg-brand-white px-6 sm:px-12 inline-block">
+                        <h1 className="text-4xl md:text-6xl font-light text-brand-black tracking-wide mb-3 md:mb-4">
+                            Add Your <span className="font-semibold">Links</span>
+                        </h1>
+                        <div className="flex items-center justify-center gap-2 text-brand-black/60">
+                            <div className="w-6 md:w-8 h-px bg-brand-black/20"></div>
+                            <span className="text-sm md:text-lg tracking-widest uppercase">Complete Your Profile</span>
+                            <div className="w-6 md:w-8 h-px bg-brand-black/20"></div>
+                        </div>
+                    </div>
                 </div>
 
-                {/* Progress Indicator */}
-                <div className="flex justify-center mb-12">
-                    <div className="relative w-24 h-12">
+                {/* Progress Arc */}
+                <div className="flex justify-center mb-12 md:mb-16">
+                    <div className="relative w-24 md:w-32 h-12 md:h-16">
                         <svg className="w-full h-full" viewBox="0 0 100 50">
                             <path
                                 d="M 10 40 Q 50 10 90 40"
-                                stroke="var(--brand-white)"
-                                strokeWidth="2"
+                                stroke="var(--brand-black)"
+                                strokeWidth="1"
                                 fill="none"
                                 opacity="0.2"
                             />
@@ -354,11 +359,10 @@ const LinksStep: React.FC<Props> = ({ formData, onFormDataChange, onNext, onBack
                     </div>
                 </div>
 
-                {/* THREE HORIZONTAL CONTAINERS */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-                    {renderLinkContainer(0, "Link One", Link)}
-                    {renderLinkContainer(1, "Link Two", Share2)}
-                    {renderLinkContainer(2, "Link Three", Globe)}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
+                    {renderLinkContainer(0, 'Link One', Link)}
+                    {renderLinkContainer(1, 'Link Two', Share2)}
+                    {renderLinkContainer(2, 'Link Three', Globe)}
                 </div>
 
                 {/* Single Continue Button */}
@@ -366,10 +370,10 @@ const LinksStep: React.FC<Props> = ({ formData, onFormDataChange, onNext, onBack
                     <Button
                         onClick={onNext}
                         disabled={loading || !isValid()}
-                        className={`h-12 px-8 rounded-full transition-all duration-300 ${isValid() && !loading
-                            ? 'bg-brand-black hover:bg-brand-black/90 animate-pulse cursor-pointer text-brand-white'
-                            : 'bg-brand-black/50 cursor-not-allowed opacity-50 text-brand-white'
-                            }`}
+                        className={`h-12 px-6 sm:px-8 rounded-full transition-all duration-300 w-full max-w-xs sm:max-w-sm md:max-w-md
+          ${isValid() && !loading
+                                ? 'bg-brand-black hover:bg-brand-black/90 animate-pulse cursor-pointer text-brand-white'
+                                : 'bg-brand-black/50 cursor-not-allowed opacity-50 text-brand-white'}`}
                     >
                         {loading ? (
                             <div className="flex items-center gap-2">
